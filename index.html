@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Taaza — Fresh Grocery App Prototype</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#1B7A4D;
+  --green-dark:#124F32;
+  --green-soft:#E7F5EC;
+  --green-soft2:#F1F9F3;
+  --orange:#FF6B2C;
+  --orange-soft:#FFEADC;
+  --cream:#FBFAF6;
+  --white:#FFFFFF;
+  --ink:#16241C;
+  --gray:#6E7B73;
+  --gray-light:#98A39C;
+  --line:#E7EBE7;
+  --radius-lg:26px;
+  --radius-md:18px;
+  --radius-sm:12px;
+  --shadow: 0 10px 30px -12px rgba(22,36,28,0.18);
+  --shadow-sm: 0 4px 14px -6px rgba(22,36,28,0.14);
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{
+  font-family:'Plus Jakarta Sans', sans-serif;
+  background: radial-gradient(circle at 20% 0%, #f3f8f4 0%, #e9eee9 45%, #dfe6e0 100%);
+  color:var(--ink);
+  min-height:100vh;
+  display:flex; flex-direction:column; align-items:center;
+  padding:28px 16px 60px;
+}
+.display{font-family:'Fraunces', serif;}
+
+/* ---------- Top switcher ---------- */
+.app-switch{
+  display:flex; gap:6px; background:#fff; padding:5px; border-radius:999px;
+  box-shadow: var(--shadow-sm); margin-bottom:18px; border:1px solid var(--line);
+}
+.app-switch button{
+  border:none; background:transparent; padding:9px 20px; border-radius:999px;
+  font-family:inherit; font-weight:700; font-size:13px; letter-spacing:.2px; color:var(--gray);
+  cursor:pointer; transition:.25s;
+}
+.app-switch button.active{ background:var(--green); color:#fff; }
+
+.proto-title{ text-align:center; margin-bottom:6px; }
+.proto-title h1{ font-size:22px; font-weight:700; }
+.proto-title p{ font-size:13px; color:var(--gray); max-width:480px; margin:4px auto 0; }
+
+/* ---------- Screen chip nav (customer) ---------- */
+.chip-row{
+  display:flex; gap:8px; overflow-x:auto; max-width:412px; padding:14px 2px 6px;
+  scrollbar-width:none;
+}
+.chip-row::-webkit-scrollbar{display:none;}
+.chip{
+  flex:0 0 auto; font-size:12.5px; font-weight:600; color:var(--green-dark);
+  background:var(--green-soft); border:1px solid transparent; padding:8px 14px;
+  border-radius:999px; cursor:pointer; white-space:nowrap; transition:.2s;
+}
+.chip.active{ background:var(--green); color:#fff; }
+.chip:hover:not(.active){ background:#dcefe3; }
+
+/* ---------- Phone frame ---------- */
+.phone{
+  width:390px; height:820px; background:var(--ink); border-radius:52px;
+  padding:14px; box-shadow: var(--shadow); position:relative; margin-top:10px;
+}
+.phone-screen{
+  width:100%; height:100%; background:var(--cream); border-radius:38px; overflow:hidden;
+  position:relative; display:flex; flex-direction:column;
+}
+.notch{
+  position:absolute; top:0; left:50%; transform:translateX(-50%); width:120px; height:26px;
+  background:var(--ink); border-radius:0 0 18px 18px; z-index:50;
+}
+.statusbar{
+  height:44px; flex:0 0 auto; display:flex; align-items:flex-end; justify-content:space-between;
+  padding:0 26px 6px; font-size:12px; font-weight:700; color:var(--ink); z-index:5;
+}
+.screen-body{ flex:1; overflow-y:auto; -ms-overflow-style:none; scrollbar-width:none; position:relative;}
+.screen-body::-webkit-scrollbar{display:none;}
+.screen-fade{ animation: fadeIn .35s ease; }
+@keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+/* ---------- Bottom nav ---------- */
+.bottom-nav{
+  flex:0 0 auto; display:flex; justify-content:space-around; align-items:center;
+  padding:10px 6px 16px; background:#fff; border-top:1px solid var(--line); z-index:5;
+}
+.nav-item{ display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; width:58px;}
+.nav-item svg{ width:22px; height:22px; stroke:var(--gray-light); fill:none; stroke-width:1.8; transition:.2s;}
+.nav-item span{ font-size:10.5px; font-weight:600; color:var(--gray-light); transition:.2s;}
+.nav-item.active svg{ stroke:var(--green); fill:var(--green-soft);}
+.nav-item.active span{ color:var(--green); }
+.nav-dot{ width:5px; height:5px; border-radius:50%; background:var(--orange); position:relative; top:-16px; left:9px;}
+
+/* ---------- generic UI bits ---------- */
+.px{padding-left:20px; padding-right:20px;}
+.section-title{ display:flex; align-items:center; justify-content:space-between; margin:18px 0 10px;}
+.section-title h3{ font-size:15.5px; font-weight:800;}
+.section-title a{ font-size:12px; font-weight:700; color:var(--green);}
+.badge{
+  font-size:10px; font-weight:800; padding:3px 8px; border-radius:999px; letter-spacing:.3px;
+}
+.badge-green{ background:var(--green-soft); color:var(--green-dark);}
+.badge-orange{ background:var(--orange-soft); color:#B84B12;}
+.btn{
+  border:none; cursor:pointer; font-family:inherit; font-weight:700; border-radius:999px;
+  transition:.2s; display:inline-flex; align-items:center; justify-content:center; gap:6px;
+}
+.btn-primary{ background:var(--green); color:#fff; padding:14px 22px; font-size:14.5px; box-shadow:0 8px 18px -8px rgba(27,122,77,.6);}
+.btn-primary:active{ transform:scale(.98); }
+.btn-outline{ background:#fff; border:1.5px solid var(--green); color:var(--green); padding:10px 18px; font-size:13px;}
+.btn-orange{ background:var(--orange); color:#fff; padding:14px 22px; font-size:14.5px; box-shadow:0 8px 18px -8px rgba(255,107,44,.6);}
+.card{ background:#fff; border-radius:var(--radius-md); border:1px solid var(--line); }
+.blob-img{
+  border-radius:42% 58% 63% 37% / 41% 44% 56% 59%;
+  overflow:hidden; position:relative; flex:0 0 auto; background:var(--green-soft);
+}
+.blob-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.stamp{
+  position:absolute; top:8px; right:8px; width:44px; height:44px; border-radius:50%;
+  background:var(--orange); color:#fff; display:flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:800; text-align:center; line-height:1.1; transform:rotate(-12deg);
+  box-shadow:0 4px 10px -3px rgba(0,0,0,.35); border:2px dashed rgba(255,255,255,.7);
+}
+.qty-pill{ display:flex; align-items:center; gap:10px; background:var(--green); color:#fff; border-radius:999px; padding:6px 8px;}
+.qty-pill button{ width:22px; height:22px; border-radius:50%; border:none; background:rgba(255,255,255,.25); color:#fff; font-weight:800; cursor:pointer;}
+.stars{ color:var(--orange); font-size:12px; letter-spacing:1px;}
+input, select, textarea{ font-family:inherit; }
+::placeholder{ color:var(--gray-light); }
+
+/* prevent broken img look */
+img{ background:var(--green-soft); }
+img.err{ display:none; }
+.img-fallback{ display:none; align-items:center; justify-content:center; font-size:34px; }
+.img-wrap{ position:relative; width:100%; height:100%; }
+
+/* ---------- product card ---------- */
+.product-card{
+  width:150px; flex:0 0 auto; border-radius:var(--radius-md); background:#fff;
+  border:1px solid var(--line); padding:10px; position:relative; box-shadow:var(--shadow-sm);
+}
+.product-card .blob-img{ width:100%; height:110px; margin-bottom:8px;}
+.product-card h4{font-size:13px; font-weight:700; line-height:1.25;}
+.product-card .unit{font-size:11px; color:var(--gray);}
+.product-card .price-row{ display:flex; align-items:center; justify-content:space-between; margin-top:8px;}
+.product-card .price{font-family:'Fraunces',serif; font-weight:600; font-size:15px;}
+.add-btn{
+  width:30px;height:30px;border-radius:50%; background:var(--green); color:#fff; border:none;
+  font-size:18px; font-weight:700; cursor:pointer; box-shadow:0 6px 12px -5px rgba(27,122,77,.6);
+}
+.wish-btn{ position:absolute; top:16px; right:16px; width:26px; height:26px; border-radius:50%;
+  background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer; z-index:2;}
+
+/* horizontal scroller */
+.hscroll{ display:flex; gap:12px; overflow-x:auto; padding:2px 20px 6px; scrollbar-width:none;}
+.hscroll::-webkit-scrollbar{display:none;}
+
+/* category pill */
+.cat-tile{ flex:0 0 auto; width:78px; display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer;}
+.cat-tile .circle{ width:64px; height:64px; border-radius:26px; display:flex; align-items:center; justify-content:center; font-size:28px;}
+.cat-tile span{ font-size:11.5px; font-weight:700; text-align:center;}
+
+/* banner */
+.banner{
+  margin:14px 20px 4px; border-radius:24px; padding:22px; position:relative; overflow:hidden;
+  background:linear-gradient(120deg,var(--green) 0%, #2A9463 60%, #3CAE79 100%); color:#fff; min-height:120px;
+}
+.banner::after{ content:""; position:absolute; right:-30px; bottom:-40px; width:150px; height:150px; border-radius:50%; background:rgba(255,255,255,.12);}
+.banner h2{ font-family:'Fraunces',serif; font-size:22px; font-weight:600; max-width:65%;}
+.banner p{ font-size:12px; opacity:.9; margin-top:4px; max-width:60%;}
+.banner .btn{ margin-top:12px;}
+
+/* list rows */
+.list-row{ display:flex; align-items:center; gap:12px; padding:13px 20px; border-bottom:1px solid var(--line); cursor:pointer;}
+.list-row:last-child{border-bottom:none;}
+.list-row .icon{ width:40px;height:40px;border-radius:12px; display:flex;align-items:center;justify-content:center; font-size:18px; flex:0 0 auto;}
+.list-row .txt{flex:1;}
+.list-row .txt h5{font-size:13.5px; font-weight:700;}
+.list-row .txt p{font-size:11.5px; color:var(--gray);}
+.chev{color:var(--gray-light); font-size:18px;}
+
+/* search bar */
+.searchbar{ display:flex; align-items:center; gap:8px; background:#fff; border:1.5px solid var(--line); border-radius:16px; padding:11px 14px; margin:0 20px;}
+.searchbar input{ border:none; outline:none; flex:1; font-size:13.5px; background:transparent;}
+.filter-btn{ width:38px;height:38px;border-radius:12px; background:var(--green); display:flex; align-items:center; justify-content:center; color:#fff; flex:0 0 auto; cursor:pointer;}
+
+/* header block */
+.hdr{ padding:16px 20px 4px; display:flex; align-items:center; justify-content:space-between;}
+.hdr h1{font-size:19px; font-weight:800;}
+.hdr .sub{font-size:12px; color:var(--gray); margin-top:2px;}
+.round-icon-btn{ width:40px;height:40px;border-radius:14px; background:#fff; border:1px solid var(--line); display:flex; align-items:center;justify-content:center; cursor:pointer; position:relative;}
+
+/* progress tracker */
+.track-line{ position:relative; padding-left:34px; margin:6px 20px 20px;}
+.track-step{ position:relative; padding:0 0 30px 0;}
+.track-step::before{ content:""; position:absolute; left:-34px; top:2px; width:22px;height:22px;border-radius:50%; background:var(--line); border:3px solid #fff; box-shadow:0 0 0 2px var(--line);}
+.track-step.done::before{ background:var(--green); box-shadow:0 0 0 2px var(--green);}
+.track-step.active::before{ background:var(--orange); box-shadow:0 0 0 4px var(--orange-soft);}
+.track-step::after{ content:""; position:absolute; left:-24px; top:24px; bottom:0; width:2px; background:var(--line);}
+.track-step:last-child::after{display:none;}
+.track-step.done::after{ background:var(--green);}
+.track-step h5{font-size:13.5px; font-weight:800;}
+.track-step p{font-size:11.5px; color:var(--gray); margin-top:2px;}
+
+/* form */
+.field{ margin:0 20px 14px;}
+.field label{font-size:12px; font-weight:700; color:var(--gray); display:block; margin-bottom:6px;}
+.field .input-box{ display:flex; align-items:center; background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:12px 14px;}
+.field input{ border:none; outline:none; flex:1; font-size:14px; background:transparent;}
+
+/* toggle */
+.toggle{ width:42px; height:24px; background:var(--line); border-radius:999px; position:relative; cursor:pointer; flex:0 0 auto;}
+.toggle.on{background:var(--green);}
+.toggle .dot{position:absolute; top:2px; left:2px; width:20px;height:20px; border-radius:50%; background:#fff; transition:.2s; box-shadow:0 1px 4px rgba(0,0,0,.3);}
+.toggle.on .dot{left:20px;}
+
+/* ---------- ADMIN ---------- */
+.admin-wrap{ width:min(1180px, 96vw); background:#fff; border-radius:28px; box-shadow:var(--shadow); overflow:hidden; display:flex; min-height:720px; border:1px solid var(--line);}
+.admin-side{ width:230px; background:var(--green-dark); color:#fff; flex:0 0 auto; display:flex; flex-direction:column; padding:22px 14px;}
+.admin-logo{ display:flex; align-items:center; gap:10px; padding:0 8px 22px; font-family:'Fraunces',serif; font-size:20px; font-weight:600;}
+.admin-logo .dot{width:10px;height:10px;border-radius:50%; background:var(--orange);}
+.admin-nav-item{ display:flex; align-items:center; gap:11px; padding:11px 12px; border-radius:12px; font-size:13.5px; font-weight:600; color:#cfe3d7; cursor:pointer; margin-bottom:2px;}
+.admin-nav-item.active{ background:rgba(255,255,255,.12); color:#fff;}
+.admin-nav-item:hover:not(.active){ background:rgba(255,255,255,.06);}
+.admin-main{ flex:1; padding:26px 32px; overflow-y:auto; max-height:900px;}
+.admin-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:22px;}
+.admin-top h2{font-size:21px; font-weight:800;}
+.admin-top p{font-size:12.5px; color:var(--gray); margin-top:3px;}
+.stat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:22px;}
+.stat-card{ background:var(--cream); border:1px solid var(--line); border-radius:18px; padding:16px;}
+.stat-card .lbl{font-size:11.5px; color:var(--gray); font-weight:700;}
+.stat-card .val{font-family:'Fraunces',serif; font-size:24px; font-weight:600; margin-top:6px;}
+.stat-card .delta{font-size:11px; font-weight:700; margin-top:4px;}
+.delta.up{color:var(--green);} .delta.down{color:#C24242;}
+.panel{ background:#fff; border:1px solid var(--line); border-radius:18px; padding:18px; margin-bottom:18px;}
+.panel-hdr{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;}
+.panel-hdr h3{font-size:14.5px; font-weight:800;}
+table{ width:100%; border-collapse:collapse; font-size:13px;}
+th{ text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.4px; color:var(--gray); padding:8px 10px; border-bottom:1px solid var(--line);}
+td{ padding:11px 10px; border-bottom:1px solid var(--line); vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+.pill-status{ font-size:11px; font-weight:800; padding:4px 10px; border-radius:999px;}
+.st-active{background:var(--green-soft); color:var(--green-dark);}
+.st-low{background:#FDEBEB; color:#C24242;}
+.st-pending{background:var(--orange-soft); color:#B84B12;}
+.st-delivered{background:var(--green-soft); color:var(--green-dark);}
+.mini-bar-chart{ display:flex; align-items:flex-end; gap:10px; height:140px; padding-top:10px;}
+.mini-bar-chart .bar{ flex:1; background:linear-gradient(180deg, #3CAE79, var(--green)); border-radius:8px 8px 4px 4px; position:relative;}
+.mini-bar-chart .bar span{ position:absolute; top:-18px; left:0; right:0; text-align:center; font-size:10px; font-weight:700; color:var(--gray);}
+.admin-btn{ background:var(--green); color:#fff; border:none; padding:9px 16px; border-radius:10px; font-size:12.5px; font-weight:700; cursor:pointer;}
+.admin-btn.outline{ background:#fff; border:1.5px solid var(--line); color:var(--ink);}
+.chip-cat{ display:inline-flex; align-items:center; gap:6px; background:var(--green-soft); color:var(--green-dark); font-size:11.5px; font-weight:700; padding:5px 10px; border-radius:999px;}
+.thumb{width:38px;height:38px;border-radius:10px; object-fit:cover; background:var(--green-soft);}
+.banner-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+.banner-tile{ border-radius:16px; overflow:hidden; border:1px solid var(--line); position:relative; height:110px;}
+.banner-tile img{width:100%;height:100%;object-fit:cover;}
+.banner-tile .ov{ position:absolute; inset:0; background:linear-gradient(0deg,rgba(0,0,0,.55),transparent 60%); display:flex; align-items:flex-end; padding:10px; color:#fff; font-size:12px; font-weight:700;}
+
+@media (max-width:900px){
+  .stat-grid{grid-template-columns:repeat(2,1fr);}
+  .banner-grid{grid-template-columns:repeat(2,1fr);}
+  .admin-side{width:70px;}
+  .admin-side span.label{display:none;}
+  .admin-logo span.label{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="app-switch">
+  <button id="btn-customer" class="active" onclick="setApp('customer')">Customer App</button>
+  <button id="btn-admin" onclick="setApp('admin')">Admin Panel</button>
+</div>
+
+<div class="proto-title">
+  <h1 class="display">🥬 Taaza — Fresh, Sorted.</h1>
+  <p>An interactive prototype. Tap categories, products, and nav icons to explore the flow, or jump straight to any screen below.</p>
+</div>
+
+<div id="chip-row" class="chip-row"></div>
+
+<!-- ============ CUSTOMER PHONE ============ -->
+<div class="phone" id="customer-view">
+  <div class="notch"></div>
+  <div class="phone-screen">
+    <div class="statusbar"><span>9:41</span><span>●●●● 5G 🔋</span></div>
+    <div class="screen-body screen-fade" id="screen-body"></div>
+    <div class="bottom-nav" id="bottom-nav"></div>
+  </div>
+</div>
+
+<!-- ============ ADMIN ============ -->
+<div class="admin-wrap" id="admin-view" style="display:none;">
+  <div class="admin-side">
+    <div class="admin-logo"><div class="dot"></div><span class="label">Taaza Admin</span></div>
+    <div id="admin-nav"></div>
+  </div>
+  <div class="admin-main" id="admin-main"></div>
+</div>
+
+<script>
+/* ================= DATA ================= */
+const IMG = {
+  vegHero:"https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=800&auto=format&fit=crop",
+  fruitHero:"https://images.unsplash.com/photo-1619566636858-adf3ef46400b?q=80&w=800&auto=format&fit=crop",
+  spiceHero:"https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=800&auto=format&fit=crop",
+  tomato:"https://images.unsplash.com/photo-1546094324-9b6bd8a3f4bc?q=80&w=400&auto=format&fit=crop",
+  spinach:"https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=400&auto=format&fit=crop",
+  banana:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?q=80&w=400&auto=format&fit=crop",
+  apple:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=400&auto=format&fit=crop",
+  turmeric:"https://images.unsplash.com/photo-1615485500704-8e990f9900f7?q=80&w=400&auto=format&fit=crop",
+  chili:"https://images.unsplash.com/photo-1583119912267-cc97c911e416?q=80&w=400&auto=format&fit=crop",
+  carrot:"https://images.unsplash.com/photo-1447175008436-054170c2e979?q=80&w=400&auto=format&fit=crop",
+  onion:"https://images.unsplash.com/photo-1508747703725-719777637510?q=80&w=400&auto=format&fit=crop",
+  mango:"https://images.unsplash.com/photo-1591073113125-e46713c829ed?q=80&w=400&auto=format&fit=crop",
+  grapes:"https://images.unsplash.com/photo-1537640538966-79f369143f8f?q=80&w=400&auto=format&fit=crop",
+  cinnamon:"https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=400&auto=format&fit=crop",
+  cardamom:"https://images.unsplash.com/photo-1599909533144-cd9c98290a10?q=80&w=400&auto=format&fit=crop",
+  potato:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=400&auto=format&fit=crop",
+  broccoli:"https://images.unsplash.com/photo-1584270354949-1f8b1cec5b03?q=80&w=400&auto=format&fit=crop",
+  avatar:"https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200&auto=format&fit=crop"
+};
+const EMOJI = {vegetables:"🥦",fruits:"🍎",spices:"🌶️"};
+
+const PRODUCTS = [
+  {id:1, name:"Vine Tomatoes", cat:"vegetables", unit:"500 g pack", price:38, mrp:48, img:IMG.tomato, emoji:"🍅", rating:4.6, stock:126, organic:true, desc:"Sun-ripened vine tomatoes, hand-picked daily from partner farms near Nashik. Juicy, tangy, perfect for curries, salads and chutneys."},
+  {id:2, name:"Baby Spinach", cat:"vegetables", unit:"250 g bunch", price:22, mrp:28, img:IMG.spinach, emoji:"🥬", rating:4.4, stock:64, organic:true, desc:"Tender baby spinach leaves, triple-washed and ready to cook. Rich in iron and folate — great for saag, soups and smoothies."},
+  {id:3, name:"Farm Carrots", cat:"vegetables", unit:"1 kg", price:34, mrp:40, img:IMG.carrot, emoji:"🥕", rating:4.5, stock:8, organic:false, desc:"Crisp, sweet carrots grown in the red soils of Ooty. High in beta-carotene, ideal for halwa, salads and juices."},
+  {id:4, name:"Red Onions", cat:"vegetables", unit:"1 kg", price:26, mrp:30, img:IMG.onion, emoji:"🧅", rating:4.3, stock:210, organic:false, desc:"Firm, pungent red onions from Nashik's finest fields — the everyday base for Indian cooking."},
+  {id:5, name:"Baby Potatoes", cat:"vegetables", unit:"1 kg", price:29, mrp:35, img:IMG.potato, emoji:"🥔", rating:4.5, stock:180, organic:false, desc:"Small, waxy baby potatoes — perfect roasted whole or tossed into a hearty sabzi."},
+  {id:6, name:"Broccoli", cat:"vegetables", unit:"1 pc (~350g)", price:45, mrp:55, img:IMG.broccoli, emoji:"🥦", rating:4.2, stock:0, organic:true, desc:"Deep-green broccoli florets, high in fibre and vitamin C. Great steamed, stir-fried, or in soups."},
+  {id:7, name:"Alphonso Mangoes", cat:"fruits", unit:"1 kg (3-4 pcs)", price:189, mrp:220, img:IMG.mango, emoji:"🥭", rating:4.9, stock:42, organic:true, desc:"The king of mangoes — Ratnagiri Alphonso, naturally ripened, saffron-sweet and fibre-free."},
+  {id:8, name:"Robusta Bananas", cat:"fruits", unit:"6 pcs", price:32, mrp:38, img:IMG.banana, emoji:"🍌", rating:4.6, stock:96, organic:false, desc:"Naturally ripened bananas, a daily source of potassium and quick energy."},
+  {id:9, name:"Shimla Apples", cat:"fruits", unit:"4 pcs", price:120, mrp:150, img:IMG.apple, emoji:"🍎", rating:4.7, stock:70, organic:false, desc:"Crisp, sweet-tart Himachal apples, cold-stored for freshness. Great for lunchboxes and salads."},
+  {id:10, name:"Green Grapes", cat:"fruits", unit:"500 g", price:56, mrp:65, img:IMG.grapes, emoji:"🍇", rating:4.4, stock:54, organic:false, desc:"Seedless green grapes, sweet and juicy — rinse and enjoy or freeze for a summer snack."},
+  {id:11, name:"Turmeric Powder", cat:"spices", unit:"200 g", price:64, mrp:75, img:IMG.turmeric, emoji:"🟡", rating:4.8, stock:150, organic:true, desc:"Stone-ground Sangli turmeric with high curcumin content — earthy colour and aroma in every pinch."},
+  {id:12, name:"Kashmiri Red Chilli", cat:"spices", unit:"100 g", price:58, mrp:70, img:IMG.chili, emoji:"🌶️", rating:4.7, stock:88, organic:false, desc:"Mild heat, deep red colour — the secret to restaurant-style gravies without overpowering spice."},
+  {id:13, name:"Ceylon Cinnamon", cat:"spices", unit:"50 g", price:99, mrp:120, img:IMG.cinnamon, emoji:"🟤", rating:4.6, stock:5, organic:true, desc:"True Ceylon cinnamon quills, delicately sweet — perfect for chai, biryani and baking."},
+  {id:14, name:"Green Cardamom", cat:"spices", unit:"50 g", price:145, mrp:170, img:IMG.cardamom, emoji:"🌿", rating:4.9, stock:60, organic:true, desc:"Aromatic whole green cardamom pods, hand-sorted for size and freshness."},
+];
+let CART = { 1:2, 8:1, 11:1 };
+let WISHLIST = { 7:true, 13:true };
+
+const CATEGORIES = [
+  {id:"vegetables", name:"Vegetables", emoji:"🥦", color:"var(--green-soft)"},
+  {id:"fruits", name:"Fruits", emoji:"🍎", color:"var(--orange-soft)"},
+  {id:"spices", name:"Spices", emoji:"🌶️", color:"#FFF4D6"},
+];
+
+const ADDRESSES = [
+  {label:"Home", icon:"🏠", line:"402, Sunrise Residency, Sector 21", city:"Navi Mumbai, MH 400706", def:true},
+  {label:"Office", icon:"💼", line:"WeWork, Vashi Business Park, Plot 14", city:"Navi Mumbai, MH 400703", def:false},
+];
+
+const NOTIFS = [
+  {icon:"📦", title:"Your order #TZ4821 is out for delivery", time:"5 min ago", unread:true},
+  {icon:"🏷️", title:"Flat 20% off on Alphonso Mangoes today", time:"1 hr ago", unread:true},
+  {icon:"✅", title:"Order #TZ4790 delivered — rate your experience", time:"Yesterday", unread:false},
+  {icon:"💳", title:"Payment of ₹342 received for order #TZ4790", time:"Yesterday", unread:false},
+];
+
+const COUPONS = [
+  {code:"FRESH50", desc:"Flat ₹50 off on orders above ₹399", color:"var(--green)"},
+  {code:"SPICE20", desc:"20% off on all spices, up to ₹100", color:"var(--orange)"},
+  {code:"NEWUSER", desc:"₹100 off on your first order", color:"#8A5CF6"},
+];
+
+const ORDERS = [
+  {id:"TZ4821", date:"Today, 10:42 AM", items:"Tomatoes, Spinach, Mangoes +2", total:342, status:"Out for delivery"},
+  {id:"TZ4790", date:"4 Jul, 6:15 PM", items:"Turmeric, Onions, Bananas", total:186, status:"Delivered"},
+  {id:"TZ4711", date:"29 Jun, 8:03 PM", items:"Cardamom, Apples, Broccoli", total:298, status:"Delivered"},
+  {id:"TZ4650", date:"22 Jun, 7:20 PM", items:"Carrots, Potatoes, Chilli", total:151, status:"Cancelled"},
+];
+
+/* ================= SCREEN LIST ================= */
+const SCREENS = [
+  {id:"splash", label:"Splash"},
+  {id:"onboarding", label:"Onboarding"},
+  {id:"login", label:"Login / OTP"},
+  {id:"home", label:"Home"},
+  {id:"categories", label:"Categories"},
+  {id:"product", label:"Product Details"},
+  {id:"search", label:"Search & Filters"},
+  {id:"cart", label:"Cart"},
+  {id:"checkout", label:"Checkout"},
+  {id:"payment", label:"UPI Payment"},
+  {id:"success", label:"Order Success"},
+  {id:"tracking", label:"Order Tracking"},
+  {id:"history", label:"Order History"},
+  {id:"profile", label:"Profile"},
+  {id:"addresses", label:"Saved Addresses"},
+  {id:"notifications", label:"Notifications"},
+  {id:"wishlist", label:"Wishlist"},
+  {id:"offers", label:"Offers & Coupons"},
+  {id:"support", label:"Customer Support"},
+  {id:"settings", label:"Settings"},
+];
+const NAV_MAP = {home:"home", categories:"categories", wishlist:"wishlist", cart:"cart", profile:"profile"};
+
+let currentScreen = "splash";
+let selectedProduct = PRODUCTS[0];
+let onboardStep = 0;
+
+/* ================= HELPERS ================= */
+function img(url, emoji, extraStyle=""){
+  return `<div class="img-wrap" style="${extraStyle}">
+    <img src="${url}" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+    <div class="img-fallback" style="position:absolute;inset:0;background:var(--green-soft);">${emoji}</div>
+  </div>`;
+}
+function money(n){ return "₹"+n; }
+function stars(r){
+  const full = Math.round(r);
+  return `<span class="stars">${"★".repeat(full)}${"☆".repeat(5-full)}</span> <span style="font-size:11px;color:var(--gray);">${r}</span>`;
+}
+function productCard(p){
+  const inWish = WISHLIST[p.id];
+  const out = p.stock === 0;
+  return `<div class="product-card" onclick="goProduct(${p.id})">
+    <div class="wish-btn" onclick="event.stopPropagation(); toggleWish(${p.id})">${inWish?"❤️":"🤍"}</div>
+    <div class="blob-img">${img(p.img,p.emoji)}${p.organic?`<div class="stamp">100%<br>ORGANIC</div>`:""}</div>
+    <h4>${p.name}</h4>
+    <div class="unit">${p.unit}</div>
+    <div class="price-row">
+      <div>
+        <span class="price">${money(p.price)}</span>
+        <span style="font-size:11px;color:var(--gray-light);text-decoration:line-through;margin-left:4px;">${money(p.mrp)}</span>
+      </div>
+      ${out ? `<span style="font-size:10px;font-weight:800;color:#C24242;">Sold out</span>` : `<button class="add-btn" onclick="event.stopPropagation(); addToCart(${p.id})">+</button>`}
+    </div>
+  </div>`;
+}
+function categoryTile(c){
+  return `<div class="cat-tile" onclick="goCategory('${c.id}')">
+    <div class="circle" style="background:${c.color};">${c.emoji}</div>
+    <span>${c.name}</span>
+  </div>`;
+}
+
+/* ================= SCREEN RENDERERS ================= */
+const render = {};
+
+render.splash = () => `
+  <div style="height:100%; background:linear-gradient(160deg,#1B7A4D,#0F4E31); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; text-align:center; gap:14px;">
+    <div style="width:96px;height:96px;border-radius:32px;background:rgba(255,255,255,.15); display:flex;align-items:center;justify-content:center; font-size:44px;">🥬</div>
+    <div class="display" style="font-size:32px; font-weight:600;">Taaza</div>
+    <div style="font-size:13px; opacity:.85; letter-spacing:.5px;">FRESH, SORTED.</div>
+    <div style="position:absolute; bottom:60px; font-size:11px; opacity:.7;">Grown local. Delivered fresh.</div>
+  </div>`;
+
+render.onboarding = () => {
+  const slides = [
+    {emoji:"🌱", title:"Farm-fresh, always", body:"Vegetables, fruits & spices sourced daily from trusted local farms."},
+    {emoji:"⚡", title:"Delivered in minutes", body:"Track your order live — from the farm crate to your doorstep."},
+    {emoji:"🏷️", title:"Honest pricing", body:"No middlemen markups. Just fair prices for fresh produce."},
+  ];
+  const s = slides[onboardStep];
+  return `
+  <div style="height:100%; display:flex; flex-direction:column;">
+    <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 34px;">
+      <div style="width:140px;height:140px;border-radius:50%; background:var(--green-soft); display:flex;align-items:center;justify-content:center; font-size:60px; margin-bottom:26px;">${s.emoji}</div>
+      <h2 class="display" style="font-size:23px; font-weight:600; margin-bottom:10px;">${s.title}</h2>
+      <p style="font-size:13.5px; color:var(--gray); line-height:1.5;">${s.body}</p>
+    </div>
+    <div style="display:flex; justify-content:center; gap:6px; margin-bottom:18px;">
+      ${slides.map((_,i)=>`<div style="width:${i===onboardStep?22:7}px;height:7px;border-radius:4px;background:${i===onboardStep?"var(--green)":"var(--line)"}; transition:.2s;"></div>`).join("")}
+    </div>
+    <div class="px" style="display:flex; gap:10px; margin-bottom:30px;">
+      ${onboardStep < slides.length-1 ? `
+        <button class="btn btn-outline" style="flex:1;" onclick="onboardStep=${slides.length-1}; renderScreen();">Skip</button>
+        <button class="btn btn-primary" style="flex:2;" onclick="onboardStep=${onboardStep+1}; renderScreen();">Next</button>
+      ` : `
+        <button class="btn btn-primary" style="flex:1;" onclick="goScreen('login')">Get Started →</button>
+      `}
+    </div>
+  </div>`;
+};
+
+render.login = () => `
+  <div style="height:100%; display:flex; flex-direction:column; padding-top:50px;">
+    <div class="px" style="text-align:center; margin-bottom:26px;">
+      <div style="font-size:40px;">📱</div>
+      <h2 style="font-size:19px; font-weight:800; margin-top:10px;">Verify your number</h2>
+      <p style="font-size:12.5px; color:var(--gray); margin-top:6px;">We'll send a one-time password to confirm it's you.</p>
+    </div>
+    <div class="field">
+      <label>Mobile number</label>
+      <div class="input-box"><span style="margin-right:8px;color:var(--gray);">🇮🇳 +91</span><input placeholder="98765 43210"></div>
+    </div>
+    <div class="px"><button class="btn btn-primary" style="width:100%;" onclick="loginStage2()">Send OTP</button></div>
+    <div id="otp-block" style="display:none;">
+      <div class="field" style="margin-top:18px;">
+        <label>Enter 4-digit OTP sent to +91 98765 43210</label>
+        <div style="display:flex; gap:10px;">
+          ${[1,2,3,4].map(()=>`<div class="input-box" style="width:52px; justify-content:center; font-size:18px; font-weight:800;">•</div>`).join("")}
+        </div>
+        <p style="font-size:11.5px; color:var(--green); font-weight:700; margin-top:10px;">Resend OTP in 00:28</p>
+      </div>
+      <div class="px"><button class="btn btn-primary" style="width:100%;" onclick="goScreen('home')">Verify & Continue</button></div>
+    </div>
+    <p style="text-align:center; font-size:11px; color:var(--gray-light); margin-top:18px;">By continuing, you agree to Taaza's Terms & Privacy Policy</p>
+  </div>`;
+function loginStage2(){ document.getElementById('otp-block').style.display='block'; }
+
+render.home = () => `
+  <div class="hdr">
+    <div>
+      <div class="sub">Delivering to</div>
+      <h1>🏠 Sunrise Residency ▾</h1>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <div class="round-icon-btn" onclick="goScreen('notifications')">🔔<span class="nav-dot" style="position:absolute;top:8px;right:8px;top:9px;"></span></div>
+      <div class="round-icon-btn" onclick="goScreen('wishlist')">🤍</div>
+    </div>
+  </div>
+  <div class="px" style="margin-top:10px;" onclick="goScreen('search')">
+    <div class="searchbar" style="margin:0; cursor:pointer;">🔎 <span style="color:var(--gray-light); font-size:13.5px;">Search for tomatoes, turmeric...</span></div>
+  </div>
+  <div class="banner">
+    <h2>Monsoon Harvest<br>Sale</h2>
+    <p>Up to 30% off on greens & spices, today only</p>
+    <button class="btn btn-orange" style="padding:9px 16px; font-size:12.5px;" onclick="goScreen('offers')">Grab Offer</button>
+  </div>
+  <div class="section-title px"><h3>Shop by category</h3><a onclick="goScreen('categories')">See all</a></div>
+  <div class="hscroll">${CATEGORIES.map(categoryTile).join("")}</div>
+  <div class="section-title px"><h3>Featured for you</h3><a onclick="goScreen('categories')">See all</a></div>
+  <div class="hscroll">${PRODUCTS.slice(0,5).map(productCard).join("")}</div>
+  <div class="section-title px"><h3>Fresh arrivals 🌿</h3><a onclick="goScreen('categories')">See all</a></div>
+  <div class="hscroll" style="padding-bottom:22px;">${PRODUCTS.slice(5,10).map(productCard).join("")}</div>
+`;
+
+render.categories = (activeCat) => {
+  activeCat = activeCat || "vegetables";
+  const items = PRODUCTS.filter(p=>p.cat===activeCat);
+  return `
+  <div class="hdr"><h1>Categories</h1></div>
+  <div class="hscroll" style="padding-top:10px;">
+    ${CATEGORIES.map(c=>`<div class="chip ${c.id===activeCat?'active':''}" onclick="render._catActive='${c.id}'; document.getElementById('screen-body').innerHTML=render.categories('${c.id}');">${c.emoji} ${c.name}</div>`).join("")}
+  </div>
+  <div class="section-title px"><h3>${items.length} items in ${CATEGORIES.find(c=>c.id===activeCat).name}</h3></div>
+  <div class="px" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding-bottom:20px;">
+    ${items.map(p=>productCard(p)).join("")}
+  </div>`;
+};
+
+render.product = () => {
+  const p = selectedProduct;
+  const qty = CART[p.id] || 0;
+  return `
+  <div style="position:relative;">
+    <div style="height:230px; background:var(--green-soft); position:relative;">
+      ${img(p.img,p.emoji,"height:100%;")}
+      ${p.organic?`<div class="stamp" style="top:16px;right:16px;">100%<br>ORGANIC</div>`:""}
+      <div class="round-icon-btn" style="position:absolute; top:16px; left:16px; background:#fff;" onclick="goScreen('home')">←</div>
+    </div>
+    <div class="px" style="margin-top:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div>
+          <h1 style="font-size:20px; font-weight:800;">${p.name}</h1>
+          <div class="unit" style="margin-top:2px;">${p.unit}</div>
+        </div>
+        <div class="wish-btn" style="position:static; box-shadow:var(--shadow-sm);" onclick="toggleWish(${p.id}); renderScreen();">${WISHLIST[p.id]?"❤️":"🤍"}</div>
+      </div>
+      <div style="margin-top:8px;">${stars(p.rating)} <span style="font-size:11px; color:var(--gray);"> · 1.2k ratings</span></div>
+      <div style="display:flex; align-items:baseline; gap:8px; margin-top:14px;">
+        <span class="price display" style="font-size:24px;">${money(p.price)}</span>
+        <span style="font-size:14px; color:var(--gray-light); text-decoration:line-through;">${money(p.mrp)}</span>
+        <span class="badge badge-orange">${Math.round((1-p.price/p.mrp)*100)}% OFF</span>
+      </div>
+      <div style="margin-top:6px;">
+        ${p.stock === 0 ? `<span class="badge" style="background:#FDEBEB;color:#C24242;">Out of stock</span>` :
+          p.stock < 10 ? `<span class="badge badge-orange">Only ${p.stock} left</span>` :
+          `<span class="badge badge-green">In stock</span>`}
+      </div>
+
+      <div style="margin-top:20px;">
+        <h3 style="font-size:14px; font-weight:800; margin-bottom:6px;">Quantity</h3>
+        <div class="qty-pill" style="width:fit-content;">
+          <button onclick="changeQty(${p.id},-1)">−</button>
+          <span style="min-width:16px; text-align:center; font-weight:800;">${qty}</span>
+          <button onclick="changeQty(${p.id},1)">+</button>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <h3 style="font-size:14px; font-weight:800; margin-bottom:6px;">About this product</h3>
+        <p style="font-size:13px; color:var(--gray); line-height:1.55;">${p.desc}</p>
+      </div>
+
+      <div class="section-title"><h3>You may also like</h3></div>
+    </div>
+    <div class="hscroll" style="padding-bottom:110px;">
+      ${PRODUCTS.filter(x=>x.cat===p.cat && x.id!==p.id).slice(0,4).map(productCard).join("")}
+    </div>
+    <div style="position:sticky; bottom:0; background:#fff; border-top:1px solid var(--line); padding:14px 20px; display:flex; gap:10px;">
+      <button class="btn btn-outline" style="flex:1;" onclick="goScreen('cart')">View Cart</button>
+      <button class="btn btn-primary" style="flex:2;" ${p.stock===0?"disabled style='opacity:.5;'":""} onclick="addToCart(${p.id}); goScreen('cart')">${p.stock===0?"Notify Me":"Add to Cart"}</button>
+    </div>
+  </div>`;
+};
+function goProduct(id){ selectedProduct = PRODUCTS.find(p=>p.id===id); goScreen('product'); }
+function changeQty(id,d){ CART[id] = Math.max(0,(CART[id]||0)+d); renderScreen(); }
+function addToCart(id){ CART[id] = (CART[id]||0)+1; renderScreen(); }
+function toggleWish(id){ WISHLIST[id] = !WISHLIST[id]; renderScreen(); }
+
+render.search = () => `
+  <div class="hdr"><h1>Search</h1></div>
+  <div style="display:flex; gap:10px; margin-top:8px; padding:0 20px;">
+    <div class="searchbar" style="margin:0; flex:1;">🔎 <input placeholder="Search 500+ fresh items" value="turmeric" style="font-weight:700;color:var(--ink);"></div>
+    <div class="filter-btn" onclick="toggleFilters()">⚙️</div>
+  </div>
+  <div id="filters-panel" style="display:none;">
+    <div class="section-title px"><h3>Filters</h3></div>
+    <div class="px" style="display:flex; flex-wrap:wrap; gap:8px;">
+      <span class="chip active">All</span><span class="chip">Organic only</span><span class="chip">Under ₹50</span>
+      <span class="chip">4★ & above</span><span class="chip">In stock</span>
+    </div>
+    <div class="section-title px"><h3>Sort by</h3></div>
+    <div class="px" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:6px;">
+      <span class="chip active">Relevance</span><span class="chip">Price: Low to High</span><span class="chip">Rating</span>
+    </div>
+  </div>
+  <div class="section-title px"><h3>Results for "turmeric"</h3><span style="font-size:12px;color:var(--gray);">3 found</span></div>
+  <div class="px" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+    ${[PRODUCTS[10], PRODUCTS[11], PRODUCTS[13]].map(productCard).join("")}
+  </div>
+  <div class="section-title px"><h3>Recent searches</h3></div>
+  <div class="px" style="display:flex; flex-wrap:wrap; gap:8px; padding-bottom:20px;">
+    <span class="chip">spinach</span><span class="chip">alphonso mango</span><span class="chip">cardamom</span><span class="chip">onion</span>
+  </div>
+`;
+function toggleFilters(){ const el=document.getElementById('filters-panel'); el.style.display = el.style.display==='none'?'block':'none'; }
+
+render.cart = () => {
+  const items = Object.keys(CART).filter(id=>CART[id]>0).map(id=>({p:PRODUCTS.find(x=>x.id==id), q:CART[id]}));
+  const subtotal = items.reduce((s,it)=>s+it.p.price*it.q,0);
+  const delivery = subtotal>399 || subtotal===0 ? 0 : 25;
+  const savings = items.reduce((s,it)=>s+(it.p.mrp-it.p.price)*it.q,0);
+  const total = subtotal+delivery;
+  if(items.length===0){
+    return `<div class="hdr"><h1>Your Cart</h1></div>
+    <div style="text-align:center; padding:80px 30px;">
+      <div style="font-size:50px;">🧺</div>
+      <h3 style="margin-top:14px; font-weight:800;">Your cart feels light</h3>
+      <p style="font-size:13px;color:var(--gray); margin-top:6px;">Add some fresh picks to get started.</p>
+      <button class="btn btn-primary" style="margin-top:18px;" onclick="goScreen('home')">Start Shopping</button>
+    </div>`;
+  }
+  return `
+  <div class="hdr"><h1>Your Cart</h1><span style="font-size:12.5px;color:var(--gray);">${items.length} items</span></div>
+  <div style="margin-top:8px;">
+    ${items.map(it=>`
+      <div class="list-row">
+        <div class="blob-img" style="width:56px;height:56px;">${img(it.p.img,it.p.emoji)}</div>
+        <div class="txt">
+          <h5>${it.p.name}</h5>
+          <p>${it.p.unit} · ${money(it.p.price)}</p>
+        </div>
+        <div class="qty-pill" style="padding:4px 6px;">
+          <button onclick="changeQty(${it.p.id},-1)">−</button>
+          <span style="min-width:14px; text-align:center; font-weight:800; font-size:12px;">${it.q}</span>
+          <button onclick="changeQty(${it.p.id},1)">+</button>
+        </div>
+      </div>`).join("")}
+  </div>
+  <div class="px" style="margin-top:14px;">
+    <div class="card" style="padding:14px; background:var(--green-soft2);">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:16px;">🏷️</span>
+        <span style="font-size:12.5px; font-weight:700; flex:1;">Apply coupon</span>
+        <a style="font-size:12px; font-weight:800; color:var(--green);" onclick="goScreen('offers')">View offers →</a>
+      </div>
+    </div>
+  </div>
+  <div class="px" style="margin-top:16px;">
+    <div class="section-title" style="margin:0 0 8px;"><h3>Bill summary</h3></div>
+    <div style="font-size:13px; display:flex; flex-direction:column; gap:8px; color:var(--gray);">
+      <div style="display:flex; justify-content:space-between;"><span>Item total</span><span>${money(subtotal)}</span></div>
+      <div style="display:flex; justify-content:space-between;"><span>Delivery fee</span><span>${delivery===0?"FREE":money(delivery)}</span></div>
+      <div style="display:flex; justify-content:space-between; color:var(--green); font-weight:700;"><span>You saved</span><span>−${money(savings)}</span></div>
+    </div>
+    <div style="border-top:1.5px dashed var(--line); margin:12px 0; padding-top:12px; display:flex; justify-content:space-between; font-weight:800; font-size:15px;">
+      <span>To pay</span><span>${money(total)}</span>
+    </div>
+  </div>
+  <div style="position:sticky; bottom:0; background:#fff; border-top:1px solid var(--line); padding:14px 20px; margin-top:10px;">
+    <button class="btn btn-primary" style="width:100%;" onclick="goScreen('checkout')">Proceed to Checkout · ${money(total)}</button>
+  </div>`;
+};
+
+render.checkout = () => `
+  <div class="hdr"><h1>Checkout</h1></div>
+  <div class="section-title px"><h3>Delivery address</h3><a onclick="goScreen('addresses')">Change</a></div>
+  <div class="px">
+    <div class="card" style="padding:14px; display:flex; gap:12px; border-color:var(--green);">
+      <span style="font-size:20px;">🏠</span>
+      <div>
+        <h5 style="font-size:13.5px;font-weight:800;">Home <span class="badge badge-green" style="margin-left:6px;">Default</span></h5>
+        <p style="font-size:12px;color:var(--gray); margin-top:3px;">402, Sunrise Residency, Sector 21, Navi Mumbai, MH 400706</p>
+      </div>
+    </div>
+  </div>
+  <div class="section-title px"><h3>Delivery slot</h3></div>
+  <div class="hscroll">
+    <span class="chip active">Express · 18 mins</span><span class="chip">Today, 6-7 PM</span><span class="chip">Tomorrow, 8-9 AM</span>
+  </div>
+  <div class="section-title px"><h3>Payment method</h3></div>
+  <div class="px" style="display:flex; flex-direction:column; gap:10px;">
+    <div class="card" style="padding:13px; display:flex; align-items:center; gap:10px; border-color:var(--green);">
+      <span style="font-size:18px;">📲</span><span style="font-size:13.5px;font-weight:700; flex:1;">UPI (GPay, PhonePe, Paytm)</span>
+      <div style="width:18px;height:18px;border-radius:50%;border:5px solid var(--green);"></div>
+    </div>
+    <div class="card" style="padding:13px; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:18px;">💳</span><span style="font-size:13.5px;font-weight:700; flex:1;">Credit / Debit Card</span>
+      <div style="width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);"></div>
+    </div>
+    <div class="card" style="padding:13px; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:18px;">💵</span><span style="font-size:13.5px;font-weight:700; flex:1;">Cash on Delivery</span>
+      <div style="width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);"></div>
+    </div>
+  </div>
+  <div class="px" style="margin-top:16px;">
+    <div style="border-top:1.5px dashed var(--line); padding-top:12px; display:flex; justify-content:space-between; font-weight:800; font-size:15px;">
+      <span>Order total</span><span>₹342</span>
+    </div>
+  </div>
+  <div style="position:sticky; bottom:0; background:#fff; border-top:1px solid var(--line); padding:14px 20px; margin-top:14px;">
+    <button class="btn btn-primary" style="width:100%;" onclick="goScreen('payment')">Pay ₹342 via UPI</button>
+  </div>
+`;
+
+render.payment = () => `
+  <div class="hdr"><h1>UPI Payment</h1></div>
+  <div style="text-align:center; padding:20px 30px 0;">
+    <div style="width:64px;height:64px;border-radius:20px;background:var(--green-soft); display:flex;align-items:center;justify-content:center; font-size:30px; margin:0 auto;">📲</div>
+    <h3 style="margin-top:14px; font-weight:800; font-size:16px;">Approve payment of ₹342</h3>
+    <p style="font-size:12.5px;color:var(--gray); margin-top:6px;">Complete this on your UPI app to confirm the order.</p>
+  </div>
+  <div class="px" style="margin-top:20px; display:flex; flex-direction:column; gap:10px;">
+    ${[["GPay","🟢"],["PhonePe","🟣"],["Paytm","🔵"],["BHIM UPI","🟠"]].map(([n,e])=>`
+      <div class="card" style="padding:13px; display:flex; align-items:center; gap:12px;" onclick="goScreen('success')">
+        <span style="font-size:20px;">${e}</span><span style="font-size:13.5px;font-weight:700; flex:1;">${n}</span><span class="chev">›</span>
+      </div>`).join("")}
+  </div>
+  <div class="px" style="margin-top:20px;">
+    <div class="card" style="padding:14px; text-align:center; background:var(--green-soft2);">
+      <div style="font-size:11.5px; color:var(--gray); margin-bottom:8px;">or scan QR with any UPI app</div>
+      <div style="width:120px;height:120px;background:repeating-linear-gradient(45deg,#16241c 0 6px,#fff 6px 12px); margin:0 auto; border-radius:10px; opacity:.85;"></div>
+    </div>
+  </div>
+  <div class="px" style="margin-top:16px; text-align:center; font-size:11.5px; color:var(--gray-light);">🔒 Payments are secured & encrypted</div>
+`;
+
+render.success = () => `
+  <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 30px;">
+    <div style="width:110px;height:110px;border-radius:50%; background:var(--green-soft); display:flex;align-items:center;justify-content:center; font-size:52px;">✅</div>
+    <h2 class="display" style="font-size:22px; font-weight:600; margin-top:20px;">Order placed!</h2>
+    <p style="font-size:13px; color:var(--gray); margin-top:8px; line-height:1.5;">Your order <b>#TZ4821</b> has been confirmed and is being packed with care.</p>
+    <div class="card" style="width:100%; padding:16px; margin-top:22px; display:flex; justify-content:space-between;">
+      <div style="text-align:left;"><div style="font-size:11px;color:var(--gray);">Amount paid</div><div style="font-weight:800;">₹342</div></div>
+      <div style="text-align:left;"><div style="font-size:11px;color:var(--gray);">Arriving in</div><div style="font-weight:800;color:var(--green);">18 mins</div></div>
+    </div>
+    <button class="btn btn-primary" style="width:100%; margin-top:26px;" onclick="goScreen('tracking')">Track Order</button>
+    <button class="btn btn-outline" style="width:100%; margin-top:10px;" onclick="goScreen('home')">Continue Shopping</button>
+  </div>
+`;
+
+render.tracking = () => `
+  <div class="hdr"><h1>Track Order</h1><span class="badge badge-orange">Out for delivery</span></div>
+  <div class="px" style="margin-top:6px;">
+    <div style="border-radius:20px; overflow:hidden; height:150px; background:linear-gradient(135deg,#cfe9d9,#a9d6bd); position:relative;">
+      <div style="position:absolute; inset:0; opacity:.5; background-image:radial-gradient(circle,#fff 1px,transparent 1.4px); background-size:14px 14px;"></div>
+      <div style="position:absolute; left:30%; top:55%; font-size:22px;">🏍️</div>
+      <div style="position:absolute; left:70%; top:35%; font-size:20px;">📍</div>
+    </div>
+    <div class="card" style="margin-top:-24px; position:relative; z-index:2; padding:14px; display:flex; gap:12px; align-items:center;">
+      <div style="width:42px;height:42px;border-radius:50%; background:var(--green-soft); display:flex;align-items:center;justify-content:center; font-size:18px;">🧑</div>
+      <div style="flex:1;">
+        <h5 style="font-size:13px;font-weight:800;">Rahul, your delivery partner</h5>
+        <p style="font-size:11.5px;color:var(--gray);">MH-04 AB 4521 · Bike</p>
+      </div>
+      <div class="round-icon-btn">📞</div>
+    </div>
+  </div>
+  <div class="track-line" style="margin-top:26px;">
+    <div class="track-step done"><h5>Order confirmed</h5><p>10:42 AM — Payment received</p></div>
+    <div class="track-step done"><h5>Preparing your order</h5><p>10:45 AM — Packed at Vashi dark store</p></div>
+    <div class="track-step active"><h5>Out for delivery</h5><p>10:52 AM — Rahul is on the way</p></div>
+    <div class="track-step"><h5>Delivered</h5><p>Estimated by 11:00 AM</p></div>
+  </div>
+  <div class="px"><button class="btn btn-outline" style="width:100%;" onclick="goScreen('support')">Need help with this order?</button></div>
+`;
+
+render.history = () => `
+  <div class="hdr"><h1>Order History</h1></div>
+  <div style="margin-top:6px; padding-bottom:20px;">
+    ${ORDERS.map(o=>`
+      <div class="px" style="margin-bottom:12px;">
+        <div class="card" style="padding:14px;" onclick="goScreen('tracking')">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h5 style="font-size:13.5px; font-weight:800;">#${o.id}</h5>
+            <span class="badge ${o.status==='Delivered'?'badge-green':o.status==='Cancelled'?'':'badge-orange'}" style="${o.status==='Cancelled'?'background:#FDEBEB;color:#C24242;':''}">${o.status}</span>
+          </div>
+          <p style="font-size:12px; color:var(--gray); margin-top:6px;">${o.items}</p>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+            <span style="font-size:11.5px; color:var(--gray-light);">${o.date}</span>
+            <span style="font-weight:800; font-size:13.5px;">₹${o.total}</span>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:12px;">
+            <button class="btn btn-outline" style="flex:1; padding:9px; font-size:12px;" onclick="event.stopPropagation();">Reorder</button>
+            <button class="btn btn-outline" style="flex:1; padding:9px; font-size:12px;" onclick="event.stopPropagation(); goScreen('support')">Help</button>
+          </div>
+        </div>
+      </div>`).join("")}
+  </div>
+`;
+
+render.profile = () => `
+  <div class="hdr"><h1>Profile</h1></div>
+  <div class="px" style="display:flex; align-items:center; gap:14px; margin-top:8px;">
+    <div class="blob-img" style="width:64px;height:64px;">${img(IMG.avatar,"🧑")}</div>
+    <div>
+      <h3 style="font-weight:800; font-size:16px;">Rohit Sharma</h3>
+      <p style="font-size:12px; color:var(--gray);">+91 98765 43210</p>
+      <span class="badge badge-green" style="margin-top:4px; display:inline-block;">🌿 Green Member</span>
+    </div>
+  </div>
+  <div class="px" style="display:flex; gap:10px; margin-top:18px;">
+    <div class="card" style="flex:1; padding:12px; text-align:center;"><div style="font-weight:800;font-size:16px;">47</div><div style="font-size:11px;color:var(--gray);">Orders</div></div>
+    <div class="card" style="flex:1; padding:12px; text-align:center;"><div style="font-weight:800;font-size:16px;">₹2,140</div><div style="font-size:11px;color:var(--gray);">Saved</div></div>
+    <div class="card" style="flex:1; padding:12px; text-align:center;"><div style="font-weight:800;font-size:16px;">4.9★</div><div style="font-size:11px;color:var(--gray);">Rating</div></div>
+  </div>
+  <div style="margin-top:18px;">
+    ${[
+      ["📦","Order History","Track, reorder or review past orders","history"],
+      ["📍","Saved Addresses","Manage your delivery locations","addresses"],
+      ["❤️","Wishlist","Items you've saved for later","wishlist"],
+      ["🏷️","Offers & Coupons","Your saved discounts","offers"],
+      ["🔔","Notifications","Updates about orders & offers","notifications"],
+      ["🎧","Customer Support","Chat with us or raise a ticket","support"],
+      ["⚙️","Settings","App preferences & account","settings"],
+    ].map(([icon,title,sub,scr])=>`
+      <div class="list-row" onclick="goScreen('${scr}')">
+        <div class="icon" style="background:var(--green-soft);">${icon}</div>
+        <div class="txt"><h5>${title}</h5><p>${sub}</p></div>
+        <span class="chev">›</span>
+      </div>`).join("")}
+  </div>
+`;
+
+render.addresses = () => `
+  <div class="hdr"><h1>Saved Addresses</h1></div>
+  <div class="px" style="margin-top:10px; display:flex; flex-direction:column; gap:12px;">
+    ${ADDRESSES.map(a=>`
+      <div class="card" style="padding:14px; display:flex; gap:12px; ${a.def?'border-color:var(--green);':''}">
+        <span style="font-size:20px;">${a.icon}</span>
+        <div style="flex:1;">
+          <h5 style="font-size:13.5px;font-weight:800;">${a.label} ${a.def?'<span class="badge badge-green" style="margin-left:6px;">Default</span>':''}</h5>
+          <p style="font-size:12px;color:var(--gray); margin-top:3px;">${a.line}</p>
+          <p style="font-size:12px;color:var(--gray);">${a.city}</p>
+        </div>
+        <span style="font-size:13px; color:var(--gray-light);">✏️</span>
+      </div>`).join("")}
+    <button class="btn btn-outline" style="width:100%; margin-top:6px;">+ Add New Address</button>
+  </div>
+`;
+
+render.notifications = () => `
+  <div class="hdr"><h1>Notifications</h1></div>
+  <div style="margin-top:6px;">
+    ${NOTIFS.map(n=>`
+      <div class="list-row">
+        <div class="icon" style="background:${n.unread?'var(--orange-soft)':'var(--green-soft)'};">${n.icon}</div>
+        <div class="txt"><h5>${n.title}</h5><p>${n.time}</p></div>
+        ${n.unread?'<span class="nav-dot" style="top:0;left:0;"></span>':''}
+      </div>`).join("")}
+  </div>
+`;
+
+render.wishlist = () => {
+  const items = PRODUCTS.filter(p=>WISHLIST[p.id]);
+  return `
+  <div class="hdr"><h1>Wishlist</h1></div>
+  ${items.length===0? `<div style="text-align:center; padding:80px 30px;"><div style="font-size:46px;">🤍</div><h3 style="margin-top:14px;font-weight:800;">Nothing saved yet</h3><p style="font-size:13px;color:var(--gray);margin-top:6px;">Tap the heart on any product to save it here.</p></div>` :
+  `<div class="px" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px; padding-bottom:20px;">${items.map(productCard).join("")}</div>`}
+`;
+};
+
+render.offers = () => `
+  <div class="hdr"><h1>Offers & Coupons</h1></div>
+  <div class="px" style="margin-top:10px; display:flex; flex-direction:column; gap:12px;">
+    ${COUPONS.map(c=>`
+      <div class="card" style="padding:0; overflow:hidden; display:flex;">
+        <div style="width:8px; background:${c.color};"></div>
+        <div style="padding:14px; flex:1;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h5 style="font-weight:800; font-size:14.5px; letter-spacing:.5px;">${c.code}</h5>
+            <button class="btn btn-outline" style="padding:6px 14px; font-size:11.5px;">Copy</button>
+          </div>
+          <p style="font-size:12px; color:var(--gray); margin-top:5px;">${c.desc}</p>
+        </div>
+      </div>`).join("")}
+  </div>
+  <div class="section-title px"><h3>Bank offers</h3></div>
+  <div class="px" style="padding-bottom:20px;">
+    <div class="card" style="padding:14px; display:flex; gap:10px; align-items:center;">
+      <span style="font-size:20px;">💳</span>
+      <p style="font-size:12px; color:var(--gray);">10% instant discount up to ₹75 on HDFC Bank Credit Cards</p>
+    </div>
+  </div>
+`;
+
+render.support = () => `
+  <div class="hdr"><h1>Customer Support</h1></div>
+  <div class="px" style="margin-top:8px;">
+    <div class="card" style="padding:16px; background:var(--green-soft2); display:flex; align-items:center; gap:12px;">
+      <span style="font-size:26px;">💬</span>
+      <div style="flex:1;"><h5 style="font-weight:800; font-size:13.5px;">Chat with us</h5><p style="font-size:11.5px;color:var(--gray);">Avg. response time: 2 mins</p></div>
+      <button class="btn btn-primary" style="padding:9px 16px; font-size:12px;">Start Chat</button>
+    </div>
+  </div>
+  <div class="section-title px"><h3>Help with a recent order</h3></div>
+  <div class="px" style="display:flex; flex-direction:column; gap:10px;">
+    ${ORDERS.slice(0,2).map(o=>`
+      <div class="list-row" style="border:1px solid var(--line); border-radius:14px;">
+        <div class="icon" style="background:var(--green-soft);">📦</div>
+        <div class="txt"><h5>#${o.id}</h5><p>${o.date}</p></div>
+        <span class="chev">›</span>
+      </div>`).join("")}
+  </div>
+  <div class="section-title px"><h3>Frequently asked</h3></div>
+  <div style="padding-bottom:20px;">
+    ${["How do I track my order?","What is Taaza's return policy?","How do refunds work?","Is same-day delivery available?"].map(q=>`
+      <div class="list-row"><div class="txt"><h5>${q}</h5></div><span class="chev">›</span></div>`).join("")}
+  </div>
+`;
+
+render.settings = () => `
+  <div class="hdr"><h1>Settings</h1></div>
+  <div class="section-title px"><h3>Preferences</h3></div>
+  ${[["Push notifications",true],["Order updates via SMS",true],["Promotional emails",false],["Dark mode",false]].map((s,i)=>`
+    <div class="list-row"><div class="txt"><h5>${s[0]}</h5></div><div class="toggle ${s[1]?'on':''}" onclick="this.classList.toggle('on')"><div class="dot"></div></div></div>`).join("")}
+  <div class="section-title px"><h3>Account</h3></div>
+  ${["Edit profile","Change language — English","Manage payment methods","Privacy & security"].map(t=>`
+    <div class="list-row"><div class="txt"><h5>${t}</h5></div><span class="chev">›</span></div>`).join("")}
+  <div class="section-title px"><h3>About</h3></div>
+  ${["Terms of Service","Privacy Policy","App version 2.4.1"].map(t=>`
+    <div class="list-row"><div class="txt"><h5>${t}</h5></div><span class="chev">›</span></div>`).join("")}
+  <div class="px" style="padding:20px;"><button class="btn" style="width:100%; background:#FDEBEB; color:#C24242; padding:14px;">Log Out</button></div>
+`;
+
+/* ============ NAV ICONS ============ */
+const NAV_ICONS = {
+  home: `<svg viewBox="0 0 24 24"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>`,
+  categories: `<svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>`,
+  wishlist: `<svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.7-9.7-9C.6 8 2 4.5 5.4 4a4.7 4.7 0 0 1 6.6 2 4.7 4.7 0 0 1 6.6-2c3.4.5 4.8 4 3.1 7.5-2.2 4.3-9.7 9-9.7 9Z"/></svg>`,
+  cart: `<svg viewBox="0 0 24 24"><circle cx="9.5" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.2 11.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7H6"/></svg>`,
+  profile: `<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1-3.6 4-5.4 7.5-5.4s6.5 1.8 7.5 5.4"/></svg>`,
+};
+
+function buildBottomNav(){
+  const el = document.getElementById('bottom-nav');
+  el.innerHTML = Object.keys(NAV_ICONS).map(k=>{
+    const active = NAV_MAP[currentScreen] === k;
+    const showDot = k==='cart' && Object.values(CART).some(v=>v>0);
+    return `<div class="nav-item ${active?'active':''}" onclick="goScreen('${k}')">
+      ${NAV_ICONS[k]}<span>${k.charAt(0).toUpperCase()+k.slice(1)}</span>${showDot?'<div class="nav-dot"></div>':''}
+    </div>`;
+  }).join("");
+}
+
+function buildChipRow(){
+  const el = document.getElementById('chip-row');
+  el.innerHTML = SCREENS.map(s=>`<div class="chip ${currentScreen===s.id?'active':''}" onclick="goScreen('${s.id}')">${s.label}</div>`).join("");
+}
+
+function goScreen(id){
+  currentScreen = id;
+  renderScreen();
+}
+function goCategory(id){
+  currentScreen = 'categories';
+  renderScreen(id);
+}
+function renderScreen(catArg){
+  const body = document.getElementById('screen-body');
+  body.classList.remove('screen-fade'); void body.offsetWidth; body.classList.add('screen-fade');
+  body.innerHTML = currentScreen==='categories' ? render.categories(catArg) : render[currentScreen]();
+  const hideNav = ['splash','onboarding','login','product','payment','success'].includes(currentScreen);
+  document.getElementById('bottom-nav').style.display = hideNav ? 'none' : 'flex';
+  buildBottomNav();
+  buildChipRow();
+  body.scrollTop = 0;
+}
+
+/* ============ APP SWITCH ============ */
+function setApp(which){
+  document.getElementById('btn-customer').classList.toggle('active', which==='customer');
+  document.getElementById('btn-admin').classList.toggle('active', which==='admin');
+  document.getElementById('customer-view').style.display = which==='customer' ? 'block':'none';
+  document.getElementById('admin-view').style.display = which==='admin' ? 'flex':'none';
+  document.getElementById('chip-row').style.display = which==='customer' ? 'flex':'none';
+}
+
+/* ================= ADMIN ================= */
+const ADMIN_SECTIONS = [
+  {id:"dashboard", label:"Dashboard", icon:"📊"},
+  {id:"products", label:"Products", icon:"🥕"},
+  {id:"categories", label:"Categories", icon:"🗂️"},
+  {id:"inventory", label:"Inventory", icon:"📦"},
+  {id:"orders", label:"Orders", icon:"🧾"},
+  {id:"customers", label:"Customers", icon:"👥"},
+  {id:"banners", label:"Banners", icon:"🖼️"},
+  {id:"reports", label:"Sales Reports", icon:"📈"},
+];
+let currentAdmin = "dashboard";
+
+function buildAdminNav(){
+  document.getElementById('admin-nav').innerHTML = ADMIN_SECTIONS.map(s=>`
+    <div class="admin-nav-item ${currentAdmin===s.id?'active':''}" onclick="goAdmin('${s.id}')">
+      <span>${s.icon}</span><span class="label">${s.label}</span>
+    </div>`).join("") + `<div style="flex:1;"></div>
+    <div class="admin-nav-item" style="margin-top:20px;"><span>🚪</span><span class="label">Log out</span></div>`;
+}
+function goAdmin(id){ currentAdmin = id; buildAdminNav(); renderAdmin(); }
+
+const adminRender = {};
+
+adminRender.dashboard = () => `
+  <div class="admin-top"><div><h2>Dashboard</h2><p>Welcome back, here's how Taaza is performing today.</p></div><button class="admin-btn">+ New Banner</button></div>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="lbl">Today's Orders</div><div class="val">312</div><div class="delta up">▲ 12.4% vs yesterday</div></div>
+    <div class="stat-card"><div class="lbl">Revenue Today</div><div class="val">₹1.08L</div><div class="delta up">▲ 8.1%</div></div>
+    <div class="stat-card"><div class="lbl">Active Customers</div><div class="val">8,420</div><div class="delta up">▲ 3.2%</div></div>
+    <div class="stat-card"><div class="lbl">Low Stock Items</div><div class="val">6</div><div class="delta down">▼ Needs attention</div></div>
+  </div>
+  <div style="display:grid; grid-template-columns:1.4fr 1fr; gap:18px;">
+    <div class="panel">
+      <div class="panel-hdr"><h3>Revenue — last 7 days</h3><span class="chip-cat">This week</span></div>
+      <div class="mini-bar-chart">
+        ${[62,74,58,90,70,110,96].map((v,i)=>`<div class="bar" style="height:${v}px;"><span>${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]}</span></div>`).join("")}
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-hdr"><h3>Order status</h3></div>
+      <div style="display:flex; flex-direction:column; gap:12px; font-size:13px;">
+        <div style="display:flex; justify-content:space-between;"><span>Preparing</span><b>48</b></div>
+        <div style="display:flex; justify-content:space-between;"><span>Out for delivery</span><b>63</b></div>
+        <div style="display:flex; justify-content:space-between;"><span>Delivered</span><b>190</b></div>
+        <div style="display:flex; justify-content:space-between;"><span>Cancelled</span><b>11</b></div>
+      </div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-hdr"><h3>Recent orders</h3><a class="admin-btn outline" onclick="goAdmin('orders')">View all</a></div>
+    <table>
+      <tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr>
+      ${ORDERS.map(o=>`<tr><td>#${o.id}</td><td>Rohit Sharma</td><td>${o.items}</td><td>₹${o.total}</td><td><span class="pill-status ${o.status==='Delivered'?'st-delivered':o.status==='Cancelled'?'st-low':'st-pending'}">${o.status}</span></td></tr>`).join("")}
+    </table>
+  </div>
+`;
+
+adminRender.products = () => `
+  <div class="admin-top"><div><h2>Product Management</h2><p>${PRODUCTS.length} products across 3 categories.</p></div><button class="admin-btn">+ Add Product</button></div>
+  <div class="panel">
+    <div class="panel-hdr">
+      <h3>All products</h3>
+      <div style="display:flex; gap:8px;"><span class="chip-cat">🥦 Vegetables</span><span class="chip-cat">🍎 Fruits</span><span class="chip-cat">🌶️ Spices</span></div>
+    </div>
+    <table>
+      <tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th></th></tr>
+      ${PRODUCTS.map(p=>`<tr>
+        <td>${img(p.img,p.emoji,"width:38px;height:38px;border-radius:10px;overflow:hidden;display:inline-block;")}</td>
+        <td><b>${p.name}</b><br><span style="color:var(--gray);font-size:11.5px;">${p.unit}</span></td>
+        <td style="text-transform:capitalize;">${p.cat}</td>
+        <td>₹${p.price} <span style="color:var(--gray-light); text-decoration:line-through; font-size:11px;">₹${p.mrp}</span></td>
+        <td>${p.stock}</td>
+        <td><span class="pill-status ${p.stock===0?'st-low':p.stock<10?'st-pending':'st-active'}">${p.stock===0?'Out of stock':p.stock<10?'Low stock':'Active'}</span></td>
+        <td><span class="admin-btn outline" style="padding:6px 12px;">Edit</span></td>
+      </tr>`).join("")}
+    </table>
+  </div>
+`;
+
+adminRender.categories = () => `
+  <div class="admin-top"><div><h2>Category Management</h2><p>Organize how products are grouped in the app.</p></div><button class="admin-btn">+ Add Category</button></div>
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+    ${CATEGORIES.map(c=>`
+      <div class="panel" style="text-align:center;">
+        <div style="width:60px;height:60px;border-radius:20px;background:${c.color}; display:flex;align-items:center;justify-content:center; font-size:28px; margin:0 auto 10px;">${c.emoji}</div>
+        <h3 style="font-size:15px;">${c.name}</h3>
+        <p style="font-size:12px;color:var(--gray); margin:6px 0 12px;">${PRODUCTS.filter(p=>p.cat===c.id).length} products · Visible on Home</p>
+        <div style="display:flex; gap:8px; justify-content:center;">
+          <span class="admin-btn outline" style="padding:7px 14px;">Edit</span>
+          <span class="admin-btn outline" style="padding:7px 14px;">Reorder</span>
+        </div>
+      </div>`).join("")}
+  </div>
+`;
+
+adminRender.inventory = () => `
+  <div class="admin-top"><div><h2>Inventory Management</h2><p>Live stock levels across the Vashi dark store.</p></div><button class="admin-btn">Bulk Update</button></div>
+  <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
+    <div class="stat-card"><div class="lbl">Total SKUs</div><div class="val">${PRODUCTS.length}</div></div>
+    <div class="stat-card"><div class="lbl">Low Stock (&lt;10)</div><div class="val" style="color:#C24242;">${PRODUCTS.filter(p=>p.stock>0&&p.stock<10).length}</div></div>
+    <div class="stat-card"><div class="lbl">Out of Stock</div><div class="val" style="color:#C24242;">${PRODUCTS.filter(p=>p.stock===0).length}</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-hdr"><h3>Stock levels</h3></div>
+    <table>
+      <tr><th>Product</th><th>Category</th><th>Units in stock</th><th>Reorder level</th><th>Status</th></tr>
+      ${PRODUCTS.map(p=>`<tr>
+        <td><b>${p.name}</b></td><td style="text-transform:capitalize;">${p.cat}</td><td>${p.stock}</td><td>15</td>
+        <td><span class="pill-status ${p.stock===0?'st-low':p.stock<10?'st-pending':'st-active'}">${p.stock===0?'Restock now':p.stock<10?'Low':'Healthy'}</span></td>
+      </tr>`).join("")}
+    </table>
+  </div>
+`;
+
+adminRender.orders = () => `
+  <div class="admin-top"><div><h2>Order Management</h2><p>All orders across the platform, updated live.</p></div><button class="admin-btn outline">Export CSV</button></div>
+  <div class="panel">
+    <div class="panel-hdr">
+      <h3>Orders</h3>
+      <div style="display:flex; gap:8px;"><span class="chip-cat">All</span><span class="chip-cat">Preparing</span><span class="chip-cat">Out for delivery</span><span class="chip-cat">Delivered</span></div>
+    </div>
+    <table>
+      <tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Date</th><th>Total</th><th>Status</th><th></th></tr>
+      ${ORDERS.concat([{id:"TZ4599",date:"20 Jun, 5:40 PM",items:"Grapes, Broccoli",total:101,status:"Preparing"}]).map(o=>`
+      <tr><td>#${o.id}</td><td>Rohit Sharma</td><td>${o.items}</td><td>${o.date}</td><td>₹${o.total}</td>
+      <td><span class="pill-status ${o.status==='Delivered'?'st-delivered':o.status==='Cancelled'?'st-low':'st-pending'}">${o.status}</span></td>
+      <td><span class="admin-btn outline" style="padding:6px 12px;">View</span></td></tr>`).join("")}
+    </table>
+  </div>
+`;
+
+adminRender.customers = () => `
+  <div class="admin-top"><div><h2>Customer Management</h2><p>8,420 registered customers.</p></div><button class="admin-btn outline">Export List</button></div>
+  <div class="panel">
+    <table>
+      <tr><th>Customer</th><th>Phone</th><th>Orders</th><th>Lifetime value</th><th>Joined</th><th>Status</th></tr>
+      ${[["Rohit Sharma","+91 98765 43210",47,"₹18,240","Jan 2025","Active"],
+         ["Priya Nair","+91 90210 11234",12,"₹4,980","Mar 2025","Active"],
+         ["Sanjay Patil","+91 88888 22110",3,"₹960","Jun 2026","Active"],
+         ["Aisha Khan","+91 77000 91234",29,"₹11,340","Aug 2025","Active"],
+         ["Karan Mehta","+91 99887 65544",1,"₹210","Jul 2026","New"]].map(c=>`
+        <tr><td><b>${c[0]}</b></td><td>${c[1]}</td><td>${c[2]}</td><td>${c[3]}</td><td>${c[4]}</td><td><span class="pill-status ${c[5]==='New'?'st-pending':'st-active'}">${c[5]}</span></td></tr>`).join("")}
+    </table>
+  </div>
+`;
+
+adminRender.banners = () => `
+  <div class="admin-top"><div><h2>Banner Management</h2><p>Control home screen promotional banners.</p></div><button class="admin-btn">+ New Banner</button></div>
+  <div class="banner-grid">
+    ${[[IMG.vegHero,"Monsoon Harvest Sale — live"],[IMG.fruitHero,"Alphonso Mango Fest"],[IMG.spiceHero,"Spice Rack Restock"]].map(([i,t])=>`
+      <div class="banner-tile">${img(i,"🖼️")}<div class="ov">${t}</div></div>`).join("")}
+  </div>
+  <div class="panel" style="margin-top:18px;">
+    <div class="panel-hdr"><h3>Scheduled banners</h3></div>
+    <table>
+      <tr><th>Banner</th><th>Placement</th><th>Starts</th><th>Ends</th><th>Status</th></tr>
+      <tr><td>Monsoon Harvest Sale</td><td>Home — top</td><td>1 Jul</td><td>10 Jul</td><td><span class="pill-status st-active">Live</span></td></tr>
+      <tr><td>Alphonso Mango Fest</td><td>Home — carousel</td><td>15 Jul</td><td>31 Jul</td><td><span class="pill-status st-pending">Scheduled</span></td></tr>
+      <tr><td>Diwali Spice Box</td><td>Category — Spices</td><td>1 Aug</td><td>15 Aug</td><td><span class="pill-status st-pending">Draft</span></td></tr>
+    </table>
+  </div>
+`;
+
+adminRender.reports = () => `
+  <div class="admin-top"><div><h2>Sales Reports</h2><p>Performance overview across categories.</p></div><button class="admin-btn outline">Download PDF</button></div>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="lbl">This Month Revenue</div><div class="val">₹24.6L</div><div class="delta up">▲ 18% MoM</div></div>
+    <div class="stat-card"><div class="lbl">Orders</div><div class="val">9,842</div><div class="delta up">▲ 9%</div></div>
+    <div class="stat-card"><div class="lbl">Avg. Order Value</div><div class="val">₹250</div><div class="delta up">▲ 4%</div></div>
+    <div class="stat-card"><div class="lbl">Return Rate</div><div class="val">1.8%</div><div class="delta down">▼ 0.3%</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-hdr"><h3>Revenue by category</h3></div>
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      ${[["Vegetables",44,"var(--green)"],["Fruits",36,"var(--orange)"],["Spices",20,"#8A5CF6"]].map(([n,p,c])=>`
+        <div>
+          <div style="display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:6px;"><span>${n}</span><b>${p}%</b></div>
+          <div style="height:10px; background:var(--line); border-radius:6px; overflow:hidden;"><div style="width:${p}%; height:100%; background:${c};"></div></div>
+        </div>`).join("")}
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-hdr"><h3>Top selling products</h3></div>
+    <table>
+      <tr><th>Product</th><th>Category</th><th>Units sold</th><th>Revenue</th></tr>
+      <tr><td>Alphonso Mangoes</td><td>Fruits</td><td>2,140</td><td>₹4,04,460</td></tr>
+      <tr><td>Vine Tomatoes</td><td>Vegetables</td><td>4,820</td><td>₹1,83,160</td></tr>
+      <tr><td>Turmeric Powder</td><td>Spices</td><td>1,760</td><td>₹1,12,640</td></tr>
+      <tr><td>Green Cardamom</td><td>Spices</td><td>640</td><td>₹92,800</td></tr>
+    </table>
+  </div>
+`;
+
+function renderAdmin(){
+  document.getElementById('admin-main').innerHTML = adminRender[currentAdmin]();
+}
+
+/* ================= INIT ================= */
+buildAdminNav();
+renderAdmin();
+renderScreen();
+</script>
+</body>
+</html>

@@ -2,1196 +2,1147 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Taaza — Fresh Grocery App Prototype</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shakalya Clinic — Trusted Family Healthcare in Satara</title>
+<meta name="description" content="Shakalya Clinic, Satara — general medicine, online consultation, medicine supply, e-prescriptions and a secure patient portal. Book an appointment today.">
+<meta name="keywords" content="Shakalya Clinic, Satara doctor, online consultation Satara, medicine delivery Satara, patient portal, family clinic Maharashtra">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23116FA0'/%3E%3Cpath d='M4 17h5l2.5-7L15 24l3-14 2 7h8' fill='none' stroke='%23ffffff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450;9..144,560;9..144,650&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --green:#1B7A4D;
-  --green-dark:#124F32;
-  --green-soft:#E7F5EC;
-  --green-soft2:#F1F9F3;
-  --orange:#FF6B2C;
-  --orange-soft:#FFEADC;
-  --cream:#FBFAF6;
-  --white:#FFFFFF;
-  --ink:#16241C;
-  --gray:#6E7B73;
-  --gray-light:#98A39C;
-  --line:#E7EBE7;
-  --radius-lg:26px;
-  --radius-md:18px;
-  --radius-sm:12px;
-  --shadow: 0 10px 30px -12px rgba(22,36,28,0.18);
-  --shadow-sm: 0 4px 14px -6px rgba(22,36,28,0.14);
+  --white:#ffffff;
+  --bg:#F6FAF9;
+  --mint:#EAF6F0;
+  --ink:#0E2A3B;
+  --muted:#5C7488;
+  --blue-900:#082C42;
+  --blue-700:#0B4F78;
+  --blue-600:#116FA0;
+  --blue-500:#2C93C9;
+  --green-700:#0E7A54;
+  --green-600:#159A6D;
+  --green-500:#2CB37F;
+  --green-100:#DFF4EA;
+  --border:#DEE9E7;
+  --shadow: 0 10px 30px -12px rgba(11,79,120,0.18);
+  --shadow-sm: 0 4px 14px -6px rgba(11,79,120,0.14);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --ff-display:'Fraunces', serif;
+  --ff-body:'Inter', system-ui, sans-serif;
+  --ff-mono:'IBM Plex Mono', monospace;
 }
-*{box-sizing:border-box; margin:0; padding:0;}
-html, body{ height:100%; overscroll-behavior:none; }
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+}
 body{
-  font-family:'Plus Jakarta Sans', sans-serif;
-  background:var(--ink);
-  color:var(--ink);
-  display:flex; align-items:center; justify-content:center;
-  overflow:hidden;
+  margin:0; font-family:var(--ff-body); color:var(--ink); background:var(--bg);
+  -webkit-font-smoothing:antialiased; line-height:1.55;
 }
-.display{font-family:'Fraunces', serif;}
+img{max-width:100%; display:block;}
+a{color:inherit; text-decoration:none;}
+button{font-family:inherit;}
+h1,h2,h3,h4{font-family:var(--ff-display); margin:0 0 .5em; color:var(--blue-900); font-weight:650; letter-spacing:-0.01em;}
+p{margin:0 0 1em; color:var(--muted);}
+.container{max-width:1180px; margin:0 auto; padding:0 24px;}
+:focus-visible{outline:3px solid var(--green-500); outline-offset:3px; border-radius:4px;}
 
-/* ---------- Single device viewport (exact mobile-screen size, no extra chrome) ---------- */
-.device{
-  width:100%; max-width:430px; height:100dvh; max-height:100dvh;
-  background:var(--cream); position:relative; overflow:hidden;
-  display:flex; flex-direction:column;
+.eyebrow{
+  font-family:var(--ff-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--green-700); display:inline-flex; align-items:center; gap:8px; margin-bottom:14px; font-weight:500;
 }
-.statusbar{
-  flex:0 0 auto; display:flex; align-items:center; justify-content:space-between;
-  padding:10px 20px 4px; font-size:12px; font-weight:700; color:var(--ink); z-index:6; background:var(--cream);
-}
+.eyebrow::before{content:''; width:22px; height:1.5px; background:var(--green-600); display:inline-block;}
 
-/* ---------- Compact top control bar (app switch + screen jump) ---------- */
-.topbar{
-  flex:0 0 auto; display:flex; align-items:center; gap:8px; padding:2px 14px 8px; z-index:6; background:var(--cream);
-}
-.topbar .brand{ font-family:'Fraunces',serif; font-weight:600; font-size:14.5px; display:flex; align-items:center; gap:5px; flex:0 0 auto;}
-.app-switch{
-  display:flex; gap:2px; background:#fff; padding:3px; border-radius:999px;
-  border:1px solid var(--line); flex:0 0 auto;
-}
-.app-switch button{
-  border:none; background:transparent; padding:6px 10px; border-radius:999px;
-  font-family:inherit; font-weight:700; font-size:11px; color:var(--gray);
-  cursor:pointer; transition:.2s; white-space:nowrap;
-}
-.app-switch button.active{ background:var(--green); color:#fff; }
-.screen-jump{
-  flex:1; min-width:0; font-family:inherit; font-weight:700; font-size:11.5px; color:var(--green-dark);
-  background:var(--green-soft); border:1px solid transparent; border-radius:999px; padding:7px 10px;
-  cursor:pointer; -webkit-appearance:none; appearance:none;
-}
-
-.chip{
-  flex:0 0 auto; font-size:12.5px; font-weight:600; color:var(--green-dark);
-  background:var(--green-soft); border:1px solid transparent; padding:8px 14px;
-  border-radius:999px; cursor:pointer; white-space:nowrap; transition:.2s;
-}
-.chip.active{ background:var(--green); color:#fff; }
-.chip:hover:not(.active){ background:#dcefe3; }
-
-.screen-body{ flex:1; overflow-y:auto; -ms-overflow-style:none; scrollbar-width:none; position:relative;}
-.screen-body::-webkit-scrollbar{display:none;}
-.screen-fade{ animation: fadeIn .35s ease; }
-@keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
-
-/* ---------- Bottom nav ---------- */
-.bottom-nav{
-  flex:0 0 auto; display:flex; justify-content:space-around; align-items:center;
-  padding:10px 6px 16px; background:#fff; border-top:1px solid var(--line); z-index:5;
-}
-.nav-item{ display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; width:58px;}
-.nav-item svg{ width:22px; height:22px; stroke:var(--gray-light); fill:none; stroke-width:1.8; transition:.2s;}
-.nav-item span{ font-size:10.5px; font-weight:600; color:var(--gray-light); transition:.2s;}
-.nav-item.active svg{ stroke:var(--green); fill:var(--green-soft);}
-.nav-item.active span{ color:var(--green); }
-.nav-dot{ width:5px; height:5px; border-radius:50%; background:var(--orange); position:relative; top:-16px; left:9px;}
-
-/* ---------- generic UI bits ---------- */
-.px{padding-left:20px; padding-right:20px;}
-.section-title{ display:flex; align-items:center; justify-content:space-between; margin:18px 0 10px;}
-.section-title h3{ font-size:15.5px; font-weight:800;}
-.section-title a{ font-size:12px; font-weight:700; color:var(--green);}
-.badge{
-  font-size:10px; font-weight:800; padding:3px 8px; border-radius:999px; letter-spacing:.3px;
-}
-.badge-green{ background:var(--green-soft); color:var(--green-dark);}
-.badge-orange{ background:var(--orange-soft); color:#B84B12;}
+/* ---------- Buttons ---------- */
 .btn{
-  border:none; cursor:pointer; font-family:inherit; font-weight:700; border-radius:999px;
-  transition:.2s; display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:14px 26px; border-radius:100px; font-weight:600; font-size:15px; cursor:pointer;
+  border:1.5px solid transparent; transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+  white-space:nowrap;
 }
-.btn-primary{ background:var(--green); color:#fff; padding:14px 22px; font-size:14.5px; box-shadow:0 8px 18px -8px rgba(27,122,77,.6);}
-.btn-primary:active{ transform:scale(.98); }
-.btn-outline{ background:#fff; border:1.5px solid var(--green); color:var(--green); padding:10px 18px; font-size:13px;}
-.btn-orange{ background:var(--orange); color:#fff; padding:14px 22px; font-size:14.5px; box-shadow:0 8px 18px -8px rgba(255,107,44,.6);}
-.card{ background:#fff; border-radius:var(--radius-md); border:1px solid var(--line); }
-.blob-img{
-  border-radius:42% 58% 63% 37% / 41% 44% 56% 59%;
-  overflow:hidden; position:relative; flex:0 0 auto; background:var(--green-soft);
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--green-600); color:var(--white); box-shadow:var(--shadow-sm);}
+.btn-primary:hover{background:var(--green-700); box-shadow:var(--shadow);}
+.btn-outline{background:transparent; color:var(--blue-700); border-color:var(--blue-600);}
+.btn-outline:hover{background:var(--blue-600); color:var(--white);}
+.btn-ghost-white{background:rgba(255,255,255,.12); color:var(--white); border-color:rgba(255,255,255,.5);}
+.btn-ghost-white:hover{background:var(--white); color:var(--blue-800);}
+.btn-block{width:100%;}
+.btn-sm{padding:10px 18px; font-size:13.5px;}
+
+/* ---------- Header ---------- */
+header.site{
+  position:sticky; top:0; z-index:200; background:rgba(246,250,249,.86); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
 }
-.blob-img img{width:100%;height:100%;object-fit:cover;display:block;}
-.stamp{
-  position:absolute; top:8px; right:8px; width:44px; height:44px; border-radius:50%;
-  background:var(--orange); color:#fff; display:flex; align-items:center; justify-content:center;
-  font-size:9px; font-weight:800; text-align:center; line-height:1.1; transform:rotate(-12deg);
-  box-shadow:0 4px 10px -3px rgba(0,0,0,.35); border:2px dashed rgba(255,255,255,.7);
+.nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 24px; max-width:1180px; margin:0 auto;}
+.logo{display:flex; align-items:center; gap:10px; font-family:var(--ff-display); font-weight:650; font-size:20px; color:var(--blue-900);}
+.logo-mark{width:38px; height:38px; border-radius:10px; background:linear-gradient(160deg,var(--blue-600),var(--green-600)); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+.logo-mark svg{width:22px; height:22px;}
+.logo small{display:block; font-family:var(--ff-mono); font-size:10px; letter-spacing:.1em; color:var(--muted); font-weight:500; text-transform:uppercase;}
+nav.primary{display:flex; align-items:center; gap:2px;}
+nav.primary a{
+  padding:9px 14px; border-radius:100px; font-size:14.5px; font-weight:600; color:var(--muted); position:relative;
+  transition:color .15s ease, background .15s ease;
 }
-.qty-pill{ display:flex; align-items:center; gap:10px; background:var(--green); color:#fff; border-radius:999px; padding:6px 8px;}
-.qty-pill button{ width:22px; height:22px; border-radius:50%; border:none; background:rgba(255,255,255,.25); color:#fff; font-weight:800; cursor:pointer;}
-.stars{ color:var(--orange); font-size:12px; letter-spacing:1px;}
-input, select, textarea{ font-family:inherit; }
-::placeholder{ color:var(--gray-light); }
+nav.primary a:hover{color:var(--blue-700); background:var(--mint);}
+nav.primary a.active{color:var(--blue-800); background:var(--green-100);}
+.nav-actions{display:flex; align-items:center; gap:10px;}
+.hamburger{display:none; width:42px; height:42px; border-radius:10px; border:1.5px solid var(--border); background:var(--white); align-items:center; justify-content:center; cursor:pointer;}
+.hamburger span, .hamburger span::before, .hamburger span::after{content:''; display:block; width:18px; height:2px; background:var(--blue-800); border-radius:2px; position:relative; transition:.2s;}
+.hamburger span::before{position:absolute; top:-6px;}
+.hamburger span::after{position:absolute; top:6px;}
 
-/* prevent broken img look */
-img{ background:var(--green-soft); }
-img.err{ display:none; }
-.img-fallback{ display:none; align-items:center; justify-content:center; font-size:34px; }
-.img-wrap{ position:relative; width:100%; height:100%; }
-
-/* ---------- product card ---------- */
-.product-card{
-  width:150px; flex:0 0 auto; border-radius:var(--radius-md); background:#fff;
-  border:1px solid var(--line); padding:10px; position:relative; box-shadow:var(--shadow-sm);
+@media (max-width:980px){
+  nav.primary{
+    position:fixed; inset:64px 0 0 0; background:var(--white); flex-direction:column; align-items:stretch;
+    padding:14px; gap:4px; transform:translateX(100%); transition:transform .28s ease; overflow-y:auto;
+  }
+  nav.primary.open{transform:translateX(0);}
+  nav.primary a{padding:14px 16px; font-size:16px; border-bottom:1px solid var(--border); border-radius:0;}
+  .hamburger{display:flex;}
+  .nav-actions .btn{display:none;}
 }
-.product-card .blob-img{ width:100%; height:110px; margin-bottom:8px;}
-.product-card h4{font-size:13px; font-weight:700; line-height:1.25;}
-.product-card .unit{font-size:11px; color:var(--gray);}
-.product-card .price-row{ display:flex; align-items:center; justify-content:space-between; margin-top:8px;}
-.product-card .price{font-family:'Fraunces',serif; font-weight:600; font-size:15px;}
-.add-btn{
-  width:30px;height:30px;border-radius:50%; background:var(--green); color:#fff; border:none;
-  font-size:18px; font-weight:700; cursor:pointer; box-shadow:0 6px 12px -5px rgba(27,122,77,.6);
+
+/* ---------- Page switching ---------- */
+.page{display:none;}
+.page.active{display:block; animation:fadeIn .45s ease;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+/* ---------- Pulse divider (signature element) ---------- */
+.pulse-divider{width:100%; height:46px; overflow:hidden; display:block;}
+.pulse-divider svg{width:100%; height:100%;}
+.pulse-line{fill:none; stroke:var(--green-500); stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  stroke-dasharray:900; stroke-dashoffset:900; transition:stroke-dashoffset 1.6s ease;}
+.pulse-line.drawn{stroke-dashoffset:0;}
+
+/* ---------- Hero ---------- */
+.hero{position:relative; background:linear-gradient(180deg,var(--white),var(--bg)); overflow:hidden; padding:64px 0 40px;}
+.hero-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:50px; align-items:center;}
+.hero h1{font-size:clamp(34px,4.6vw,56px); line-height:1.06; margin-bottom:20px;}
+.hero h1 em{font-style:normal; color:var(--green-600); background:linear-gradient(180deg,transparent 62%, var(--green-100) 62%);}
+.hero p.lead{font-size:18px; max-width:520px; color:var(--muted);}
+.hero-ctas{display:flex; gap:14px; margin:26px 0 30px; flex-wrap:wrap;}
+.trust-row{display:flex; gap:26px; flex-wrap:wrap;}
+.trust-item{display:flex; align-items:center; gap:9px; font-size:13.5px; color:var(--blue-800); font-weight:600;}
+.trust-item .dot{width:9px; height:9px; border-radius:50%; background:var(--green-600); flex-shrink:0;}
+
+.hero-card{
+  background:var(--white); border-radius:22px; border:1px solid var(--border); box-shadow:var(--shadow);
+  padding:26px; position:relative;
 }
-.wish-btn{ position:absolute; top:16px; right:16px; width:26px; height:26px; border-radius:50%;
-  background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer; z-index:2;}
+.hero-card .tag{font-family:var(--ff-mono); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--green-700); font-weight:500;}
+.hero-card h3{font-size:22px; margin:8px 0 4px;}
+.vitals-strip{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:18px;}
+.vital{background:var(--mint); border-radius:12px; padding:14px 10px; text-align:center;}
+.vital b{display:block; font-family:var(--ff-display); font-size:22px; color:var(--blue-800);}
+.vital span{font-size:11.5px; color:var(--muted); font-weight:600;}
+.hero-wave{margin-top:16px; height:70px; border-radius:12px; background:var(--blue-900); position:relative; overflow:hidden;}
+.hero-wave svg{position:absolute; inset:0; width:200%; height:100%; animation:scrollWave 6s linear infinite;}
+@keyframes scrollWave{from{transform:translateX(0);} to{transform:translateX(-50%);}}
 
-/* horizontal scroller */
-.hscroll{ display:flex; gap:12px; overflow-x:auto; padding:2px 20px 6px; scrollbar-width:none;}
-.hscroll::-webkit-scrollbar{display:none;}
-
-/* category pill */
-.cat-tile{ flex:0 0 auto; width:78px; display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer;}
-.cat-tile .circle{ width:64px; height:64px; border-radius:26px; display:flex; align-items:center; justify-content:center; font-size:28px;}
-.cat-tile span{ font-size:11.5px; font-weight:700; text-align:center;}
-
-/* banner */
-.banner{
-  margin:14px 20px 4px; border-radius:24px; padding:22px; position:relative; overflow:hidden;
-  background:linear-gradient(120deg,var(--green) 0%, #2A9463 60%, #3CAE79 100%); color:#fff; min-height:120px;
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-card{order:-1;}
 }
-.banner::after{ content:""; position:absolute; right:-30px; bottom:-40px; width:150px; height:150px; border-radius:50%; background:rgba(255,255,255,.12);}
-.banner h2{ font-family:'Fraunces',serif; font-size:22px; font-weight:600; max-width:65%;}
-.banner p{ font-size:12px; opacity:.9; margin-top:4px; max-width:60%;}
-.banner .btn{ margin-top:12px;}
 
-/* list rows */
-.list-row{ display:flex; align-items:center; gap:12px; padding:13px 20px; border-bottom:1px solid var(--line); cursor:pointer;}
-.list-row:last-child{border-bottom:none;}
-.list-row .icon{ width:40px;height:40px;border-radius:12px; display:flex;align-items:center;justify-content:center; font-size:18px; flex:0 0 auto;}
-.list-row .txt{flex:1;}
-.list-row .txt h5{font-size:13.5px; font-weight:700;}
-.list-row .txt p{font-size:11.5px; color:var(--gray);}
-.chev{color:var(--gray-light); font-size:18px;}
+/* ---------- Section shell ---------- */
+.section{padding:76px 0;}
+.section.tint{background:var(--white); border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
+.section-head{max-width:640px; margin-bottom:44px;}
+.section-head.center{margin-left:auto; margin-right:auto; text-align:center;}
+.section-head h2{font-size:clamp(26px,3.4vw,38px);}
 
-/* search bar */
-.searchbar{ display:flex; align-items:center; gap:8px; background:#fff; border:1.5px solid var(--line); border-radius:16px; padding:11px 14px; margin:0 20px;}
-.searchbar input{ border:none; outline:none; flex:1; font-size:13.5px; background:transparent;}
-.filter-btn{ width:38px;height:38px;border-radius:12px; background:var(--green); display:flex; align-items:center; justify-content:center; color:#fff; flex:0 0 auto; cursor:pointer;}
+/* ---------- Grids / Cards ---------- */
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:26px;}
+@media (max-width:900px){.grid-3{grid-template-columns:1fr 1fr;} .grid-4{grid-template-columns:1fr 1fr;} .grid-2{grid-template-columns:1fr;}}
+@media (max-width:600px){.grid-3{grid-template-columns:1fr;} .grid-4{grid-template-columns:1fr;}}
 
-/* header block */
-.hdr{ padding:16px 20px 4px; display:flex; align-items:center; justify-content:space-between;}
-.hdr h1{font-size:19px; font-weight:800;}
-.hdr .sub{font-size:12px; color:var(--gray); margin-top:2px;}
-.round-icon-btn{ width:40px;height:40px;border-radius:14px; background:#fff; border:1px solid var(--line); display:flex; align-items:center;justify-content:center; cursor:pointer; position:relative;}
+.card{background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:26px; transition:transform .2s ease, box-shadow .2s ease;}
+.card:hover{transform:translateY(-4px); box-shadow:var(--shadow);}
+.icon-badge{width:46px; height:46px; border-radius:12px; background:var(--mint); display:flex; align-items:center; justify-content:center; margin-bottom:16px;}
+.icon-badge svg{width:24px; height:24px; stroke:var(--blue-700);}
+.card h3{font-size:18px; margin-bottom:8px;}
+.card p{font-size:14.5px; margin-bottom:0;}
+.card .price{font-family:var(--ff-mono); font-size:12px; color:var(--green-700); font-weight:500; margin-top:10px; display:block;}
 
-/* progress tracker */
-.track-line{ position:relative; padding-left:34px; margin:6px 20px 20px;}
-.track-step{ position:relative; padding:0 0 30px 0;}
-.track-step::before{ content:""; position:absolute; left:-34px; top:2px; width:22px;height:22px;border-radius:50%; background:var(--line); border:3px solid #fff; box-shadow:0 0 0 2px var(--line);}
-.track-step.done::before{ background:var(--green); box-shadow:0 0 0 2px var(--green);}
-.track-step.active::before{ background:var(--orange); box-shadow:0 0 0 4px var(--orange-soft);}
-.track-step::after{ content:""; position:absolute; left:-24px; top:24px; bottom:0; width:2px; background:var(--line);}
-.track-step:last-child::after{display:none;}
-.track-step.done::after{ background:var(--green);}
-.track-step h5{font-size:13.5px; font-weight:800;}
-.track-step p{font-size:11.5px; color:var(--gray); margin-top:2px;}
+/* ---------- Doctor cards ---------- */
+.doctor-card{background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:24px; text-align:center;}
+.avatar{
+  width:96px; height:96px; border-radius:50%; margin:0 auto 16px; display:flex; align-items:center; justify-content:center;
+  font-family:var(--ff-display); font-size:28px; font-weight:650; color:var(--white);
+  background:linear-gradient(150deg,var(--blue-600),var(--green-600)); border:4px solid var(--mint);
+}
+.doctor-card h3{font-size:18px; margin-bottom:2px;}
+.doctor-role{font-size:13px; color:var(--green-700); font-weight:600; margin-bottom:10px; display:block; font-family:var(--ff-mono); text-transform:uppercase; letter-spacing:.06em;}
+.doctor-tags{display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:12px;}
+.chip{font-size:11.5px; background:var(--bg); border:1px solid var(--border); padding:5px 10px; border-radius:100px; color:var(--blue-800); font-weight:600;}
 
-/* form */
-.field{ margin:0 20px 14px;}
-.field label{font-size:12px; font-weight:700; color:var(--gray); display:block; margin-bottom:6px;}
-.field .input-box{ display:flex; align-items:center; background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:12px 14px;}
-.field input{ border:none; outline:none; flex:1; font-size:14px; background:transparent;}
+/* ---------- Forms ---------- */
+.form-card{background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:32px; box-shadow:var(--shadow-sm);}
+.field{margin-bottom:18px;}
+.field label{display:block; font-size:13.5px; font-weight:700; color:var(--blue-900); margin-bottom:7px;}
+.field .hint{font-weight:400; color:var(--muted); margin-left:6px;}
+.field input, .field select, .field textarea{
+  width:100%; padding:13px 14px; border-radius:10px; border:1.5px solid var(--border); background:var(--bg);
+  font-family:var(--ff-body); font-size:14.5px; color:var(--ink); transition:border-color .15s ease, background .15s ease;
+}
+.field input:focus, .field select:focus, .field textarea:focus{border-color:var(--blue-500); background:var(--white); outline:none;}
+.field textarea{resize:vertical; min-height:96px;}
+.field-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+@media (max-width:560px){.field-row{grid-template-columns:1fr;}}
+.radio-row{display:flex; gap:10px; flex-wrap:wrap;}
+.radio-pill{flex:1; min-width:110px;}
+.radio-pill input{position:absolute; opacity:0;}
+.radio-pill label{
+  display:block; text-align:center; padding:11px 8px; border-radius:10px; border:1.5px solid var(--border);
+  font-size:13.5px; font-weight:600; color:var(--muted); cursor:pointer; transition:.15s;
+}
+.radio-pill input:checked + label{border-color:var(--green-600); background:var(--green-100); color:var(--green-700);}
+.form-note{font-size:12.5px; color:var(--muted); display:flex; gap:8px; align-items:flex-start; margin-top:16px;}
+.success-msg{
+  display:none; background:var(--green-100); border:1.5px solid var(--green-500); color:var(--green-700);
+  padding:14px 16px; border-radius:12px; font-size:14px; font-weight:600; margin-top:16px; align-items:center; gap:10px;
+}
+.success-msg.show{display:flex; animation:fadeIn .3s ease;}
 
-/* toggle */
-.toggle{ width:42px; height:24px; background:var(--line); border-radius:999px; position:relative; cursor:pointer; flex:0 0 auto;}
-.toggle.on{background:var(--green);}
-.toggle .dot{position:absolute; top:2px; left:2px; width:20px;height:20px; border-radius:50%; background:#fff; transition:.2s; box-shadow:0 1px 4px rgba(0,0,0,.3);}
-.toggle.on .dot{left:20px;}
+/* ---------- Testimonials ---------- */
+.t-card{background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:24px;}
+.stars{color:var(--green-600); font-size:15px; letter-spacing:2px; margin-bottom:10px;}
+.t-author{display:flex; align-items:center; gap:10px; margin-top:16px;}
+.t-avatar{width:38px; height:38px; border-radius:50%; background:var(--blue-700); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; font-family:var(--ff-display);}
+.t-author b{font-size:13.5px; display:block; color:var(--blue-900);}
+.t-author span{font-size:12px; color:var(--muted);}
 
-/* ---------- ADMIN (mobile: horizontal tab chips instead of a sidebar) ---------- */
-.admin-nav-scroll{ display:flex; gap:8px; overflow-x:auto; padding:0 14px 10px; scrollbar-width:none; flex:0 0 auto;}
-.admin-nav-scroll::-webkit-scrollbar{display:none;}
-.admin-nav-item{ display:flex; align-items:center; gap:6px; padding:8px 13px; border-radius:999px; font-size:12px; font-weight:700; color:var(--green-dark); background:var(--green-soft); cursor:pointer; white-space:nowrap; flex:0 0 auto;}
-.admin-nav-item.active{ background:var(--green); color:#fff;}
-.admin-main{ flex:1; overflow-y:auto; padding:2px 16px 24px; -ms-overflow-style:none; scrollbar-width:none;}
-.admin-main::-webkit-scrollbar{display:none;}
-.admin-top{ margin-bottom:16px;}
-.admin-top h2{font-size:18px; font-weight:800;}
-.admin-top p{font-size:12px; color:var(--gray); margin-top:3px;}
-.admin-top .admin-btn{ margin-top:10px;}
-.stat-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:16px;}
-.stat-card{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:13px;}
-.stat-card .lbl{font-size:11px; color:var(--gray); font-weight:700;}
-.stat-card .val{font-family:'Fraunces',serif; font-size:20px; font-weight:600; margin-top:5px;}
-.stat-card .delta{font-size:10.5px; font-weight:700; margin-top:4px;}
-.delta.up{color:var(--green);} .delta.down{color:#C24242;}
-.panel{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:14px; margin-bottom:14px;}
-.panel-hdr{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:8px; flex-wrap:wrap;}
-.panel-hdr h3{font-size:13.5px; font-weight:800;}
-.table-scroll{ overflow-x:auto; -ms-overflow-style:none; scrollbar-width:none; margin:0 -14px; padding:0 14px;}
-.table-scroll::-webkit-scrollbar{display:none;}
-table{ width:100%; min-width:480px; border-collapse:collapse; font-size:12.5px;}
-th{ text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.4px; color:var(--gray); padding:8px 8px; border-bottom:1px solid var(--line); white-space:nowrap;}
-td{ padding:10px 8px; border-bottom:1px solid var(--line); vertical-align:middle; white-space:nowrap;}
-tr:last-child td{border-bottom:none;}
-.pill-status{ font-size:10.5px; font-weight:800; padding:4px 9px; border-radius:999px;}
-.st-active{background:var(--green-soft); color:var(--green-dark);}
-.st-low{background:#FDEBEB; color:#C24242;}
-.st-pending{background:var(--orange-soft); color:#B84B12;}
-.st-delivered{background:var(--green-soft); color:var(--green-dark);}
-.mini-bar-chart{ display:flex; align-items:flex-end; gap:6px; height:110px; padding-top:10px;}
-.mini-bar-chart .bar{ flex:1; background:linear-gradient(180deg, #3CAE79, var(--green)); border-radius:6px 6px 3px 3px; position:relative;}
-.mini-bar-chart .bar span{ position:absolute; top:-16px; left:0; right:0; text-align:center; font-size:9px; font-weight:700; color:var(--gray);}
-.admin-btn{ background:var(--green); color:#fff; border:none; padding:8px 14px; border-radius:10px; font-size:11.5px; font-weight:700; cursor:pointer;}
-.admin-btn.outline{ background:#fff; border:1.5px solid var(--line); color:var(--ink);}
-.chip-cat{ display:inline-flex; align-items:center; gap:5px; background:var(--green-soft); color:var(--green-dark); font-size:10.5px; font-weight:700; padding:5px 9px; border-radius:999px;}
-.thumb{width:36px;height:36px;border-radius:10px; object-fit:cover; background:var(--green-soft);}
-.banner-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px;}
-.banner-tile{ border-radius:14px; overflow:hidden; border:1px solid var(--line); position:relative; height:88px;}
-.banner-tile img{width:100%;height:100%;object-fit:cover;}
-.banner-tile .ov{ position:absolute; inset:0; background:linear-gradient(0deg,rgba(0,0,0,.55),transparent 60%); display:flex; align-items:flex-end; padding:8px; color:#fff; font-size:10.5px; font-weight:700;}
+/* ---------- FAQ ---------- */
+.faq-item{border-bottom:1px solid var(--border);}
+.faq-q{width:100%; text-align:left; background:none; border:none; padding:20px 4px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:700; color:var(--blue-900); font-size:15.5px;}
+.faq-q .plus{width:22px; height:22px; border-radius:50%; border:1.5px solid var(--blue-500); flex-shrink:0; position:relative; transition:transform .25s ease;}
+.faq-q .plus::before, .faq-q .plus::after{content:''; position:absolute; background:var(--blue-600); top:50%; left:50%; transform:translate(-50%,-50%);}
+.faq-q .plus::before{width:9px; height:1.6px;}
+.faq-q .plus::after{width:1.6px; height:9px;}
+.faq-item.open .plus{transform:rotate(135deg); border-color:var(--green-600);}
+.faq-item.open .plus::before, .faq-item.open .plus::after{background:var(--green-600);}
+.faq-a{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+.faq-a p{padding:0 4px 20px; font-size:14.5px;}
+
+/* ---------- Stats bar ---------- */
+.stats-bar{background:var(--blue-900); border-radius:20px; padding:36px 24px; display:grid; grid-template-columns:repeat(4,1fr); gap:20px; color:#fff; margin-top:10px;}
+.stats-bar div{text-align:center;}
+.stats-bar b{display:block; font-family:var(--ff-display); font-size:30px; color:var(--green-500);}
+.stats-bar span{font-size:12.5px; color:#B9CBD9; font-weight:600;}
+@media (max-width:700px){.stats-bar{grid-template-columns:1fr 1fr;}}
+
+/* ---------- Contact / Map ---------- */
+.address-block{background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:26px;}
+.address-block h3{font-size:16px; margin-bottom:10px;}
+.address-line{font-size:15px; color:var(--ink); font-weight:500; line-height:1.6;}
+.info-row{display:flex; gap:12px; align-items:flex-start; margin-top:16px;}
+.info-row svg{width:20px; height:20px; stroke:var(--green-600); flex-shrink:0; margin-top:2px;}
+.info-row b{display:block; font-size:13.5px; color:var(--blue-900);}
+.info-row span, .info-row a{font-size:13.5px; color:var(--muted);}
+.map-frame{border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); height:340px; box-shadow:var(--shadow-sm);}
+.map-frame iframe{width:100%; height:100%; border:0;}
+.hours-table{width:100%; border-collapse:collapse; font-size:13.5px; margin-top:12px;}
+.hours-table td{padding:7px 0; border-bottom:1px dashed var(--border); color:var(--muted);}
+.hours-table td:last-child{text-align:right; font-weight:700; color:var(--blue-900);}
+
+/* ---------- Floating buttons ---------- */
+.floaters{position:fixed; right:20px; bottom:22px; z-index:300; display:flex; flex-direction:column; gap:12px;}
+.float-btn{
+  width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 24px -6px rgba(0,0,0,.3); color:#fff; transition:transform .18s ease; position:relative;
+}
+.float-btn:hover{transform:scale(1.08);}
+.float-btn svg{width:26px; height:26px;}
+.float-btn.whatsapp{background:#25D366;}
+.float-btn.call{background:var(--blue-600);}
+.float-btn .ping{position:absolute; inset:-4px; border-radius:50%; border:2px solid #25D366; animation:ping 2.2s ease-out infinite;}
+@keyframes ping{0%{opacity:.7; transform:scale(.9);} 100%{opacity:0; transform:scale(1.5);}}
+
+/* ---------- Banner CTA ---------- */
+.cta-banner{background:linear-gradient(120deg,var(--blue-700),var(--green-700)); border-radius:24px; padding:48px; color:#fff; text-align:center; position:relative; overflow:hidden;}
+.cta-banner h2{color:#fff; font-size:clamp(24px,3vw,32px);}
+.cta-banner p{color:rgba(255,255,255,.85); max-width:520px; margin:0 auto 24px;}
+.cta-actions{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+
+/* ---------- Portal / Admin ---------- */
+.portal-shell{display:grid; grid-template-columns:280px 1fr; gap:0; background:var(--white); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; min-height:480px;}
+.portal-side{background:var(--blue-900); color:#fff; padding:24px;}
+.portal-side h4{color:#fff; font-size:14px; font-family:var(--ff-mono); text-transform:uppercase; letter-spacing:.08em; margin-bottom:16px;}
+.portal-side .p-item{display:block; padding:11px 12px; border-radius:10px; font-size:14px; font-weight:600; color:#C9DCE8; margin-bottom:4px; cursor:pointer;}
+.portal-side .p-item.active, .portal-side .p-item:hover{background:rgba(255,255,255,.1); color:#fff;}
+.portal-main{padding:30px;}
+.mini-table{width:100%; border-collapse:collapse;}
+.mini-table th{text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); padding:10px 12px; border-bottom:1.5px solid var(--border); font-family:var(--ff-mono); font-weight:500;}
+.mini-table td{padding:12px; font-size:14px; border-bottom:1px solid var(--border); color:var(--ink);}
+.status-pill{padding:4px 10px; border-radius:100px; font-size:11.5px; font-weight:700;}
+.status-pill.pending{background:#FFF3D6; color:#8A6300;}
+.status-pill.confirmed{background:var(--green-100); color:var(--green-700);}
+.status-pill.done{background:#E3EEF7; color:var(--blue-700);}
+.empty-state{text-align:center; padding:50px 20px; color:var(--muted);}
+@media (max-width:800px){.portal-shell{grid-template-columns:1fr;} .portal-side{display:flex; overflow-x:auto; gap:6px; padding:14px;} .portal-side h4{display:none;} .portal-side .p-item{white-space:nowrap;}}
+
+/* ---------- Footer ---------- */
+footer.site{background:var(--blue-900); color:#C9DCE8; padding:64px 0 24px; margin-top:40px;}
+.footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1.1fr; gap:36px;}
+footer.site h4{color:#fff; font-size:14.5px; margin-bottom:16px;}
+footer.site .logo{color:#fff;}
+footer.site p{color:#93AABB; font-size:13.5px;}
+.footer-links a{display:block; font-size:13.5px; color:#B9CBD9; margin-bottom:10px; transition:color .15s;}
+.footer-links a:hover{color:#fff;}
+.social-row{display:flex; gap:10px; margin-top:16px;}
+.social-row a{width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.08); display:flex; align-items:center; justify-content:center;}
+.social-row a:hover{background:var(--green-600);}
+.social-row svg{width:17px; height:17px; stroke:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.12); margin-top:44px; padding-top:22px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:12.5px; color:#7D96A8;}
+@media (max-width:820px){.footer-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:520px){.footer-grid{grid-template-columns:1fr;}}
+
+/* ---------- Misc ---------- */
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:46px; align-items:center;}
+@media (max-width:860px){.two-col{grid-template-columns:1fr;}}
+.badge-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;}
+.mission-card{background:var(--mint); border-radius:var(--radius); padding:22px;}
+.mission-card h4{font-size:15px; margin-bottom:6px;}
+.mission-card p{font-size:13.5px; margin-bottom:0;}
+.step-num{font-family:var(--ff-mono); font-size:13px; color:var(--green-700); font-weight:600;}
+.center-note{text-align:center; color:var(--muted); font-size:14px; margin-top:18px;}
+.skip-link{position:absolute; left:-999px; top:0; background:var(--green-600); color:#fff; padding:12px 18px; border-radius:0 0 10px 0; z-index:999;}
+.skip-link:focus{left:0;}
 </style>
 </head>
 <body>
 
-<div class="device">
-  <div class="statusbar"><span>9:41</span><span>●●●● 5G 🔋</span></div>
+<a href="#main" class="skip-link">Skip to content</a>
 
-  <div class="topbar">
-    <div class="brand">🥬 Taaza</div>
-    <select class="screen-jump" id="screen-jump" onchange="goScreen(this.value)"></select>
-    <div class="app-switch">
-      <button id="btn-customer" class="active" onclick="setApp('customer')">App</button>
-      <button id="btn-admin" onclick="setApp('admin')">Admin</button>
-    </div>
-  </div>
-
-  <!-- ============ CUSTOMER VIEW ============ -->
-  <div id="customer-view" style="flex:1; display:flex; flex-direction:column; min-height:0;">
-    <div class="screen-body screen-fade" id="screen-body"></div>
-    <div class="bottom-nav" id="bottom-nav"></div>
-  </div>
-
-  <!-- ============ ADMIN VIEW ============ -->
-  <div id="admin-view" style="display:none; flex:1; flex-direction:column; min-height:0;">
-    <div class="admin-nav-scroll" id="admin-nav"></div>
-    <div class="admin-main" id="admin-main"></div>
-  </div>
+<div class="floaters">
+  <a class="float-btn call" href="tel:+919423329958" aria-label="Call the clinic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+  </a>
+  <a class="float-btn whatsapp" href="https://wa.me/919423329958?text=Hello%20Shakalya%20Clinic%2C%20I%20would%20like%20to%20book%20an%20appointment." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <span class="ping"></span>
+    <svg viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.79.47 3.45 1.29 4.9L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.94 1.38-.5.08-1.12.11-1.81-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.13-4.9-4.32-.14-.19-1.17-1.56-1.17-2.98 0-1.42.75-2.11 1.02-2.4.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.81 2 .88 2.14.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.72 1.19 1.55 1.93 1.06.95 1.96 1.24 2.24 1.38.28.14.44.12.6-.07.16-.19.68-.79.87-1.06.19-.27.37-.22.62-.13.25.09 1.6.75 1.87.89.27.14.45.21.52.32.07.12.07.68-.17 1.36z"/></svg>
+  </a>
 </div>
 
+<header class="site">
+  <div class="nav-wrap">
+    <a href="#home" class="logo" data-nav="home">
+      <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 3-9 2 3h3"/></svg></span>
+      <span>Shakalya Clinic<small>Satara · Since trust began</small></span>
+    </a>
+    <nav class="primary" id="primaryNav">
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#about" data-nav="about">About</a>
+      <a href="#services" data-nav="services">Services</a>
+      <a href="#consultation" data-nav="consultation">Online Consultation</a>
+      <a href="#medicine" data-nav="medicine">Medicine Supply</a>
+      <a href="#marketing" data-nav="marketing">Featured Products</a>
+      <a href="#prescription" data-nav="prescription">e-Prescription</a>
+      <a href="#portal" data-nav="portal">Patient Portal</a>
+      <a href="#contact" data-nav="contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="#consultation" class="btn btn-primary btn-sm" data-nav="consultation">Book Appointment</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================= HOME ================= -->
+<section class="page active" id="home">
+  <div class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">Family &amp; General Healthcare, Satara</div>
+        <h1>Careful medicine, <em>close to home.</em></h1>
+        <p class="lead">Shakalya Clinic pairs an experienced physician-led team with modern tools — online consultations, doorstep medicine supply and digital prescriptions — so your family gets care that's thorough, not rushed.</p>
+        <div class="hero-ctas">
+          <a href="#consultation" class="btn btn-primary" data-nav="consultation">Book Appointment</a>
+          <a href="#contact" class="btn btn-outline" data-nav="contact">Contact Us</a>
+        </div>
+        <div class="trust-row">
+          <div class="trust-item"><span class="dot"></span>MBBS-qualified physicians</div>
+          <div class="trust-item"><span class="dot"></span>Same-day appointments</div>
+          <div class="trust-item"><span class="dot"></span>Digital health records</div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <span class="tag">● Next available slot</span>
+        <h3>Today, 5:30 PM</h3>
+        <p style="margin-bottom:0; font-size:14px;">General consultation with Dr. team on duty — walk-in or online.</p>
+        <div class="vitals-strip">
+          <div class="vital"><b>15+</b><span>Yrs serving Satara</span></div>
+          <div class="vital"><b>12k+</b><span>Patients treated</span></div>
+          <div class="vital"><b>4.8★</b><span>Patient rating</span></div>
+        </div>
+        <div class="hero-wave" aria-hidden="true">
+          <svg viewBox="0 0 600 70" preserveAspectRatio="none"><polyline points="0,35 60,35 80,10 100,60 120,35 200,35 220,20 240,50 260,35 340,35 360,10 380,60 400,35 480,35 500,20 520,50 540,35 600,35" fill="none" stroke="#2CB37F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="600,35 660,35 680,10 700,60 720,35 800,35 820,20 840,50 860,35 940,35 960,10 980,60 1000,35 1080,35 1100,20 1120,50 1140,35 1200,35" fill="none" stroke="#2CB37F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pulse-divider"><svg viewBox="0 0 1200 46" preserveAspectRatio="none"><polyline class="pulse-line" points="0,23 300,23 330,4 360,42 390,23 500,23 530,10 560,36 590,23 900,23 930,4 960,42 990,23 1200,23"/></svg></div>
+
+  <div class="section">
+    <div class="container">
+      <div class="section-head center">
+        <div class="eyebrow">What we treat</div>
+        <h2>A full first stop for everyday healthcare</h2>
+      </div>
+      <div class="grid-4" id="homeServices"></div>
+    </div>
+  </div>
+
+  <div class="section tint">
+    <div class="container">
+      <div class="two-col">
+        <div>
+          <div class="eyebrow">Why families choose us</div>
+          <h2>Care that follows you — not the other way around</h2>
+          <p>From the consultation room to your doorstep, Shakalya Clinic is built around one idea: healthcare should fit into your day, not take it over.</p>
+          <div class="badge-row" id="whyGrid"></div>
+        </div>
+        <div class="stats-bar">
+          <div><b>15+</b><span>Years in Satara</span></div>
+          <div><b>12,400+</b><span>Patients treated</span></div>
+          <div><b>8</b><span>Specialties covered</span></div>
+          <div><b>4.8/5</b><span>Avg. patient rating</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="section-head center">
+        <div class="eyebrow">Patient stories</div>
+        <h2>What our patients say</h2>
+      </div>
+      <div class="grid-3" id="testimonialGrid"></div>
+    </div>
+  </div>
+
+  <div class="section tint">
+    <div class="container">
+      <div class="section-head center">
+        <div class="eyebrow">Good to know</div>
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div style="max-width:760px; margin:0 auto;" id="faqList"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="cta-banner">
+        <h2>Ready when you are.</h2>
+        <p>Book a visit, start an online consultation, or ask us anything — our team usually replies within the hour.</p>
+        <div class="cta-actions">
+          <a href="#consultation" class="btn btn-ghost-white" data-nav="consultation">Book Appointment</a>
+          <a href="https://wa.me/919876543210" target="_blank" rel="noopener" class="btn btn-primary">Chat on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="page" id="about">
+  <div class="section" style="padding-top:52px;">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">About Shakalya Clinic</div>
+        <h2>Rooted in Satara, built on plain-spoken medicine</h2>
+        <p>Shakalya Clinic opened its doors in Shaniwar Peth with a simple goal — give this neighbourhood a clinic it could rely on for everyday illness, ongoing conditions and honest guidance. Fifteen years on, that's still the whole plan.</p>
+      </div>
+      <div class="two-col">
+        <div class="mission-card">
+          <h4>Our mission</h4>
+          <p>To make thorough, unhurried medical care accessible to every family in Satara — in person, online, or at their doorstep.</p>
+        </div>
+        <div class="mission-card">
+          <h4>Our approach</h4>
+          <p>Every visit starts with listening. We explain conditions in plain language, involve you in the decision, and follow up — we don't just prescribe and move on.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section tint">
+    <div class="container">
+      <div class="section-head center">
+        <div class="eyebrow">Our physicians</div>
+        <h2>Meet the team you'll actually see</h2>
+      </div>
+      <div class="grid-3" id="doctorGrid"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="section-head center">
+        <div class="eyebrow">Facility</div>
+        <h2>What to expect on your visit</h2>
+      </div>
+      <div class="grid-4" id="facilityGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="page" id="services">
+  <div class="section" style="padding-top:52px;">
+    <div class="container">
+      <div class="section-head center">
+        <div class="eyebrow">Our services</div>
+        <h2>Care organised around what you actually need</h2>
+      </div>
+      <div class="grid-3" id="servicesGrid"></div>
+    </div>
+  </div>
+  <div class="section tint">
+    <div class="container">
+      <div class="cta-banner">
+        <h2>Not sure which service fits?</h2>
+        <p>Tell us your symptoms over WhatsApp or a quick call, and we'll point you to the right one — no guesswork.</p>
+        <div class="cta-actions">
+          <a href="tel:+912162123456" class="btn btn-ghost-white">Call the Clinic</a>
+          <a href="#contact" class="btn btn-primary" data-nav="contact">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ONLINE CONSULTATION ================= -->
+<section class="page" id="consultation">
+  <div class="section" style="padding-top:52px;">
+    <div class="container">
+      <div class="two-col" style="align-items:flex-start;">
+        <div>
+          <div class="eyebrow">Online Consultation</div>
+          <h2>See a doctor from wherever you are</h2>
+          <p>Video, audio or chat — pick what's comfortable. A physician reviews your symptoms and history before the call, so the consultation gets straight to what matters.</p>
+          <div id="howItWorks"></div>
+        </div>
+
+        <div class="form-card">
+          <h3 style="font-size:19px;">Book a consultation</h3>
+          <p style="font-size:13.5px;">Fill this in and our care team will confirm your slot by phone or WhatsApp.</p>
+          <form id="consultForm">
+            <div class="field-row">
+              <div class="field"><label for="c-name">Full name</label><input id="c-name" required placeholder="e.g. Anjali Deshmukh"></div>
+              <div class="field"><label for="c-phone">Phone number</label><input id="c-phone" required type="tel" pattern="[0-9+ ]{7,15}" placeholder="+91 9XXXXXXXXX"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label for="c-date">Preferred date</label><input id="c-date" required type="date"></div>
+              <div class="field"><label for="c-time">Preferred time</label><input id="c-time" required type="time"></div>
+            </div>
+            <div class="field">
+              <label>Consultation mode</label>
+              <div class="radio-row">
+                <div class="radio-pill"><input type="radio" name="mode" id="m-video" value="Video" checked><label for="m-video">Video</label></div>
+                <div class="radio-pill"><input type="radio" name="mode" id="m-audio" value="Audio"><label for="m-audio">Audio</label></div>
+                <div class="radio-pill"><input type="radio" name="mode" id="m-chat" value="Chat"><label for="m-chat">Chat</label></div>
+              </div>
+            </div>
+            <div class="field"><label for="c-symptoms">Briefly describe your symptoms <span class="hint">(optional)</span></label><textarea id="c-symptoms" placeholder="e.g. Fever and sore throat since 2 days"></textarea></div>
+            <button type="submit" class="btn btn-primary btn-block">Request Consultation</button>
+            <div class="form-note">🔒 Your details are used only to confirm this appointment and are stored securely for your records.</div>
+            <div class="success-msg" id="consultSuccess">✅ Request received — we'll confirm your slot shortly by phone/WhatsApp.</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEDICINE SUPPLY ================= -->
+<section class="page" id="medicine">
+  <div class="section" style="padding-top:52px;">
+    <div class="container">
+      <div class="section-head center">
+        <div class="eyebrow">Medicine Supply</div>
+        <h2>Genuine medicines, delivered to your door</h2>
+        <p>Upload a valid prescription and we'll dispense from our in-house pharmacy — same-day delivery within Satara city limits.</p>
+      </div>
+      <div class="grid-4" id="medicineGrid"></div>
+      <div class="cta-banner" style="margin-top:44px;">
+        <h2>Need a refill?</h2>
+        <p>Send us your prescription and we'll have it packed within the hour.</p>
+        <div class="cta-actions">
+          <a href="#prescription" class="btn btn-ghost-white" data-nav="prescription">Upload Prescription</a>
+          <a href="https://wa.me/919876543210" target="_blank" rel="noopener" class="btn btn-primary">Order on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRODUCT MARKETING ================= -->
+<section class="page" id="marketing">
+  <div class="section" style="padding-top:52px;">
+    <div class="container">
+      <div class="section-head center">
+        <div class="eyebrow">Featured this month</div>
+        <h2>Trusted health &amp; wellness products</h2>
+        <p>Hand-picked by our pharmacists — quality checked, fairly priced, and ready for pickup or delivery.</p>
+      </div>
+      <div class="grid-3" id="marketingGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ONLINE PRESCRIPTION ================= -->
+<section class="page" id="prescription">
+  <div class="section" style="padding-top:52px;">
+    <div class="container">
+      <div class="two-col" style="align-items:flex-start;">
+        <div>
+          <div class="eyebrow">Online Prescription</div>
+          <h2>Request or renew a prescription</h2>
+          <p>For existing patients continuing a known treatment, or to request a copy of a past prescription. New or complex symptoms should book a consultation instead.</p>
+          <div id="prescriptionSteps"></div>
+        </div>
+        <div class="form-card">
+          <h3 style="font-size:19px;">Prescription request</h3>
+          <form id="prescForm">
+            <div class="field-row">
+              <div class="field"><label for="p-name">Patient name</label><input id="p-name" required></div>
+              <div class="field"><label for="p-phone">Registered phone</label><input id="p-phone" required type="tel"></div>
+            </div>
+            <div class="field"><label for="p-type">Request type</label>
+              <select id="p-type">
+                <option>Renew existing prescription</option>
+                <option>Request a copy of past prescription</option>
+                <option>New prescription (with attached report)</option>
+              </select>
+            </div>
+            <div class="field"><label for="p-notes">Condition / medicine details</label><textarea id="p-notes" required placeholder="e.g. BP medication — Amlodipine 5mg, need next month's supply"></textarea></div>
+            <div class="field"><label for="p-file">Attach report or old prescription <span class="hint">(optional)</span></label><input id="p-file" type="file"></div>
+            <button type="submit" class="btn btn-primary btn-block">Submit Request</button>
+            <div class="form-note">🔒 Reviewed by a physician before any prescription is issued.</div>
+            <div class="success-msg" id="prescSuccess">✅ Request submitted — our physician will review and respond within 24 hours.</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PATIENT PORTAL ================= -->
+<section class="page" id="portal">
+  <div class="section" style="padding-top:52px;">
+    <div class="container">
+      <div class="section-head center">
+        <div class="eyebrow">Patient Portal</div>
+        <h2>Your appointments and prescriptions, in one place</h2>
+        <p>Log in with your registered phone number to view upcoming visits and prescription history. New here? Signing up takes a minute.</p>
+      </div>
+
+      <div id="portalLoggedOut" class="two-col" style="align-items:flex-start; max-width:920px; margin:0 auto;">
+        <div class="form-card">
+          <h3 style="font-size:18px;">Patient login</h3>
+          <form id="loginForm">
+            <div class="field"><label for="l-phone">Registered phone number</label><input id="l-phone" required type="tel" placeholder="+91 9XXXXXXXXX"></div>
+            <div class="field"><label for="l-name">Full name</label><input id="l-name" required placeholder="As registered with the clinic"></div>
+            <button type="submit" class="btn btn-primary btn-block">Log in to Portal</button>
+            <div class="form-note">Demo portal: this creates/loads a local patient record on this device — no backend is connected in this preview.</div>
+          </form>
+        </div>
+        <div class="mission-card">
+          <h4>What you'll find inside</h4>
+          <p>✔ Upcoming &amp; past appointments<br>✔ Active and past prescriptions<br>✔ Direct line to request a refill<br>✔ Your visit notes, summarised simply</p>
+        </div>
+      </div>
+
+      <div id="portalLoggedIn" style="display:none;">
+        <div class="portal-shell">
+          <div class="portal-side">
+            <h4>Patient Menu</h4>
+            <div class="p-item active" data-ptab="overview">Overview</div>
+            <div class="p-item" data-ptab="appointments">My Appointments</div>
+            <div class="p-item" data-ptab="prescriptions">My Prescriptions</div>
+            <div class="p-item" data-ptab="logout" id="portalLogout" style="margin-top:20px; color:#F3B6B6;">Log out</div>
+          </div>
+          <div class="portal-main">
+            <div id="ptab-overview"></div>
+            <div id="ptab-appointments" style="display:none;"></div>
+            <div id="ptab-prescriptions" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="center-note">Clinic staff — <a href="#admin" data-nav="admin" style="color:var(--blue-700); font-weight:700;">go to Admin Dashboard →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ADMIN (hidden page, linked from footer/portal) ================= -->
+<section class="page" id="admin">
+  <div class="section" style="padding-top:52px;">
+    <div class="container">
+      <div class="section-head center">
+        <div class="eyebrow">Staff Access</div>
+        <h2>Admin Dashboard</h2>
+        <p>Manage appointments, prescription requests and patient records.</p>
+      </div>
+
+      <div id="adminLoggedOut" class="form-card" style="max-width:420px; margin:0 auto;">
+        <h3 style="font-size:18px;">Staff login</h3>
+        <form id="adminLoginForm">
+          <div class="field"><label for="a-user">Username</label><input id="a-user" required placeholder="admin"></div>
+          <div class="field"><label for="a-pass">Password</label><input id="a-pass" required type="password" placeholder="••••••••"></div>
+          <button type="submit" class="btn btn-primary btn-block">Log in</button>
+          <div class="form-note">Demo credentials — <strong>admin / shakalya123</strong>. Production deployments should use real, server-side authentication.</div>
+        </form>
+      </div>
+
+      <div id="adminLoggedIn" style="display:none;">
+        <div class="portal-shell">
+          <div class="portal-side">
+            <h4>Admin Menu</h4>
+            <div class="p-item active" data-atab="appointments">Appointments</div>
+            <div class="p-item" data-atab="consultations">Consultation Requests</div>
+            <div class="p-item" data-atab="prescriptions">Prescription Requests</div>
+            <div class="p-item" data-atab="patients">Patients</div>
+            <div class="p-item" data-atab="logout" id="adminLogout" style="margin-top:20px; color:#F3B6B6;">Log out</div>
+          </div>
+          <div class="portal-main">
+            <div id="atab-appointments"></div>
+            <div id="atab-consultations" style="display:none;"></div>
+            <div id="atab-prescriptions" style="display:none;"></div>
+            <div id="atab-patients" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="page" id="contact">
+  <div class="section" style="padding-top:52px;">
+    <div class="container">
+      <div class="section-head center">
+        <div class="eyebrow">Contact Us</div>
+        <h2>Visit, call, or write to us</h2>
+      </div>
+
+      <div class="two-col" style="align-items:flex-start; margin-bottom:46px;">
+        <div class="address-block">
+          <h3>Shakalya Clinic</h3>
+          <p class="address-line">Sanjana Apt, 79, Yadogopal Peth,<br>Opp. Daivydnya Bhavan, Shaniwar Peth,<br>Chimanpura Peth, Satara, Maharashtra 415002</p>
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <div><b>Phone</b><a href="tel:+912162123456">+91 216 212 3456</a></div>
+          </div>
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+            <div><b>Email</b><a href="mailto:care@shakalyaclinic.in">care@shakalyaclinic.in</a></div>
+          </div>
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <div><b>Landmark</b><span>Opposite Daivydnya Bhavan, Shaniwar Peth</span></div>
+          </div>
+          <table class="hours-table">
+            <tr><td>Mon – Sat</td><td>9:00 AM – 9:00 PM</td></tr>
+            <tr><td>Sunday</td><td>10:00 AM – 2:00 PM</td></tr>
+            <tr><td>Emergency line</td><td>24×7</td></tr>
+          </table>
+        </div>
+        <div class="map-frame">
+          <iframe title="Shakalya Clinic location on Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=Sanjana+Apt,+79,+Yadogopal+Peth,+Opp.+Daivydnya+Bhavan,+Shaniwar+Peth,+Chimanpura+Peth,+Satara,+Maharashtra+415002&output=embed"></iframe>
+        </div>
+      </div>
+
+      <div class="form-card" style="max-width:640px; margin:0 auto;">
+        <h3 style="font-size:19px;">Send us a message</h3>
+        <form id="contactForm">
+          <div class="field-row">
+            <div class="field"><label for="ct-name">Name</label><input id="ct-name" required></div>
+            <div class="field"><label for="ct-phone">Phone</label><input id="ct-phone" required type="tel"></div>
+          </div>
+          <div class="field"><label for="ct-subject">Subject</label><input id="ct-subject" required placeholder="e.g. General enquiry"></div>
+          <div class="field"><label for="ct-msg">Message</label><textarea id="ct-msg" required></textarea></div>
+          <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+          <div class="success-msg" id="contactSuccess">✅ Thanks — we've received your message and will reply shortly.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 3-9 2 3h3"/></svg></span><span>Shakalya Clinic</span></div>
+        <p style="margin-top:14px;">Sanjana Apt, 79, Yadogopal Peth, Opp. Daivydnya Bhavan, Shaniwar Peth, Chimanpura Peth, Satara, Maharashtra 415002</p>
+        <div class="social-row">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="https://wa.me/919876543210" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <div class="footer-links">
+          <a href="#about" data-nav="about">About Clinic</a>
+          <a href="#services" data-nav="services">Services</a>
+          <a href="#consultation" data-nav="consultation">Online Consultation</a>
+          <a href="#medicine" data-nav="medicine">Medicine Supply</a>
+        </div>
+      </div>
+      <div>
+        <h4>Patients</h4>
+        <div class="footer-links">
+          <a href="#prescription" data-nav="prescription">e-Prescription</a>
+          <a href="#portal" data-nav="portal">Patient Portal</a>
+          <a href="#admin" data-nav="admin">Staff / Admin Login</a>
+          <a href="#contact" data-nav="contact">Contact Us</a>
+        </div>
+      </div>
+      <div>
+        <h4>Working Hours</h4>
+        <p>Mon – Sat: 9:00 AM – 9:00 PM<br>Sunday: 10:00 AM – 2:00 PM<br>Emergency line: 24×7</p>
+        <p>📞 +91 216 212 3456<br>✉️ care@shakalyaclinic.in</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Shakalya Clinic, Satara. All rights reserved.</span>
+      <span>Designed with care for our patients.</span>
+    </div>
+  </div>
+</footer>
+
 <script>
-/* ================= DATA ================= */
-const IMG = {
-  vegHero:"https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=800&auto=format&fit=crop",
-  fruitHero:"https://images.unsplash.com/photo-1619566636858-adf3ef46400b?q=80&w=800&auto=format&fit=crop",
-  spiceHero:"https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=800&auto=format&fit=crop",
-  tomato:"https://images.unsplash.com/photo-1546094324-9b6bd8a3f4bc?q=80&w=400&auto=format&fit=crop",
-  spinach:"https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=400&auto=format&fit=crop",
-  banana:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?q=80&w=400&auto=format&fit=crop",
-  apple:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=400&auto=format&fit=crop",
-  turmeric:"https://images.unsplash.com/photo-1615485500704-8e990f9900f7?q=80&w=400&auto=format&fit=crop",
-  chili:"https://images.unsplash.com/photo-1583119912267-cc97c911e416?q=80&w=400&auto=format&fit=crop",
-  carrot:"https://images.unsplash.com/photo-1447175008436-054170c2e979?q=80&w=400&auto=format&fit=crop",
-  onion:"https://images.unsplash.com/photo-1508747703725-719777637510?q=80&w=400&auto=format&fit=crop",
-  mango:"https://images.unsplash.com/photo-1591073113125-e46713c829ed?q=80&w=400&auto=format&fit=crop",
-  grapes:"https://images.unsplash.com/photo-1537640538966-79f369143f8f?q=80&w=400&auto=format&fit=crop",
-  cinnamon:"https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=400&auto=format&fit=crop",
-  cardamom:"https://images.unsplash.com/photo-1599909533144-cd9c98290a10?q=80&w=400&auto=format&fit=crop",
-  potato:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=400&auto=format&fit=crop",
-  broccoli:"https://images.unsplash.com/photo-1584270354949-1f8b1cec5b03?q=80&w=400&auto=format&fit=crop",
-  avatar:"https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200&auto=format&fit=crop"
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ---------------- Navigation / routing ---------------- */
+const pages = document.querySelectorAll('.page');
+const navLinks = document.querySelectorAll('[data-nav]');
+function goTo(id){
+  pages.forEach(p => p.classList.toggle('active', p.id === id));
+  document.querySelectorAll('nav.primary a').forEach(a => a.classList.toggle('active', a.dataset.nav === id));
+  window.scrollTo({top:0, behavior:'smooth'});
+  document.getElementById('primaryNav').classList.remove('open');
+  hamburger.setAttribute('aria-expanded','false');
+  history.replaceState(null,'','#'+id);
+  animateDividers();
+}
+navLinks.forEach(l => l.addEventListener('click', e => { e.preventDefault(); goTo(l.dataset.nav); }));
+window.addEventListener('DOMContentLoaded', () => {
+  const initial = location.hash.replace('#','') || 'home';
+  if(document.getElementById(initial)) goTo(initial); else goTo('home');
+});
+
+const hamburger = document.getElementById('hamburger');
+hamburger.addEventListener('click', () => {
+  const nav = document.getElementById('primaryNav');
+  const open = nav.classList.toggle('open');
+  hamburger.setAttribute('aria-expanded', open);
+});
+
+function animateDividers(){
+  document.querySelectorAll('.pulse-line').forEach(l => { l.classList.remove('drawn'); requestAnimationFrame(()=>setTimeout(()=>l.classList.add('drawn'),80)); });
+}
+new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('drawn');});},{threshold:.4})
+  .observe(document.querySelector('.pulse-line'));
+
+/* ---------------- Icon helper ---------------- */
+const ICONS = {
+  stethoscope:'<path d="M4.5 3v6a4 4 0 0 0 8 0V3"/><path d="M8.5 13v2a5 5 0 0 0 10 0v-2.5"/><circle cx="20" cy="10" r="2"/>',
+  child:'<circle cx="12" cy="6" r="3"/><path d="M12 9v6M8 21l4-6 4 6M9 13h6"/>',
+  pulse:'<path d="M3 12h4l2-6 4 12 3-9 2 3h3"/>',
+  tooth:'<path d="M12 3c-3 0-5 2-5 5 0 3 1 5 1.5 8 .3 2 1 3 1.7 3 1 0 1-4 1.8-4s.8 4 1.8 4c.7 0 1.4-1 1.7-3C15.5 13 16.5 11 16.5 8c0-3-2-5-4.5-5z"/>',
+  bone:'<path d="M6 6a2.5 2.5 0 1 1 4 2l8 8a2.5 2.5 0 1 1-2 4l-8-8a2.5 2.5 0 1 1-2-4l8-8a2.5 2.5 0 1 1 2 4l-8 8"/>',
+  eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
+  test:'<path d="M9 2v7.5L4 19a2 2 0 0 0 1.8 3h12.4a2 2 0 0 0 1.8-3l-5-9.5V2"/><path d="M9 2h6"/>',
+  female:'<circle cx="12" cy="8" r="5"/><path d="M12 13v8M9 18h6"/>',
+  video:'<path d="M15 10l5-3v10l-5-3"/><rect x="3" y="6" width="12" height="12" rx="2"/>',
+  home:'<path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/>',
+  bag:'<path d="M6 8h12l1 12H5z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+  shield:'<path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6z"/>',
+  file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
+  users:'<circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.3 3-6 7-6s7 2.7 7 6"/><circle cx="17" cy="9" r="2.3"/><path d="M23 20c0-2.5-2-4.6-5-5.3"/>',
+  droplet:'<path d="M12 2s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13z"/>',
+  syringe:'<path d="M18 2l4 4M7 13l-4 4 4 4 4-4M10.5 9.5l4 4M14 6l4 4M8 12l8-8"/>',
+  vitamin:'<circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/>',
+  parking:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 16V8h3.5a2.5 2.5 0 0 1 0 5H9"/>',
+  wifi:'<path d="M2 8.5a16 16 0 0 1 20 0M5 12a11 11 0 0 1 14 0M8.5 15.5a6 6 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/>',
+  card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
+  waitroom:'<path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-6h6v6"/>'
 };
-const EMOJI = {vegetables:"🥦",fruits:"🍎",spices:"🌶️"};
+function icon(name){ return `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]||ICONS.pulse}</svg>`; }
 
-const PRODUCTS = [
-  {id:1, name:"Vine Tomatoes", cat:"vegetables", unit:"500 g pack", price:38, mrp:48, img:IMG.tomato, emoji:"🍅", rating:4.6, stock:126, organic:true, desc:"Sun-ripened vine tomatoes, hand-picked daily from partner farms near Nashik. Juicy, tangy, perfect for curries, salads and chutneys."},
-  {id:2, name:"Baby Spinach", cat:"vegetables", unit:"250 g bunch", price:22, mrp:28, img:IMG.spinach, emoji:"🥬", rating:4.4, stock:64, organic:true, desc:"Tender baby spinach leaves, triple-washed and ready to cook. Rich in iron and folate — great for saag, soups and smoothies."},
-  {id:3, name:"Farm Carrots", cat:"vegetables", unit:"1 kg", price:34, mrp:40, img:IMG.carrot, emoji:"🥕", rating:4.5, stock:8, organic:false, desc:"Crisp, sweet carrots grown in the red soils of Ooty. High in beta-carotene, ideal for halwa, salads and juices."},
-  {id:4, name:"Red Onions", cat:"vegetables", unit:"1 kg", price:26, mrp:30, img:IMG.onion, emoji:"🧅", rating:4.3, stock:210, organic:false, desc:"Firm, pungent red onions from Nashik's finest fields — the everyday base for Indian cooking."},
-  {id:5, name:"Baby Potatoes", cat:"vegetables", unit:"1 kg", price:29, mrp:35, img:IMG.potato, emoji:"🥔", rating:4.5, stock:180, organic:false, desc:"Small, waxy baby potatoes — perfect roasted whole or tossed into a hearty sabzi."},
-  {id:6, name:"Broccoli", cat:"vegetables", unit:"1 pc (~350g)", price:45, mrp:55, img:IMG.broccoli, emoji:"🥦", rating:4.2, stock:0, organic:true, desc:"Deep-green broccoli florets, high in fibre and vitamin C. Great steamed, stir-fried, or in soups."},
-  {id:7, name:"Alphonso Mangoes", cat:"fruits", unit:"1 kg (3-4 pcs)", price:189, mrp:220, img:IMG.mango, emoji:"🥭", rating:4.9, stock:42, organic:true, desc:"The king of mangoes — Ratnagiri Alphonso, naturally ripened, saffron-sweet and fibre-free."},
-  {id:8, name:"Robusta Bananas", cat:"fruits", unit:"6 pcs", price:32, mrp:38, img:IMG.banana, emoji:"🍌", rating:4.6, stock:96, organic:false, desc:"Naturally ripened bananas, a daily source of potassium and quick energy."},
-  {id:9, name:"Shimla Apples", cat:"fruits", unit:"4 pcs", price:120, mrp:150, img:IMG.apple, emoji:"🍎", rating:4.7, stock:70, organic:false, desc:"Crisp, sweet-tart Himachal apples, cold-stored for freshness. Great for lunchboxes and salads."},
-  {id:10, name:"Green Grapes", cat:"fruits", unit:"500 g", price:56, mrp:65, img:IMG.grapes, emoji:"🍇", rating:4.4, stock:54, organic:false, desc:"Seedless green grapes, sweet and juicy — rinse and enjoy or freeze for a summer snack."},
-  {id:11, name:"Turmeric Powder", cat:"spices", unit:"200 g", price:64, mrp:75, img:IMG.turmeric, emoji:"🟡", rating:4.8, stock:150, organic:true, desc:"Stone-ground Sangli turmeric with high curcumin content — earthy colour and aroma in every pinch."},
-  {id:12, name:"Kashmiri Red Chilli", cat:"spices", unit:"100 g", price:58, mrp:70, img:IMG.chili, emoji:"🌶️", rating:4.7, stock:88, organic:false, desc:"Mild heat, deep red colour — the secret to restaurant-style gravies without overpowering spice."},
-  {id:13, name:"Ceylon Cinnamon", cat:"spices", unit:"50 g", price:99, mrp:120, img:IMG.cinnamon, emoji:"🟤", rating:4.6, stock:5, organic:true, desc:"True Ceylon cinnamon quills, delicately sweet — perfect for chai, biryani and baking."},
-  {id:14, name:"Green Cardamom", cat:"spices", unit:"50 g", price:145, mrp:170, img:IMG.cardamom, emoji:"🌿", rating:4.9, stock:60, organic:true, desc:"Aromatic whole green cardamom pods, hand-sorted for size and freshness."},
+/* ---------------- Data ---------------- */
+const SERVICES = [
+  {icon:'stethoscope', title:'General Medicine', desc:'Everyday illness, chronic condition management and full-body checkups.', price:'From ₹300'},
+  {icon:'child', title:'Pediatrics', desc:'Growth checks, vaccination schedules and childhood illness care.', price:'From ₹350'},
+  {icon:'female', title:'Gynaecology', desc:'Women\'s health consultations, prenatal checkups and screenings.', price:'From ₹400'},
+  {icon:'bone', title:'Orthopaedic Care', desc:'Joint pain, fractures, sports injuries and physiotherapy referrals.', price:'From ₹400'},
+  {icon:'eye', title:'Eye Checkups', desc:'Vision testing, eye infections and referral for specialist procedures.', price:'From ₹250'},
+  {icon:'tooth', title:'Dental Care', desc:'Routine checkups, cleaning and minor dental procedures.', price:'From ₹300'},
+  {icon:'test', title:'Diagnostics &amp; Lab', desc:'Blood work, urine tests and screening panels with fast turnaround.', price:'From ₹150'},
+  {icon:'video', title:'Online Consultation', desc:'Video, audio or chat consultation from wherever you are.', price:'From ₹250'},
 ];
-let CART = { 1:2, 8:1, 11:1 };
-let WISHLIST = { 7:true, 13:true };
-
-const CATEGORIES = [
-  {id:"vegetables", name:"Vegetables", emoji:"🥦", color:"var(--green-soft)"},
-  {id:"fruits", name:"Fruits", emoji:"🍎", color:"var(--orange-soft)"},
-  {id:"spices", name:"Spices", emoji:"🌶️", color:"#FFF4D6"},
-];
-
-const ADDRESSES = [
-  {label:"Home", icon:"🏠", line:"402, Sunrise Residency, Sector 21", city:"Navi Mumbai, MH 400706", def:true},
-  {label:"Office", icon:"💼", line:"WeWork, Vashi Business Park, Plot 14", city:"Navi Mumbai, MH 400703", def:false},
-];
-
-const NOTIFS = [
-  {icon:"📦", title:"Your order #TZ4821 is out for delivery", time:"5 min ago", unread:true},
-  {icon:"🏷️", title:"Flat 20% off on Alphonso Mangoes today", time:"1 hr ago", unread:true},
-  {icon:"✅", title:"Order #TZ4790 delivered — rate your experience", time:"Yesterday", unread:false},
-  {icon:"💳", title:"Payment of ₹342 received for order #TZ4790", time:"Yesterday", unread:false},
-];
-
-const COUPONS = [
-  {code:"FRESH50", desc:"Flat ₹50 off on orders above ₹399", color:"var(--green)"},
-  {code:"SPICE20", desc:"20% off on all spices, up to ₹100", color:"var(--orange)"},
-  {code:"NEWUSER", desc:"₹100 off on your first order", color:"#8A5CF6"},
-];
-
-const ORDERS = [
-  {id:"TZ4821", date:"Today, 10:42 AM", items:"Tomatoes, Spinach, Mangoes +2", total:342, status:"Out for delivery"},
-  {id:"TZ4790", date:"4 Jul, 6:15 PM", items:"Turmeric, Onions, Bananas", total:186, status:"Delivered"},
-  {id:"TZ4711", date:"29 Jun, 8:03 PM", items:"Cardamom, Apples, Broccoli", total:298, status:"Delivered"},
-  {id:"TZ4650", date:"22 Jun, 7:20 PM", items:"Carrots, Potatoes, Chilli", total:151, status:"Cancelled"},
-];
-
-/* ================= SCREEN LIST ================= */
-const SCREENS = [
-  {id:"splash", label:"Splash"},
-  {id:"onboarding", label:"Onboarding"},
-  {id:"login", label:"Login / OTP"},
-  {id:"home", label:"Home"},
-  {id:"categories", label:"Categories"},
-  {id:"product", label:"Product Details"},
-  {id:"search", label:"Search & Filters"},
-  {id:"cart", label:"Cart"},
-  {id:"checkout", label:"Checkout"},
-  {id:"payment", label:"UPI Payment"},
-  {id:"success", label:"Order Success"},
-  {id:"tracking", label:"Order Tracking"},
-  {id:"history", label:"Order History"},
-  {id:"profile", label:"Profile"},
-  {id:"addresses", label:"Saved Addresses"},
-  {id:"notifications", label:"Notifications"},
-  {id:"wishlist", label:"Wishlist"},
-  {id:"offers", label:"Offers & Coupons"},
-  {id:"support", label:"Customer Support"},
-  {id:"settings", label:"Settings"},
-];
-const NAV_MAP = {home:"home", categories:"categories", wishlist:"wishlist", cart:"cart", profile:"profile"};
-
-let currentScreen = "splash";
-let selectedProduct = PRODUCTS[0];
-let onboardStep = 0;
-
-/* ================= HELPERS ================= */
-function img(url, emoji, extraStyle=""){
-  return `<div class="img-wrap" style="${extraStyle}">
-    <img src="${url}" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-    <div class="img-fallback" style="position:absolute;inset:0;background:var(--green-soft);">${emoji}</div>
-  </div>`;
-}
-function money(n){ return "₹"+n; }
-function stars(r){
-  const full = Math.round(r);
-  return `<span class="stars">${"★".repeat(full)}${"☆".repeat(5-full)}</span> <span style="font-size:11px;color:var(--gray);">${r}</span>`;
-}
-function productCard(p){
-  const inWish = WISHLIST[p.id];
-  const out = p.stock === 0;
-  return `<div class="product-card" onclick="goProduct(${p.id})">
-    <div class="wish-btn" onclick="event.stopPropagation(); toggleWish(${p.id})">${inWish?"❤️":"🤍"}</div>
-    <div class="blob-img">${img(p.img,p.emoji)}${p.organic?`<div class="stamp">100%<br>ORGANIC</div>`:""}</div>
-    <h4>${p.name}</h4>
-    <div class="unit">${p.unit}</div>
-    <div class="price-row">
-      <div>
-        <span class="price">${money(p.price)}</span>
-        <span style="font-size:11px;color:var(--gray-light);text-decoration:line-through;margin-left:4px;">${money(p.mrp)}</span>
-      </div>
-      ${out ? `<span style="font-size:10px;font-weight:800;color:#C24242;">Sold out</span>` : `<button class="add-btn" onclick="event.stopPropagation(); addToCart(${p.id})">+</button>`}
-    </div>
-  </div>`;
-}
-function categoryTile(c){
-  return `<div class="cat-tile" onclick="goCategory('${c.id}')">
-    <div class="circle" style="background:${c.color};">${c.emoji}</div>
-    <span>${c.name}</span>
-  </div>`;
+function renderServices(){
+  document.getElementById('servicesGrid').innerHTML = SERVICES.map(s=>`
+    <div class="card"><div class="icon-badge">${icon(s.icon)}</div><h3>${s.title}</h3><p>${s.desc}</p><span class="price">${s.price} · per visit</span></div>`).join('');
+  document.getElementById('homeServices').innerHTML = SERVICES.slice(0,4).map(s=>`
+    <div class="card"><div class="icon-badge">${icon(s.icon)}</div><h3>${s.title}</h3><p>${s.desc}</p></div>`).join('');
 }
 
-/* ================= SCREEN RENDERERS ================= */
-const render = {};
+const WHY = ['Same-week appointments','Bilingual staff (Marathi &amp; English)','Transparent, upfront pricing','Digital records you can access anytime'];
+document.getElementById('whyGrid').innerHTML = WHY.map(w=>`<span class="chip">✓ ${w}</span>`).join('');
 
-render.splash = () => `
-  <div style="height:100%; background:linear-gradient(160deg,#1B7A4D,#0F4E31); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; text-align:center; gap:14px;">
-    <div style="width:96px;height:96px;border-radius:32px;background:rgba(255,255,255,.15); display:flex;align-items:center;justify-content:center; font-size:44px;">🥬</div>
-    <div class="display" style="font-size:32px; font-weight:600;">Taaza</div>
-    <div style="font-size:13px; opacity:.85; letter-spacing:.5px;">FRESH, SORTED.</div>
-    <div style="position:absolute; bottom:60px; font-size:11px; opacity:.7;">Grown local. Delivered fresh.</div>
-  </div>`;
+const DOCTORS = [
+  {initials:'SK', name:'Dr. S. Kulkarni', role:'General Physician, MBBS, MD', tags:['15+ yrs experience','Diabetes care','Preventive health']},
+  {initials:'RP', name:'Dr. R. Patil', role:'Pediatrician, MBBS, DCH', tags:['Child immunisation','Growth monitoring']},
+  {initials:'AJ', name:'Dr. A. Joshi', role:'Gynaecologist, MBBS, MS', tags:['Prenatal care','Women\'s wellness']},
+];
+document.getElementById('doctorGrid').innerHTML = DOCTORS.map(d=>`
+  <div class="doctor-card"><div class="avatar">${d.initials}</div><h3>${d.name}</h3><span class="doctor-role">${d.role}</span>
+  <p style="font-size:13.5px;">Available for in-clinic and online consultations, Mon–Sat.</p>
+  <div class="doctor-tags">${d.tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div></div>`).join('');
 
-render.onboarding = () => {
-  const slides = [
-    {emoji:"🌱", title:"Farm-fresh, always", body:"Vegetables, fruits & spices sourced daily from trusted local farms."},
-    {emoji:"⚡", title:"Delivered in minutes", body:"Track your order live — from the farm crate to your doorstep."},
-    {emoji:"🏷️", title:"Honest pricing", body:"No middlemen markups. Just fair prices for fresh produce."},
-  ];
-  const s = slides[onboardStep];
-  return `
-  <div style="height:100%; display:flex; flex-direction:column;">
-    <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 34px;">
-      <div style="width:140px;height:140px;border-radius:50%; background:var(--green-soft); display:flex;align-items:center;justify-content:center; font-size:60px; margin-bottom:26px;">${s.emoji}</div>
-      <h2 class="display" style="font-size:23px; font-weight:600; margin-bottom:10px;">${s.title}</h2>
-      <p style="font-size:13.5px; color:var(--gray); line-height:1.5;">${s.body}</p>
-    </div>
-    <div style="display:flex; justify-content:center; gap:6px; margin-bottom:18px;">
-      ${slides.map((_,i)=>`<div style="width:${i===onboardStep?22:7}px;height:7px;border-radius:4px;background:${i===onboardStep?"var(--green)":"var(--line)"}; transition:.2s;"></div>`).join("")}
-    </div>
-    <div class="px" style="display:flex; gap:10px; margin-bottom:30px;">
-      ${onboardStep < slides.length-1 ? `
-        <button class="btn btn-outline" style="flex:1;" onclick="onboardStep=${slides.length-1}; renderScreen();">Skip</button>
-        <button class="btn btn-primary" style="flex:2;" onclick="onboardStep=${onboardStep+1}; renderScreen();">Next</button>
-      ` : `
-        <button class="btn btn-primary" style="flex:1;" onclick="goScreen('login')">Get Started →</button>
-      `}
-    </div>
-  </div>`;
-};
+const FACILITY = [
+  {icon:'waitroom', t:'Comfortable Waiting Area', d:'Air-conditioned lounge with a dedicated children\'s corner.'},
+  {icon:'test', t:'In-house Lab', d:'Common blood and urine tests processed on-site.'},
+  {icon:'parking', t:'Easy Parking', d:'Two-wheeler and car parking right outside.'},
+  {icon:'shield', t:'Hygiene First', d:'Sanitised consultation rooms between every patient.'},
+];
+document.getElementById('facilityGrid').innerHTML = FACILITY.map(f=>`
+  <div class="card"><div class="icon-badge">${icon(f.icon)}</div><h3>${f.t}</h3><p>${f.d}</p></div>`).join('');
 
-render.login = () => `
-  <div style="height:100%; display:flex; flex-direction:column; padding-top:50px;">
-    <div class="px" style="text-align:center; margin-bottom:26px;">
-      <div style="font-size:40px;">📱</div>
-      <h2 style="font-size:19px; font-weight:800; margin-top:10px;">Verify your number</h2>
-      <p style="font-size:12.5px; color:var(--gray); margin-top:6px;">We'll send a one-time password to confirm it's you.</p>
-    </div>
-    <div class="field">
-      <label>Mobile number</label>
-      <div class="input-box"><span style="margin-right:8px;color:var(--gray);">🇮🇳 +91</span><input placeholder="98765 43210"></div>
-    </div>
-    <div class="px"><button class="btn btn-primary" style="width:100%;" onclick="loginStage2()">Send OTP</button></div>
-    <div id="otp-block" style="display:none;">
-      <div class="field" style="margin-top:18px;">
-        <label>Enter 4-digit OTP sent to +91 98765 43210</label>
-        <div style="display:flex; gap:10px;">
-          ${[1,2,3,4].map(()=>`<div class="input-box" style="width:52px; justify-content:center; font-size:18px; font-weight:800;">•</div>`).join("")}
-        </div>
-        <p style="font-size:11.5px; color:var(--green); font-weight:700; margin-top:10px;">Resend OTP in 00:28</p>
-      </div>
-      <div class="px"><button class="btn btn-primary" style="width:100%;" onclick="goScreen('home')">Verify & Continue</button></div>
-    </div>
-    <p style="text-align:center; font-size:11px; color:var(--gray-light); margin-top:18px;">By continuing, you agree to Taaza's Terms & Privacy Policy</p>
-  </div>`;
-function loginStage2(){ document.getElementById('otp-block').style.display='block'; }
+const HOW = [
+  {n:'01', t:'Book your slot', d:'Choose a date, time and mode — video, audio or chat.'},
+  {n:'02', t:'We confirm by phone/WhatsApp', d:'Our team confirms your appointment within the hour.'},
+  {n:'03', t:'Consult from home', d:'Join the call at your slot — no waiting room needed.'},
+  {n:'04', t:'Get your e-prescription', d:'Delivered digitally right after the consultation ends.'},
+];
+document.getElementById('howItWorks').innerHTML = `<div style="margin-top:22px;">${HOW.map(h=>`
+  <div style="display:flex; gap:16px; margin-bottom:20px;"><span class="step-num">${h.n}</span><div><h4 style="font-size:15.5px; margin-bottom:3px;">${h.t}</h4><p style="font-size:13.5px; margin-bottom:0;">${h.d}</p></div></div>`).join('')}</div>`;
 
-render.home = () => `
-  <div class="hdr">
-    <div>
-      <div class="sub">Delivering to</div>
-      <h1>🏠 Sunrise Residency ▾</h1>
-    </div>
-    <div style="display:flex; gap:8px;">
-      <div class="round-icon-btn" onclick="goScreen('notifications')">🔔<span class="nav-dot" style="position:absolute;top:8px;right:8px;top:9px;"></span></div>
-      <div class="round-icon-btn" onclick="goScreen('wishlist')">🤍</div>
-    </div>
-  </div>
-  <div class="px" style="margin-top:10px;" onclick="goScreen('search')">
-    <div class="searchbar" style="margin:0; cursor:pointer;">🔎 <span style="color:var(--gray-light); font-size:13.5px;">Search for tomatoes, turmeric...</span></div>
-  </div>
-  <div class="banner">
-    <h2>Monsoon Harvest<br>Sale</h2>
-    <p>Up to 30% off on greens & spices, today only</p>
-    <button class="btn btn-orange" style="padding:9px 16px; font-size:12.5px;" onclick="goScreen('offers')">Grab Offer</button>
-  </div>
-  <div class="section-title px"><h3>Shop by category</h3><a onclick="goScreen('categories')">See all</a></div>
-  <div class="hscroll">${CATEGORIES.map(categoryTile).join("")}</div>
-  <div class="section-title px"><h3>Featured for you</h3><a onclick="goScreen('categories')">See all</a></div>
-  <div class="hscroll">${PRODUCTS.slice(0,5).map(productCard).join("")}</div>
-  <div class="section-title px"><h3>Fresh arrivals 🌿</h3><a onclick="goScreen('categories')">See all</a></div>
-  <div class="hscroll" style="padding-bottom:22px;">${PRODUCTS.slice(5,10).map(productCard).join("")}</div>
-`;
+const PSTEPS = [
+  {n:'01', t:'Tell us what you need', d:'Renewal, a copy, or a new prescription with a report attached.'},
+  {n:'02', t:'Physician review', d:'A doctor checks the request against your history before approving.'},
+  {n:'03', t:'Receive digitally', d:'Your e-prescription arrives by WhatsApp or email, ready for the pharmacy.'},
+];
+document.getElementById('prescriptionSteps').innerHTML = `<div style="margin-top:22px;">${PSTEPS.map(h=>`
+  <div style="display:flex; gap:16px; margin-bottom:20px;"><span class="step-num">${h.n}</span><div><h4 style="font-size:15.5px; margin-bottom:3px;">${h.t}</h4><p style="font-size:13.5px; margin-bottom:0;">${h.d}</p></div></div>`).join('')}</div>`;
 
-render.categories = (activeCat) => {
-  activeCat = activeCat || "vegetables";
-  const items = PRODUCTS.filter(p=>p.cat===activeCat);
-  return `
-  <div class="hdr"><h1>Categories</h1></div>
-  <div class="hscroll" style="padding-top:10px;">
-    ${CATEGORIES.map(c=>`<div class="chip ${c.id===activeCat?'active':''}" onclick="render._catActive='${c.id}'; document.getElementById('screen-body').innerHTML=render.categories('${c.id}');">${c.emoji} ${c.name}</div>`).join("")}
-  </div>
-  <div class="section-title px"><h3>${items.length} items in ${CATEGORIES.find(c=>c.id===activeCat).name}</h3></div>
-  <div class="px" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding-bottom:20px;">
-    ${items.map(p=>productCard(p)).join("")}
-  </div>`;
-};
+const MEDICINES = [
+  {icon:'droplet', t:'Fever &amp; Cold Care', d:'Paracetamol, antihistamines and cough syrups.'},
+  {icon:'syringe', t:'Chronic Care', d:'BP, diabetes and thyroid medication refills.'},
+  {icon:'vitamin', t:'Vitamins &amp; Supplements', d:'Multivitamins, iron and calcium supplements.'},
+  {icon:'bag', t:'First-Aid Essentials', d:'Bandages, antiseptics and home care kits.'},
+];
+document.getElementById('medicineGrid').innerHTML = MEDICINES.map(m=>`
+  <div class="card"><div class="icon-badge">${icon(m.icon)}</div><h3>${m.t}</h3><p>${m.d}</p><span class="price">Prescription required · Same-day delivery</span></div>`).join('');
 
-render.product = () => {
-  const p = selectedProduct;
-  const qty = CART[p.id] || 0;
-  return `
-  <div style="position:relative;">
-    <div style="height:230px; background:var(--green-soft); position:relative;">
-      ${img(p.img,p.emoji,"height:100%;")}
-      ${p.organic?`<div class="stamp" style="top:16px;right:16px;">100%<br>ORGANIC</div>`:""}
-      <div class="round-icon-btn" style="position:absolute; top:16px; left:16px; background:#fff;" onclick="goScreen('home')">←</div>
-    </div>
-    <div class="px" style="margin-top:16px;">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-        <div>
-          <h1 style="font-size:20px; font-weight:800;">${p.name}</h1>
-          <div class="unit" style="margin-top:2px;">${p.unit}</div>
-        </div>
-        <div class="wish-btn" style="position:static; box-shadow:var(--shadow-sm);" onclick="toggleWish(${p.id}); renderScreen();">${WISHLIST[p.id]?"❤️":"🤍"}</div>
-      </div>
-      <div style="margin-top:8px;">${stars(p.rating)} <span style="font-size:11px; color:var(--gray);"> · 1.2k ratings</span></div>
-      <div style="display:flex; align-items:baseline; gap:8px; margin-top:14px;">
-        <span class="price display" style="font-size:24px;">${money(p.price)}</span>
-        <span style="font-size:14px; color:var(--gray-light); text-decoration:line-through;">${money(p.mrp)}</span>
-        <span class="badge badge-orange">${Math.round((1-p.price/p.mrp)*100)}% OFF</span>
-      </div>
-      <div style="margin-top:6px;">
-        ${p.stock === 0 ? `<span class="badge" style="background:#FDEBEB;color:#C24242;">Out of stock</span>` :
-          p.stock < 10 ? `<span class="badge badge-orange">Only ${p.stock} left</span>` :
-          `<span class="badge badge-green">In stock</span>`}
-      </div>
+const MARKETING = [
+  {t:'Digital BP Monitor', d:'Clinically validated, easy at-home readings with memory storage.', price:'₹1,499'},
+  {t:'Immunity Wellness Kit', d:'Curated vitamin C, zinc and multivitamin combo for the season.', price:'₹899'},
+  {t:'Orthopaedic Support Belt', d:'Breathable lumbar support recommended by our physiotherapy team.', price:'₹649'},
+];
+document.getElementById('marketingGrid').innerHTML = MARKETING.map(m=>`
+  <div class="card"><div class="icon-badge">${icon('bag')}</div><h3>${m.t}</h3><p>${m.d}</p><span class="price">${m.price}</span></div>`).join('');
 
-      <div style="margin-top:20px;">
-        <h3 style="font-size:14px; font-weight:800; margin-bottom:6px;">Quantity</h3>
-        <div class="qty-pill" style="width:fit-content;">
-          <button onclick="changeQty(${p.id},-1)">−</button>
-          <span style="min-width:16px; text-align:center; font-weight:800;">${qty}</span>
-          <button onclick="changeQty(${p.id},1)">+</button>
-        </div>
-      </div>
+const TESTIMONIALS = [
+  {name:'Meera S.', init:'MS', text:'The doctor actually listened and explained everything in Marathi for my mother. First clinic that\'s felt this patient.'},
+  {name:'Rahul T.', init:'RT', text:'Booked an online consultation during work hours — got my prescription within 20 minutes. Excellent for busy schedules.'},
+  {name:'Priya K.', init:'PK', text:'Medicine delivery was faster than I expected, and the packaging made everything easy to follow.'},
+];
+document.getElementById('testimonialGrid').innerHTML = TESTIMONIALS.map(t=>`
+  <div class="t-card"><div class="stars">★★★★★</div><p style="font-size:14.5px; color:var(--ink);">"${t.text}"</p>
+  <div class="t-author"><div class="t-avatar">${t.init}</div><div><b>${t.name}</b><span>Verified patient</span></div></div></div>`).join('');
 
-      <div style="margin-top:20px;">
-        <h3 style="font-size:14px; font-weight:800; margin-bottom:6px;">About this product</h3>
-        <p style="font-size:13px; color:var(--gray); line-height:1.55;">${p.desc}</p>
-      </div>
+const FAQS = [
+  {q:'Do I need to book in advance for a walk-in visit?', a:'Walk-ins are welcome, but booking ahead through the site or WhatsApp guarantees you a specific time slot and shorter wait.'},
+  {q:'How does the online consultation work?', a:'Choose video, audio or chat when booking. Our team confirms your slot, and the doctor joins at the scheduled time — no app download needed.'},
+  {q:'Is medicine delivery available outside Satara city?', a:'Same-day delivery covers Satara city limits. For nearby areas, delivery may take an extra day — ask our team when ordering.'},
+  {q:'Can I get a prescription renewed without a fresh consultation?', a:'For ongoing, stable conditions, yes — submit a renewal request and a physician will review your history before approving.'},
+  {q:'Is my data on the patient portal secure?', a:'Patient records are access-controlled and only visible to you and authorised clinic staff. This preview site simulates the portal locally in your browser.'},
+];
+document.getElementById('faqList').innerHTML = FAQS.map((f,i)=>`
+  <div class="faq-item"><button class="faq-q" data-i="${i}">${f.q}<span class="plus"></span></button><div class="faq-a"><p>${f.a}</p></div></div>`).join('');
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const item = btn.closest('.faq-item');
+    const ans = item.querySelector('.faq-a');
+    const open = item.classList.toggle('open');
+    ans.style.maxHeight = open ? ans.scrollHeight+'px' : 0;
+  });
+});
 
-      <div class="section-title"><h3>You may also like</h3></div>
-    </div>
-    <div class="hscroll" style="padding-bottom:110px;">
-      ${PRODUCTS.filter(x=>x.cat===p.cat && x.id!==p.id).slice(0,4).map(productCard).join("")}
-    </div>
-    <div style="position:sticky; bottom:0; background:#fff; border-top:1px solid var(--line); padding:14px 20px; display:flex; gap:10px;">
-      <button class="btn btn-outline" style="flex:1;" onclick="goScreen('cart')">View Cart</button>
-      <button class="btn btn-primary" style="flex:2;" ${p.stock===0?"disabled style='opacity:.5;'":""} onclick="addToCart(${p.id}); goScreen('cart')">${p.stock===0?"Notify Me":"Add to Cart"}</button>
-    </div>
-  </div>`;
-};
-function goProduct(id){ selectedProduct = PRODUCTS.find(p=>p.id===id); goScreen('product'); }
-function changeQty(id,d){ CART[id] = Math.max(0,(CART[id]||0)+d); renderScreen(); }
-function addToCart(id){ CART[id] = (CART[id]||0)+1; renderScreen(); }
-function toggleWish(id){ WISHLIST[id] = !WISHLIST[id]; renderScreen(); }
+renderServices();
 
-render.search = () => `
-  <div class="hdr"><h1>Search</h1></div>
-  <div style="display:flex; gap:10px; margin-top:8px; padding:0 20px;">
-    <div class="searchbar" style="margin:0; flex:1;">🔎 <input placeholder="Search 500+ fresh items" value="turmeric" style="font-weight:700;color:var(--ink);"></div>
-    <div class="filter-btn" onclick="toggleFilters()">⚙️</div>
-  </div>
-  <div id="filters-panel" style="display:none;">
-    <div class="section-title px"><h3>Filters</h3></div>
-    <div class="px" style="display:flex; flex-wrap:wrap; gap:8px;">
-      <span class="chip active">All</span><span class="chip">Organic only</span><span class="chip">Under ₹50</span>
-      <span class="chip">4★ & above</span><span class="chip">In stock</span>
-    </div>
-    <div class="section-title px"><h3>Sort by</h3></div>
-    <div class="px" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:6px;">
-      <span class="chip active">Relevance</span><span class="chip">Price: Low to High</span><span class="chip">Rating</span>
-    </div>
-  </div>
-  <div class="section-title px"><h3>Results for "turmeric"</h3><span style="font-size:12px;color:var(--gray);">3 found</span></div>
-  <div class="px" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-    ${[PRODUCTS[10], PRODUCTS[11], PRODUCTS[13]].map(productCard).join("")}
-  </div>
-  <div class="section-title px"><h3>Recent searches</h3></div>
-  <div class="px" style="display:flex; flex-wrap:wrap; gap:8px; padding-bottom:20px;">
-    <span class="chip">spinach</span><span class="chip">alphonso mango</span><span class="chip">cardamom</span><span class="chip">onion</span>
-  </div>
-`;
-function toggleFilters(){ const el=document.getElementById('filters-panel'); el.style.display = el.style.display==='none'?'block':'none'; }
+/* ---------------- Forms: generic submit + localStorage store ---------------- */
+function store(key, entry){
+  const list = JSON.parse(localStorage.getItem(key) || '[]');
+  list.unshift(entry);
+  localStorage.setItem(key, JSON.stringify(list));
+}
+function getList(key){ return JSON.parse(localStorage.getItem(key) || '[]'); }
+function fmtId(prefix){ return prefix + '-' + Math.random().toString(36).slice(2,7).toUpperCase(); }
 
-render.cart = () => {
-  const items = Object.keys(CART).filter(id=>CART[id]>0).map(id=>({p:PRODUCTS.find(x=>x.id==id), q:CART[id]}));
-  const subtotal = items.reduce((s,it)=>s+it.p.price*it.q,0);
-  const delivery = subtotal>399 || subtotal===0 ? 0 : 25;
-  const savings = items.reduce((s,it)=>s+(it.p.mrp-it.p.price)*it.q,0);
-  const total = subtotal+delivery;
-  if(items.length===0){
-    return `<div class="hdr"><h1>Your Cart</h1></div>
-    <div style="text-align:center; padding:80px 30px;">
-      <div style="font-size:50px;">🧺</div>
-      <h3 style="margin-top:14px; font-weight:800;">Your cart feels light</h3>
-      <p style="font-size:13px;color:var(--gray); margin-top:6px;">Add some fresh picks to get started.</p>
-      <button class="btn btn-primary" style="margin-top:18px;" onclick="goScreen('home')">Start Shopping</button>
-    </div>`;
+document.getElementById('consultForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  store('consultations', {
+    id: fmtId('CN'), name: document.getElementById('c-name').value, phone: document.getElementById('c-phone').value,
+    date: document.getElementById('c-date').value, time: document.getElementById('c-time').value,
+    mode: document.querySelector('input[name=mode]:checked').value, symptoms: document.getElementById('c-symptoms').value,
+    status:'pending', created: new Date().toISOString()
+  });
+  document.getElementById('consultSuccess').classList.add('show');
+  e.target.reset();
+  renderAdmin();
+});
+
+document.getElementById('prescForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  store('prescriptions', {
+    id: fmtId('RX'), name: document.getElementById('p-name').value, phone: document.getElementById('p-phone').value,
+    type: document.getElementById('p-type').value, notes: document.getElementById('p-notes').value,
+    status:'pending', created: new Date().toISOString()
+  });
+  document.getElementById('prescSuccess').classList.add('show');
+  e.target.reset();
+  renderAdmin();
+});
+
+document.getElementById('contactForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  store('messages', {
+    id: fmtId('MSG'), name: document.getElementById('ct-name').value, phone: document.getElementById('ct-phone').value,
+    subject: document.getElementById('ct-subject').value, message: document.getElementById('ct-msg').value, created: new Date().toISOString()
+  });
+  document.getElementById('contactSuccess').classList.add('show');
+  e.target.reset();
+});
+
+/* ---------------- Patient Portal (demo, localStorage) ---------------- */
+const loginForm = document.getElementById('loginForm');
+loginForm.addEventListener('submit', e=>{
+  e.preventDefault();
+  const phone = document.getElementById('l-phone').value.trim();
+  const name = document.getElementById('l-name').value.trim();
+  let patients = getList('patients');
+  let patient = patients.find(p=>p.phone===phone);
+  if(!patient){
+    patient = {id: fmtId('PT'), name, phone, joined: new Date().toISOString()};
+    patients.unshift(patient);
+    localStorage.setItem('patients', JSON.stringify(patients));
   }
-  return `
-  <div class="hdr"><h1>Your Cart</h1><span style="font-size:12.5px;color:var(--gray);">${items.length} items</span></div>
-  <div style="margin-top:8px;">
-    ${items.map(it=>`
-      <div class="list-row">
-        <div class="blob-img" style="width:56px;height:56px;">${img(it.p.img,it.p.emoji)}</div>
-        <div class="txt">
-          <h5>${it.p.name}</h5>
-          <p>${it.p.unit} · ${money(it.p.price)}</p>
-        </div>
-        <div class="qty-pill" style="padding:4px 6px;">
-          <button onclick="changeQty(${it.p.id},-1)">−</button>
-          <span style="min-width:14px; text-align:center; font-weight:800; font-size:12px;">${it.q}</span>
-          <button onclick="changeQty(${it.p.id},1)">+</button>
-        </div>
-      </div>`).join("")}
-  </div>
-  <div class="px" style="margin-top:14px;">
-    <div class="card" style="padding:14px; background:var(--green-soft2);">
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span style="font-size:16px;">🏷️</span>
-        <span style="font-size:12.5px; font-weight:700; flex:1;">Apply coupon</span>
-        <a style="font-size:12px; font-weight:800; color:var(--green);" onclick="goScreen('offers')">View offers →</a>
-      </div>
-    </div>
-  </div>
-  <div class="px" style="margin-top:16px;">
-    <div class="section-title" style="margin:0 0 8px;"><h3>Bill summary</h3></div>
-    <div style="font-size:13px; display:flex; flex-direction:column; gap:8px; color:var(--gray);">
-      <div style="display:flex; justify-content:space-between;"><span>Item total</span><span>${money(subtotal)}</span></div>
-      <div style="display:flex; justify-content:space-between;"><span>Delivery fee</span><span>${delivery===0?"FREE":money(delivery)}</span></div>
-      <div style="display:flex; justify-content:space-between; color:var(--green); font-weight:700;"><span>You saved</span><span>−${money(savings)}</span></div>
-    </div>
-    <div style="border-top:1.5px dashed var(--line); margin:12px 0; padding-top:12px; display:flex; justify-content:space-between; font-weight:800; font-size:15px;">
-      <span>To pay</span><span>${money(total)}</span>
-    </div>
-  </div>
-  <div style="position:sticky; bottom:0; background:#fff; border-top:1px solid var(--line); padding:14px 20px; margin-top:10px;">
-    <button class="btn btn-primary" style="width:100%;" onclick="goScreen('checkout')">Proceed to Checkout · ${money(total)}</button>
-  </div>`;
-};
-
-render.checkout = () => `
-  <div class="hdr"><h1>Checkout</h1></div>
-  <div class="section-title px"><h3>Delivery address</h3><a onclick="goScreen('addresses')">Change</a></div>
-  <div class="px">
-    <div class="card" style="padding:14px; display:flex; gap:12px; border-color:var(--green);">
-      <span style="font-size:20px;">🏠</span>
-      <div>
-        <h5 style="font-size:13.5px;font-weight:800;">Home <span class="badge badge-green" style="margin-left:6px;">Default</span></h5>
-        <p style="font-size:12px;color:var(--gray); margin-top:3px;">402, Sunrise Residency, Sector 21, Navi Mumbai, MH 400706</p>
-      </div>
-    </div>
-  </div>
-  <div class="section-title px"><h3>Delivery slot</h3></div>
-  <div class="hscroll">
-    <span class="chip active">Express · 18 mins</span><span class="chip">Today, 6-7 PM</span><span class="chip">Tomorrow, 8-9 AM</span>
-  </div>
-  <div class="section-title px"><h3>Payment method</h3></div>
-  <div class="px" style="display:flex; flex-direction:column; gap:10px;">
-    <div class="card" style="padding:13px; display:flex; align-items:center; gap:10px; border-color:var(--green);">
-      <span style="font-size:18px;">📲</span><span style="font-size:13.5px;font-weight:700; flex:1;">UPI (GPay, PhonePe, Paytm)</span>
-      <div style="width:18px;height:18px;border-radius:50%;border:5px solid var(--green);"></div>
-    </div>
-    <div class="card" style="padding:13px; display:flex; align-items:center; gap:10px;">
-      <span style="font-size:18px;">💳</span><span style="font-size:13.5px;font-weight:700; flex:1;">Credit / Debit Card</span>
-      <div style="width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);"></div>
-    </div>
-    <div class="card" style="padding:13px; display:flex; align-items:center; gap:10px;">
-      <span style="font-size:18px;">💵</span><span style="font-size:13.5px;font-weight:700; flex:1;">Cash on Delivery</span>
-      <div style="width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);"></div>
-    </div>
-  </div>
-  <div class="px" style="margin-top:16px;">
-    <div style="border-top:1.5px dashed var(--line); padding-top:12px; display:flex; justify-content:space-between; font-weight:800; font-size:15px;">
-      <span>Order total</span><span>₹342</span>
-    </div>
-  </div>
-  <div style="position:sticky; bottom:0; background:#fff; border-top:1px solid var(--line); padding:14px 20px; margin-top:14px;">
-    <button class="btn btn-primary" style="width:100%;" onclick="goScreen('payment')">Pay ₹342 via UPI</button>
-  </div>
-`;
-
-render.payment = () => `
-  <div class="hdr"><h1>UPI Payment</h1></div>
-  <div style="text-align:center; padding:20px 30px 0;">
-    <div style="width:64px;height:64px;border-radius:20px;background:var(--green-soft); display:flex;align-items:center;justify-content:center; font-size:30px; margin:0 auto;">📲</div>
-    <h3 style="margin-top:14px; font-weight:800; font-size:16px;">Approve payment of ₹342</h3>
-    <p style="font-size:12.5px;color:var(--gray); margin-top:6px;">Complete this on your UPI app to confirm the order.</p>
-  </div>
-  <div class="px" style="margin-top:20px; display:flex; flex-direction:column; gap:10px;">
-    ${[["GPay","🟢"],["PhonePe","🟣"],["Paytm","🔵"],["BHIM UPI","🟠"]].map(([n,e])=>`
-      <div class="card" style="padding:13px; display:flex; align-items:center; gap:12px;" onclick="goScreen('success')">
-        <span style="font-size:20px;">${e}</span><span style="font-size:13.5px;font-weight:700; flex:1;">${n}</span><span class="chev">›</span>
-      </div>`).join("")}
-  </div>
-  <div class="px" style="margin-top:20px;">
-    <div class="card" style="padding:14px; text-align:center; background:var(--green-soft2);">
-      <div style="font-size:11.5px; color:var(--gray); margin-bottom:8px;">or scan QR with any UPI app</div>
-      <div style="width:120px;height:120px;background:repeating-linear-gradient(45deg,#16241c 0 6px,#fff 6px 12px); margin:0 auto; border-radius:10px; opacity:.85;"></div>
-    </div>
-  </div>
-  <div class="px" style="margin-top:16px; text-align:center; font-size:11.5px; color:var(--gray-light);">🔒 Payments are secured & encrypted</div>
-`;
-
-render.success = () => `
-  <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 30px;">
-    <div style="width:110px;height:110px;border-radius:50%; background:var(--green-soft); display:flex;align-items:center;justify-content:center; font-size:52px;">✅</div>
-    <h2 class="display" style="font-size:22px; font-weight:600; margin-top:20px;">Order placed!</h2>
-    <p style="font-size:13px; color:var(--gray); margin-top:8px; line-height:1.5;">Your order <b>#TZ4821</b> has been confirmed and is being packed with care.</p>
-    <div class="card" style="width:100%; padding:16px; margin-top:22px; display:flex; justify-content:space-between;">
-      <div style="text-align:left;"><div style="font-size:11px;color:var(--gray);">Amount paid</div><div style="font-weight:800;">₹342</div></div>
-      <div style="text-align:left;"><div style="font-size:11px;color:var(--gray);">Arriving in</div><div style="font-weight:800;color:var(--green);">18 mins</div></div>
-    </div>
-    <button class="btn btn-primary" style="width:100%; margin-top:26px;" onclick="goScreen('tracking')">Track Order</button>
-    <button class="btn btn-outline" style="width:100%; margin-top:10px;" onclick="goScreen('home')">Continue Shopping</button>
-  </div>
-`;
-
-render.tracking = () => `
-  <div class="hdr"><h1>Track Order</h1><span class="badge badge-orange">Out for delivery</span></div>
-  <div class="px" style="margin-top:6px;">
-    <div style="border-radius:20px; overflow:hidden; height:150px; background:linear-gradient(135deg,#cfe9d9,#a9d6bd); position:relative;">
-      <div style="position:absolute; inset:0; opacity:.5; background-image:radial-gradient(circle,#fff 1px,transparent 1.4px); background-size:14px 14px;"></div>
-      <div style="position:absolute; left:30%; top:55%; font-size:22px;">🏍️</div>
-      <div style="position:absolute; left:70%; top:35%; font-size:20px;">📍</div>
-    </div>
-    <div class="card" style="margin-top:-24px; position:relative; z-index:2; padding:14px; display:flex; gap:12px; align-items:center;">
-      <div style="width:42px;height:42px;border-radius:50%; background:var(--green-soft); display:flex;align-items:center;justify-content:center; font-size:18px;">🧑</div>
-      <div style="flex:1;">
-        <h5 style="font-size:13px;font-weight:800;">Rahul, your delivery partner</h5>
-        <p style="font-size:11.5px;color:var(--gray);">MH-04 AB 4521 · Bike</p>
-      </div>
-      <div class="round-icon-btn">📞</div>
-    </div>
-  </div>
-  <div class="track-line" style="margin-top:26px;">
-    <div class="track-step done"><h5>Order confirmed</h5><p>10:42 AM — Payment received</p></div>
-    <div class="track-step done"><h5>Preparing your order</h5><p>10:45 AM — Packed at Vashi dark store</p></div>
-    <div class="track-step active"><h5>Out for delivery</h5><p>10:52 AM — Rahul is on the way</p></div>
-    <div class="track-step"><h5>Delivered</h5><p>Estimated by 11:00 AM</p></div>
-  </div>
-  <div class="px"><button class="btn btn-outline" style="width:100%;" onclick="goScreen('support')">Need help with this order?</button></div>
-`;
-
-render.history = () => `
-  <div class="hdr"><h1>Order History</h1></div>
-  <div style="margin-top:6px; padding-bottom:20px;">
-    ${ORDERS.map(o=>`
-      <div class="px" style="margin-bottom:12px;">
-        <div class="card" style="padding:14px;" onclick="goScreen('tracking')">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h5 style="font-size:13.5px; font-weight:800;">#${o.id}</h5>
-            <span class="badge ${o.status==='Delivered'?'badge-green':o.status==='Cancelled'?'':'badge-orange'}" style="${o.status==='Cancelled'?'background:#FDEBEB;color:#C24242;':''}">${o.status}</span>
-          </div>
-          <p style="font-size:12px; color:var(--gray); margin-top:6px;">${o.items}</p>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-            <span style="font-size:11.5px; color:var(--gray-light);">${o.date}</span>
-            <span style="font-weight:800; font-size:13.5px;">₹${o.total}</span>
-          </div>
-          <div style="display:flex; gap:8px; margin-top:12px;">
-            <button class="btn btn-outline" style="flex:1; padding:9px; font-size:12px;" onclick="event.stopPropagation();">Reorder</button>
-            <button class="btn btn-outline" style="flex:1; padding:9px; font-size:12px;" onclick="event.stopPropagation(); goScreen('support')">Help</button>
-          </div>
-        </div>
-      </div>`).join("")}
-  </div>
-`;
-
-render.profile = () => `
-  <div class="hdr"><h1>Profile</h1></div>
-  <div class="px" style="display:flex; align-items:center; gap:14px; margin-top:8px;">
-    <div class="blob-img" style="width:64px;height:64px;">${img(IMG.avatar,"🧑")}</div>
-    <div>
-      <h3 style="font-weight:800; font-size:16px;">Rohit Sharma</h3>
-      <p style="font-size:12px; color:var(--gray);">+91 98765 43210</p>
-      <span class="badge badge-green" style="margin-top:4px; display:inline-block;">🌿 Green Member</span>
-    </div>
-  </div>
-  <div class="px" style="display:flex; gap:10px; margin-top:18px;">
-    <div class="card" style="flex:1; padding:12px; text-align:center;"><div style="font-weight:800;font-size:16px;">47</div><div style="font-size:11px;color:var(--gray);">Orders</div></div>
-    <div class="card" style="flex:1; padding:12px; text-align:center;"><div style="font-weight:800;font-size:16px;">₹2,140</div><div style="font-size:11px;color:var(--gray);">Saved</div></div>
-    <div class="card" style="flex:1; padding:12px; text-align:center;"><div style="font-weight:800;font-size:16px;">4.9★</div><div style="font-size:11px;color:var(--gray);">Rating</div></div>
-  </div>
-  <div style="margin-top:18px;">
-    ${[
-      ["📦","Order History","Track, reorder or review past orders","history"],
-      ["📍","Saved Addresses","Manage your delivery locations","addresses"],
-      ["❤️","Wishlist","Items you've saved for later","wishlist"],
-      ["🏷️","Offers & Coupons","Your saved discounts","offers"],
-      ["🔔","Notifications","Updates about orders & offers","notifications"],
-      ["🎧","Customer Support","Chat with us or raise a ticket","support"],
-      ["⚙️","Settings","App preferences & account","settings"],
-    ].map(([icon,title,sub,scr])=>`
-      <div class="list-row" onclick="goScreen('${scr}')">
-        <div class="icon" style="background:var(--green-soft);">${icon}</div>
-        <div class="txt"><h5>${title}</h5><p>${sub}</p></div>
-        <span class="chev">›</span>
-      </div>`).join("")}
-  </div>
-`;
-
-render.addresses = () => `
-  <div class="hdr"><h1>Saved Addresses</h1></div>
-  <div class="px" style="margin-top:10px; display:flex; flex-direction:column; gap:12px;">
-    ${ADDRESSES.map(a=>`
-      <div class="card" style="padding:14px; display:flex; gap:12px; ${a.def?'border-color:var(--green);':''}">
-        <span style="font-size:20px;">${a.icon}</span>
-        <div style="flex:1;">
-          <h5 style="font-size:13.5px;font-weight:800;">${a.label} ${a.def?'<span class="badge badge-green" style="margin-left:6px;">Default</span>':''}</h5>
-          <p style="font-size:12px;color:var(--gray); margin-top:3px;">${a.line}</p>
-          <p style="font-size:12px;color:var(--gray);">${a.city}</p>
-        </div>
-        <span style="font-size:13px; color:var(--gray-light);">✏️</span>
-      </div>`).join("")}
-    <button class="btn btn-outline" style="width:100%; margin-top:6px;">+ Add New Address</button>
-  </div>
-`;
-
-render.notifications = () => `
-  <div class="hdr"><h1>Notifications</h1></div>
-  <div style="margin-top:6px;">
-    ${NOTIFS.map(n=>`
-      <div class="list-row">
-        <div class="icon" style="background:${n.unread?'var(--orange-soft)':'var(--green-soft)'};">${n.icon}</div>
-        <div class="txt"><h5>${n.title}</h5><p>${n.time}</p></div>
-        ${n.unread?'<span class="nav-dot" style="top:0;left:0;"></span>':''}
-      </div>`).join("")}
-  </div>
-`;
-
-render.wishlist = () => {
-  const items = PRODUCTS.filter(p=>WISHLIST[p.id]);
-  return `
-  <div class="hdr"><h1>Wishlist</h1></div>
-  ${items.length===0? `<div style="text-align:center; padding:80px 30px;"><div style="font-size:46px;">🤍</div><h3 style="margin-top:14px;font-weight:800;">Nothing saved yet</h3><p style="font-size:13px;color:var(--gray);margin-top:6px;">Tap the heart on any product to save it here.</p></div>` :
-  `<div class="px" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px; padding-bottom:20px;">${items.map(productCard).join("")}</div>`}
-`;
-};
-
-render.offers = () => `
-  <div class="hdr"><h1>Offers & Coupons</h1></div>
-  <div class="px" style="margin-top:10px; display:flex; flex-direction:column; gap:12px;">
-    ${COUPONS.map(c=>`
-      <div class="card" style="padding:0; overflow:hidden; display:flex;">
-        <div style="width:8px; background:${c.color};"></div>
-        <div style="padding:14px; flex:1;">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h5 style="font-weight:800; font-size:14.5px; letter-spacing:.5px;">${c.code}</h5>
-            <button class="btn btn-outline" style="padding:6px 14px; font-size:11.5px;">Copy</button>
-          </div>
-          <p style="font-size:12px; color:var(--gray); margin-top:5px;">${c.desc}</p>
-        </div>
-      </div>`).join("")}
-  </div>
-  <div class="section-title px"><h3>Bank offers</h3></div>
-  <div class="px" style="padding-bottom:20px;">
-    <div class="card" style="padding:14px; display:flex; gap:10px; align-items:center;">
-      <span style="font-size:20px;">💳</span>
-      <p style="font-size:12px; color:var(--gray);">10% instant discount up to ₹75 on HDFC Bank Credit Cards</p>
-    </div>
-  </div>
-`;
-
-render.support = () => `
-  <div class="hdr"><h1>Customer Support</h1></div>
-  <div class="px" style="margin-top:8px;">
-    <div class="card" style="padding:16px; background:var(--green-soft2); display:flex; align-items:center; gap:12px;">
-      <span style="font-size:26px;">💬</span>
-      <div style="flex:1;"><h5 style="font-weight:800; font-size:13.5px;">Chat with us</h5><p style="font-size:11.5px;color:var(--gray);">Avg. response time: 2 mins</p></div>
-      <button class="btn btn-primary" style="padding:9px 16px; font-size:12px;">Start Chat</button>
-    </div>
-  </div>
-  <div class="section-title px"><h3>Help with a recent order</h3></div>
-  <div class="px" style="display:flex; flex-direction:column; gap:10px;">
-    ${ORDERS.slice(0,2).map(o=>`
-      <div class="list-row" style="border:1px solid var(--line); border-radius:14px;">
-        <div class="icon" style="background:var(--green-soft);">📦</div>
-        <div class="txt"><h5>#${o.id}</h5><p>${o.date}</p></div>
-        <span class="chev">›</span>
-      </div>`).join("")}
-  </div>
-  <div class="section-title px"><h3>Frequently asked</h3></div>
-  <div style="padding-bottom:20px;">
-    ${["How do I track my order?","What is Taaza's return policy?","How do refunds work?","Is same-day delivery available?"].map(q=>`
-      <div class="list-row"><div class="txt"><h5>${q}</h5></div><span class="chev">›</span></div>`).join("")}
-  </div>
-`;
-
-render.settings = () => `
-  <div class="hdr"><h1>Settings</h1></div>
-  <div class="section-title px"><h3>Preferences</h3></div>
-  ${[["Push notifications",true],["Order updates via SMS",true],["Promotional emails",false],["Dark mode",false]].map((s,i)=>`
-    <div class="list-row"><div class="txt"><h5>${s[0]}</h5></div><div class="toggle ${s[1]?'on':''}" onclick="this.classList.toggle('on')"><div class="dot"></div></div></div>`).join("")}
-  <div class="section-title px"><h3>Account</h3></div>
-  ${["Edit profile","Change language — English","Manage payment methods","Privacy & security"].map(t=>`
-    <div class="list-row"><div class="txt"><h5>${t}</h5></div><span class="chev">›</span></div>`).join("")}
-  <div class="section-title px"><h3>About</h3></div>
-  ${["Terms of Service","Privacy Policy","App version 2.4.1"].map(t=>`
-    <div class="list-row"><div class="txt"><h5>${t}</h5></div><span class="chev">›</span></div>`).join("")}
-  <div class="px" style="padding:20px;"><button class="btn" style="width:100%; background:#FDEBEB; color:#C24242; padding:14px;">Log Out</button></div>
-`;
-
-/* ============ NAV ICONS ============ */
-const NAV_ICONS = {
-  home: `<svg viewBox="0 0 24 24"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>`,
-  categories: `<svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>`,
-  wishlist: `<svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.7-9.7-9C.6 8 2 4.5 5.4 4a4.7 4.7 0 0 1 6.6 2 4.7 4.7 0 0 1 6.6-2c3.4.5 4.8 4 3.1 7.5-2.2 4.3-9.7 9-9.7 9Z"/></svg>`,
-  cart: `<svg viewBox="0 0 24 24"><circle cx="9.5" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.2 11.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7H6"/></svg>`,
-  profile: `<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1-3.6 4-5.4 7.5-5.4s6.5 1.8 7.5 5.4"/></svg>`,
-};
-
-function buildBottomNav(){
-  const el = document.getElementById('bottom-nav');
-  el.innerHTML = Object.keys(NAV_ICONS).map(k=>{
-    const active = NAV_MAP[currentScreen] === k;
-    const showDot = k==='cart' && Object.values(CART).some(v=>v>0);
-    return `<div class="nav-item ${active?'active':''}" onclick="goScreen('${k}')">
-      ${NAV_ICONS[k]}<span>${k.charAt(0).toUpperCase()+k.slice(1)}</span>${showDot?'<div class="nav-dot"></div>':''}
+  localStorage.setItem('activePatient', JSON.stringify(patient));
+  renderPortal();
+});
+document.getElementById('portalLogout').addEventListener('click', ()=>{
+  localStorage.removeItem('activePatient');
+  renderPortal();
+});
+document.querySelectorAll('[data-ptab]').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    if(el.dataset.ptab==='logout') return;
+    document.querySelectorAll('[data-ptab]').forEach(x=>x.classList.remove('active'));
+    el.classList.add('active');
+    ['overview','appointments','prescriptions'].forEach(t=>{
+      document.getElementById('ptab-'+t).style.display = (t===el.dataset.ptab)?'block':'none';
+    });
+  });
+});
+function renderPortal(){
+  const active = JSON.parse(localStorage.getItem('activePatient') || 'null');
+  document.getElementById('portalLoggedOut').style.display = active ? 'none' : 'grid';
+  document.getElementById('portalLoggedIn').style.display = active ? 'block' : 'none';
+  if(!active) return;
+  const myAppts = getList('consultations').filter(c=>c.phone===active.phone);
+  const myRx = getList('prescriptions').filter(p=>p.phone===active.phone);
+  document.getElementById('ptab-overview').innerHTML = `
+    <h3 style="font-size:19px;">Welcome back, ${active.name.split(' ')[0]}</h3>
+    <p style="font-size:14px;">Registered phone: ${active.phone}</p>
+    <div class="grid-3" style="margin-top:18px;">
+      <div class="card"><h3 style="font-size:15px;">Upcoming / Requested</h3><p style="font-size:24px; color:var(--blue-800); font-family:var(--ff-display); margin-bottom:0;">${myAppts.length}</p></div>
+      <div class="card"><h3 style="font-size:15px;">Prescriptions</h3><p style="font-size:24px; color:var(--blue-800); font-family:var(--ff-display); margin-bottom:0;">${myRx.length}</p></div>
+      <div class="card"><h3 style="font-size:15px;">Patient ID</h3><p style="font-size:15px; font-family:var(--ff-mono); color:var(--green-700); margin-bottom:0;">${active.id}</p></div>
     </div>`;
-  }).join("");
+  document.getElementById('ptab-appointments').innerHTML = tableOrEmpty(myAppts, ['ID','Date','Time','Mode','Status'],
+    r=>[r.id, r.date||'—', r.time||'—', r.mode, statusPill(r.status)], 'No appointments yet — book one from the Online Consultation page.');
+  document.getElementById('ptab-prescriptions').innerHTML = tableOrEmpty(myRx, ['ID','Type','Notes','Status'],
+    r=>[r.id, r.type, (r.notes||'').slice(0,40), statusPill(r.status)], 'No prescription requests yet.');
 }
-
-function buildScreenJump(){
-  const el = document.getElementById('screen-jump');
-  el.innerHTML = SCREENS.map(s=>`<option value="${s.id}" ${currentScreen===s.id?'selected':''}>${s.label}</option>`).join("");
+function statusPill(s){ return `<span class="status-pill ${s}">${s}</span>`; }
+function tableOrEmpty(rows, headers, mapRow, emptyText){
+  if(!rows.length) return `<div class="empty-state">${emptyText}</div>`;
+  return `<table class="mini-table"><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>
+    ${rows.map(r=>`<tr>${mapRow(r).map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
 }
+renderPortal();
 
-function goScreen(id){
-  currentScreen = id;
-  renderScreen();
+/* ---------------- Admin Dashboard (demo, localStorage) ---------------- */
+document.getElementById('adminLoginForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const u = document.getElementById('a-user').value.trim();
+  const p = document.getElementById('a-pass').value.trim();
+  if(u==='admin' && p==='shakalya123'){
+    sessionStorage.setItem('adminAuthed','1');
+    renderAdminAuth();
+  } else {
+    alert('Incorrect credentials. Demo login: admin / shakalya123');
+  }
+});
+document.getElementById('adminLogout').addEventListener('click', ()=>{
+  sessionStorage.removeItem('adminAuthed');
+  renderAdminAuth();
+});
+document.querySelectorAll('[data-atab]').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    if(el.dataset.atab==='logout') return;
+    document.querySelectorAll('[data-atab]').forEach(x=>x.classList.remove('active'));
+    el.classList.add('active');
+    ['appointments','consultations','prescriptions','patients'].forEach(t=>{
+      document.getElementById('atab-'+t).style.display = (t===el.dataset.atab)?'block':'none';
+    });
+  });
+});
+function renderAdminAuth(){
+  const authed = sessionStorage.getItem('adminAuthed')==='1';
+  document.getElementById('adminLoggedOut').style.display = authed ? 'none' : 'block';
+  document.getElementById('adminLoggedIn').style.display = authed ? 'block' : 'none';
+  if(authed) renderAdmin();
 }
-function goCategory(id){
-  currentScreen = 'categories';
-  renderScreen(id);
-}
-function renderScreen(catArg){
-  const body = document.getElementById('screen-body');
-  body.classList.remove('screen-fade'); void body.offsetWidth; body.classList.add('screen-fade');
-  body.innerHTML = currentScreen==='categories' ? render.categories(catArg) : render[currentScreen]();
-  const hideNav = ['splash','onboarding','login','product','payment','success'].includes(currentScreen);
-  document.getElementById('bottom-nav').style.display = hideNav ? 'none' : 'flex';
-  buildBottomNav();
-  buildScreenJump();
-  body.scrollTop = 0;
-}
-
-/* ============ APP SWITCH ============ */
-function setApp(which){
-  document.getElementById('btn-customer').classList.toggle('active', which==='customer');
-  document.getElementById('btn-admin').classList.toggle('active', which==='admin');
-  document.getElementById('customer-view').style.display = which==='customer' ? 'flex':'none';
-  document.getElementById('admin-view').style.display = which==='admin' ? 'flex':'none';
-  document.getElementById('screen-jump').style.display = which==='customer' ? 'block':'none';
-}
-
-/* ================= ADMIN ================= */
-const ADMIN_SECTIONS = [
-  {id:"dashboard", label:"Dashboard", icon:"📊"},
-  {id:"products", label:"Products", icon:"🥕"},
-  {id:"categories", label:"Categories", icon:"🗂️"},
-  {id:"inventory", label:"Inventory", icon:"📦"},
-  {id:"orders", label:"Orders", icon:"🧾"},
-  {id:"customers", label:"Customers", icon:"👥"},
-  {id:"banners", label:"Banners", icon:"🖼️"},
-  {id:"reports", label:"Sales Reports", icon:"📈"},
-];
-let currentAdmin = "dashboard";
-
-function buildAdminNav(){
-  document.getElementById('admin-nav').innerHTML = ADMIN_SECTIONS.map(s=>`
-    <div class="admin-nav-item ${currentAdmin===s.id?'active':''}" onclick="goAdmin('${s.id}')">
-      <span>${s.icon}</span><span class="label">${s.label}</span>
-    </div>`).join("");
-}
-function goAdmin(id){ currentAdmin = id; buildAdminNav(); renderAdmin(); }
-
-const adminRender = {};
-
-adminRender.dashboard = () => `
-  <div class="admin-top"><div><h2>Dashboard</h2><p>Welcome back, here's how Taaza is performing today.</p></div><button class="admin-btn">+ New Banner</button></div>
-  <div class="stat-grid">
-    <div class="stat-card"><div class="lbl">Today's Orders</div><div class="val">312</div><div class="delta up">▲ 12.4% vs yesterday</div></div>
-    <div class="stat-card"><div class="lbl">Revenue Today</div><div class="val">₹1.08L</div><div class="delta up">▲ 8.1%</div></div>
-    <div class="stat-card"><div class="lbl">Active Customers</div><div class="val">8,420</div><div class="delta up">▲ 3.2%</div></div>
-    <div class="stat-card"><div class="lbl">Low Stock Items</div><div class="val">6</div><div class="delta down">▼ Needs attention</div></div>
-  </div>
-  <div style="display:flex; flex-direction:column; gap:0;">
-    <div class="panel">
-      <div class="panel-hdr"><h3>Revenue — last 7 days</h3><span class="chip-cat">This week</span></div>
-      <div class="mini-bar-chart">
-        ${[62,74,58,90,70,110,96].map((v,i)=>`<div class="bar" style="height:${v}px;"><span>${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]}</span></div>`).join("")}
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-hdr"><h3>Order status</h3></div>
-      <div style="display:flex; flex-direction:column; gap:12px; font-size:13px;">
-        <div style="display:flex; justify-content:space-between;"><span>Preparing</span><b>48</b></div>
-        <div style="display:flex; justify-content:space-between;"><span>Out for delivery</span><b>63</b></div>
-        <div style="display:flex; justify-content:space-between;"><span>Delivered</span><b>190</b></div>
-        <div style="display:flex; justify-content:space-between;"><span>Cancelled</span><b>11</b></div>
-      </div>
-    </div>
-  </div>
-  <div class="panel">
-    <div class="panel-hdr"><h3>Recent orders</h3><a class="admin-btn outline" onclick="goAdmin('orders')">View all</a></div>
-    <div class="table-scroll"><table>
-      <tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr>
-      ${ORDERS.map(o=>`<tr><td>#${o.id}</td><td>Rohit Sharma</td><td>${o.items}</td><td>₹${o.total}</td><td><span class="pill-status ${o.status==='Delivered'?'st-delivered':o.status==='Cancelled'?'st-low':'st-pending'}">${o.status}</span></td></tr>`).join("")}
-    </table></div>
-  </div>
-`;
-
-adminRender.products = () => `
-  <div class="admin-top"><div><h2>Product Management</h2><p>${PRODUCTS.length} products across 3 categories.</p></div><button class="admin-btn">+ Add Product</button></div>
-  <div class="panel">
-    <div class="panel-hdr">
-      <h3>All products</h3>
-      <div style="display:flex; gap:8px;"><span class="chip-cat">🥦 Vegetables</span><span class="chip-cat">🍎 Fruits</span><span class="chip-cat">🌶️ Spices</span></div>
-    </div>
-    <div class="table-scroll"><table>
-      <tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th></th></tr>
-      ${PRODUCTS.map(p=>`<tr>
-        <td>${img(p.img,p.emoji,"width:38px;height:38px;border-radius:10px;overflow:hidden;display:inline-block;")}</td>
-        <td><b>${p.name}</b><br><span style="color:var(--gray);font-size:11.5px;">${p.unit}</span></td>
-        <td style="text-transform:capitalize;">${p.cat}</td>
-        <td>₹${p.price} <span style="color:var(--gray-light); text-decoration:line-through; font-size:11px;">₹${p.mrp}</span></td>
-        <td>${p.stock}</td>
-        <td><span class="pill-status ${p.stock===0?'st-low':p.stock<10?'st-pending':'st-active'}">${p.stock===0?'Out of stock':p.stock<10?'Low stock':'Active'}</span></td>
-        <td><span class="admin-btn outline" style="padding:6px 12px;">Edit</span></td>
-      </tr>`).join("")}
-    </table></div>
-  </div>
-`;
-
-adminRender.categories = () => `
-  <div class="admin-top"><div><h2>Category Management</h2><p>Organize how products are grouped in the app.</p></div><button class="admin-btn">+ Add Category</button></div>
-  <div style="display:flex; flex-direction:column; gap:10px;">
-    ${CATEGORIES.map(c=>`
-      <div class="panel" style="text-align:center;">
-        <div style="width:60px;height:60px;border-radius:20px;background:${c.color}; display:flex;align-items:center;justify-content:center; font-size:28px; margin:0 auto 10px;">${c.emoji}</div>
-        <h3 style="font-size:15px;">${c.name}</h3>
-        <p style="font-size:12px;color:var(--gray); margin:6px 0 12px;">${PRODUCTS.filter(p=>p.cat===c.id).length} products · Visible on Home</p>
-        <div style="display:flex; gap:8px; justify-content:center;">
-          <span class="admin-btn outline" style="padding:7px 14px;">Edit</span>
-          <span class="admin-btn outline" style="padding:7px 14px;">Reorder</span>
-        </div>
-      </div>`).join("")}
-  </div>
-`;
-
-adminRender.inventory = () => `
-  <div class="admin-top"><div><h2>Inventory Management</h2><p>Live stock levels across the Vashi dark store.</p></div><button class="admin-btn">Bulk Update</button></div>
-  <div class="stat-grid">
-    <div class="stat-card"><div class="lbl">Total SKUs</div><div class="val">${PRODUCTS.length}</div></div>
-    <div class="stat-card"><div class="lbl">Low Stock (&lt;10)</div><div class="val" style="color:#C24242;">${PRODUCTS.filter(p=>p.stock>0&&p.stock<10).length}</div></div>
-    <div class="stat-card"><div class="lbl">Out of Stock</div><div class="val" style="color:#C24242;">${PRODUCTS.filter(p=>p.stock===0).length}</div></div>
-  </div>
-  <div class="panel">
-    <div class="panel-hdr"><h3>Stock levels</h3></div>
-    <div class="table-scroll"><table>
-      <tr><th>Product</th><th>Category</th><th>Units in stock</th><th>Reorder level</th><th>Status</th></tr>
-      ${PRODUCTS.map(p=>`<tr>
-        <td><b>${p.name}</b></td><td style="text-transform:capitalize;">${p.cat}</td><td>${p.stock}</td><td>15</td>
-        <td><span class="pill-status ${p.stock===0?'st-low':p.stock<10?'st-pending':'st-active'}">${p.stock===0?'Restock now':p.stock<10?'Low':'Healthy'}</span></td>
-      </tr>`).join("")}
-    </table></div>
-  </div>
-`;
-
-adminRender.orders = () => `
-  <div class="admin-top"><div><h2>Order Management</h2><p>All orders across the platform, updated live.</p></div><button class="admin-btn outline">Export CSV</button></div>
-  <div class="panel">
-    <div class="panel-hdr">
-      <h3>Orders</h3>
-      <div style="display:flex; gap:8px;"><span class="chip-cat">All</span><span class="chip-cat">Preparing</span><span class="chip-cat">Out for delivery</span><span class="chip-cat">Delivered</span></div>
-    </div>
-    <div class="table-scroll"><table>
-      <tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Date</th><th>Total</th><th>Status</th><th></th></tr>
-      ${ORDERS.concat([{id:"TZ4599",date:"20 Jun, 5:40 PM",items:"Grapes, Broccoli",total:101,status:"Preparing"}]).map(o=>`
-      <tr><td>#${o.id}</td><td>Rohit Sharma</td><td>${o.items}</td><td>${o.date}</td><td>₹${o.total}</td>
-      <td><span class="pill-status ${o.status==='Delivered'?'st-delivered':o.status==='Cancelled'?'st-low':'st-pending'}">${o.status}</span></td>
-      <td><span class="admin-btn outline" style="padding:6px 12px;">View</span></td></tr>`).join("")}
-    </table></div>
-  </div>
-`;
-
-adminRender.customers = () => `
-  <div class="admin-top"><div><h2>Customer Management</h2><p>8,420 registered customers.</p></div><button class="admin-btn outline">Export List</button></div>
-  <div class="panel">
-    <div class="table-scroll"><table>
-      <tr><th>Customer</th><th>Phone</th><th>Orders</th><th>Lifetime value</th><th>Joined</th><th>Status</th></tr>
-      ${[["Rohit Sharma","+91 98765 43210",47,"₹18,240","Jan 2025","Active"],
-         ["Priya Nair","+91 90210 11234",12,"₹4,980","Mar 2025","Active"],
-         ["Sanjay Patil","+91 88888 22110",3,"₹960","Jun 2026","Active"],
-         ["Aisha Khan","+91 77000 91234",29,"₹11,340","Aug 2025","Active"],
-         ["Karan Mehta","+91 99887 65544",1,"₹210","Jul 2026","New"]].map(c=>`
-        <tr><td><b>${c[0]}</b></td><td>${c[1]}</td><td>${c[2]}</td><td>${c[3]}</td><td>${c[4]}</td><td><span class="pill-status ${c[5]==='New'?'st-pending':'st-active'}">${c[5]}</span></td></tr>`).join("")}
-    </table></div>
-  </div>
-`;
-
-adminRender.banners = () => `
-  <div class="admin-top"><div><h2>Banner Management</h2><p>Control home screen promotional banners.</p></div><button class="admin-btn">+ New Banner</button></div>
-  <div class="banner-grid">
-    ${[[IMG.vegHero,"Monsoon Harvest Sale — live"],[IMG.fruitHero,"Alphonso Mango Fest"],[IMG.spiceHero,"Spice Rack Restock"]].map(([i,t])=>`
-      <div class="banner-tile">${img(i,"🖼️")}<div class="ov">${t}</div></div>`).join("")}
-  </div>
-  <div class="panel" style="margin-top:18px;">
-    <div class="panel-hdr"><h3>Scheduled banners</h3></div>
-    <div class="table-scroll"><table>
-      <tr><th>Banner</th><th>Placement</th><th>Starts</th><th>Ends</th><th>Status</th></tr>
-      <tr><td>Monsoon Harvest Sale</td><td>Home — top</td><td>1 Jul</td><td>10 Jul</td><td><span class="pill-status st-active">Live</span></td></tr>
-      <tr><td>Alphonso Mango Fest</td><td>Home — carousel</td><td>15 Jul</td><td>31 Jul</td><td><span class="pill-status st-pending">Scheduled</span></td></tr>
-      <tr><td>Diwali Spice Box</td><td>Category — Spices</td><td>1 Aug</td><td>15 Aug</td><td><span class="pill-status st-pending">Draft</span></td></tr>
-    </table></div>
-  </div>
-`;
-
-adminRender.reports = () => `
-  <div class="admin-top"><div><h2>Sales Reports</h2><p>Performance overview across categories.</p></div><button class="admin-btn outline">Download PDF</button></div>
-  <div class="stat-grid">
-    <div class="stat-card"><div class="lbl">This Month Revenue</div><div class="val">₹24.6L</div><div class="delta up">▲ 18% MoM</div></div>
-    <div class="stat-card"><div class="lbl">Orders</div><div class="val">9,842</div><div class="delta up">▲ 9%</div></div>
-    <div class="stat-card"><div class="lbl">Avg. Order Value</div><div class="val">₹250</div><div class="delta up">▲ 4%</div></div>
-    <div class="stat-card"><div class="lbl">Return Rate</div><div class="val">1.8%</div><div class="delta down">▼ 0.3%</div></div>
-  </div>
-  <div class="panel">
-    <div class="panel-hdr"><h3>Revenue by category</h3></div>
-    <div style="display:flex; flex-direction:column; gap:14px;">
-      ${[["Vegetables",44,"var(--green)"],["Fruits",36,"var(--orange)"],["Spices",20,"#8A5CF6"]].map(([n,p,c])=>`
-        <div>
-          <div style="display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:6px;"><span>${n}</span><b>${p}%</b></div>
-          <div style="height:10px; background:var(--line); border-radius:6px; overflow:hidden;"><div style="width:${p}%; height:100%; background:${c};"></div></div>
-        </div>`).join("")}
-    </div>
-  </div>
-  <div class="panel">
-    <div class="panel-hdr"><h3>Top selling products</h3></div>
-    <div class="table-scroll"><table>
-      <tr><th>Product</th><th>Category</th><th>Units sold</th><th>Revenue</th></tr>
-      <tr><td>Alphonso Mangoes</td><td>Fruits</td><td>2,140</td><td>₹4,04,460</td></tr>
-      <tr><td>Vine Tomatoes</td><td>Vegetables</td><td>4,820</td><td>₹1,83,160</td></tr>
-      <tr><td>Turmeric Powder</td><td>Spices</td><td>1,760</td><td>₹1,12,640</td></tr>
-      <tr><td>Green Cardamom</td><td>Spices</td><td>640</td><td>₹92,800</td></tr>
-    </table></div>
-  </div>
-`;
-
 function renderAdmin(){
-  document.getElementById('admin-main').innerHTML = adminRender[currentAdmin]();
+  if(sessionStorage.getItem('adminAuthed')!=='1') return;
+  const consults = getList('consultations');
+  const rx = getList('prescriptions');
+  const patients = getList('patients');
+  document.getElementById('atab-appointments').innerHTML = `<h3 style="font-size:18px;">All Appointments</h3>` +
+    tableOrEmpty(consults, ['ID','Name','Phone','Date','Mode','Status'], r=>[r.id,r.name,r.phone,r.date||'—',r.mode,statusPill(r.status)], 'No appointments booked yet.');
+  document.getElementById('atab-consultations').innerHTML = `<h3 style="font-size:18px;">Consultation Requests</h3>` +
+    tableOrEmpty(consults, ['ID','Name','Symptoms','Status'], r=>[r.id,r.name,(r.symptoms||'—').slice(0,50),statusPill(r.status)], 'No consultation requests yet.');
+  document.getElementById('atab-prescriptions').innerHTML = `<h3 style="font-size:18px;">Prescription Requests</h3>` +
+    tableOrEmpty(rx, ['ID','Name','Type','Status'], r=>[r.id,r.name,r.type,statusPill(r.status)], 'No prescription requests yet.');
+  document.getElementById('atab-patients').innerHTML = `<h3 style="font-size:18px;">Patient Records</h3>` +
+    tableOrEmpty(patients, ['ID','Name','Phone','Joined'], r=>[r.id,r.name,r.phone,new Date(r.joined).toLocaleDateString()], 'No patients registered yet — patients appear here after logging into the portal.');
 }
-
-/* ================= INIT ================= */
-buildAdminNav();
-renderAdmin();
-renderScreen();
+renderAdminAuth();
 </script>
 </body>
 </html>
